@@ -25,13 +25,17 @@ def get_channel_by_id(self, channel_id):
     channel = Channel.query.get_or_404(channel_id)
     return jsonify(channel.to_dict_relations())
 
-# Create channel
+# Delete channel
 
 
-# @channel_router('/', methods=["POST"])
-# @login_required
-# def create_channel(self):
-#     form = ChannelForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     if form.validate_on_submit():
-#         new_channel =
+@channel_router('/<int:channel_id>', methods=["DELETE"])
+@login_required
+def delete_channel(self, channel_id):
+    channel = Channel.query.get_or_404(channel_id)
+    if channel.owner_id != current_user.id:
+        # Handle forbidden error here
+        pass
+
+    db.session.delete(channel)
+    db.session.commit()
+    return {"message": f'Channel {channel_id} has been deleted', 'statusCode': 200}
