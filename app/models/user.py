@@ -48,8 +48,23 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'profile_picture': self.profile_picture,
-            'created_at': self.created_at
+            'firstName': self.first_name,
+            'lastName': self.last_name,
+            'profilePicture': self.profile_picture,
+            'createdAt': self.created_at
         }
+
+    def to_dict_relations(self): return {
+        'id': self.id,
+        'username': self.username,
+        'email': self.email,
+        'first_name': self.first_name,
+        'last_name': self.last_name,
+        'profile_picture': self.profile_picture,
+        'created_at': self.created_at,
+        'channelMessages': [message.to_dict() for message in self.channel_messages],
+        'subscribedChannels': [channel.to_dict() for channel in self.subscribed_channels],
+        'ownedChannels': [channel.to_dict() for channel in self.owned_channels],
+        'subscribedWorkplaces': [workplace.to_dict() for workplace in self.subscribed_workspaces],
+        'ownedWorkplaces': [workplace.to_dict() for workplace in self.owned_workspaces]
+    }

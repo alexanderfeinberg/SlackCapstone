@@ -26,3 +26,13 @@ class Channel(db.Model):
 
     workspace = db.relationship("Workspace", back_populates="channels")
     messages = db.relationship("ChannelMessages", back_populates="channel")
+
+    def to_dict(self):
+        return {'id': self.id, 'name': self.name, 'ownerId': self.ownerId, 'workspaceId': self.workspace_id, 'description': self.description,
+                'createdAt': self.created_at, 'updatedAt': self.updated_at}
+
+    def to_dict_relations(self):
+        return {'id': self.id, 'name': self.name, 'owner': self.owner.to_dict(), 'users': [user.to_dict() for user in self.users], 'workspace': self.workspace.to_dict(),
+                'messages': [message.to_dict() for message in self.messages],
+                'description': self.description,
+                'createdAt': self.created_at, 'updatedAt': self.updated_at}

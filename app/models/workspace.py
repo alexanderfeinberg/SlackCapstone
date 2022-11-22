@@ -22,3 +22,15 @@ class Workspace(db.Model):
         "User", back_populates="owned_workspaces", foreign_keys=[owner_id])
     users = db.relationship(
         "User", secondary=users_in_workspace, back_populates="subscribed_workspaces")
+
+    def to_dict(self):
+        return {'id': self.id, 'name': self.name, 'ownerId': self.owner_id, 'url': self.url,
+                'createdAt': self.created_at, 'updatedAt': self.updated_at
+                }
+
+    def to_dict_relations(self):
+        return {'id': self.id, 'name': self.name, 'owner': self.owner.to_dict(),
+                'channels': [channel.to_dict() for channel in self.channels],
+                'users': [user.to_dict() for user in self.users], 'url': self.url,
+                'createdAt': self.created_at, 'updatedAt': self.updated_at
+                }
