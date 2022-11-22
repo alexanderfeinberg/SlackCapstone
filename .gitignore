@@ -5,3 +5,4 @@ __pycache__/
 .DS_Store
 .vscode/
 /Users/alexfeinberg/Documents/slack-capstone/app/dev.db
+*.db
