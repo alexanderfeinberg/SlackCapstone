@@ -101,4 +101,5 @@ def remove_user_from_channel(channel_id, user_id):
     current_user = get_current_user(current_user.id)
     res = channel.remove_user(current_user)
     channel.users = res.users
+    db.session.commit()
     return {"message": "Successfully removed current user from channel", 'statusCode': 200}
