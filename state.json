@@ -6,16 +6,23 @@
     },
     workspaces:{
         workspace:{},
-        workspaceList:{}
+        subscribedList:{}
     },
     channels:{
         channel:{},
-        channels{}
+        subscribedList:{}
+        channelList{}
     },
-    subscribed:{
-        workplaces:{},
-        channels:{}
-    },
+    // subscribed:{
+    //     workspaces:{
+    //         workspaces{},
+    //         workspacesList{}
+    //     },
+    //     channels:{
+    //         channel{},
+    //         channelList{}
+    //     }
+    // },
     messages:{}
 
 }
