@@ -24,7 +24,7 @@ def validation_errors_to_error_messages(validation_errors):
 
 
 @workspace_routes('/')
-def get_all_work_spaces(self):
+def get_all_work_spaces():
     workspaces = Workspace.query.all()
 
     if not workspaces:
@@ -35,7 +35,7 @@ def get_all_work_spaces(self):
 
 
 @workspace_routes('<int:workspace_id>')
-def get_workspace_by_id(self, workspace_id):
+def get_workspace_by_id(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     return workspace.to_dict_relations()
 
@@ -44,7 +44,7 @@ def get_workspace_by_id(self, workspace_id):
 
 @workspace_routes('/', methods=["POST"])
 @login_required
-def create_workspace(self):
+def create_workspace():
     form = WorkspaceForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -61,7 +61,7 @@ def create_workspace(self):
 
 @workspace_routes('/<int:workspace_id>/channels', methods=["POST"])
 @login_required
-def create_channel(self, workspace_id):
+def create_channel(workspace_id):
     form = ChannelForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -82,6 +82,6 @@ def create_channel(self, workspace_id):
 
 # Get all channels by workspace
 @workspace_routes('/<int:workspace_id>/channels')
-def get_workspace_channels(self, workspace_id):
+def get_workspace_channels(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     return jsonify([channel.to_dict_relations() for channel in workspace.channels])

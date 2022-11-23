@@ -23,9 +23,21 @@ class Workspace(db.Model):
     users = db.relationship(
         "User", secondary=users_in_workspace, back_populates="subscribed_workspaces")
 
+    def add_user(self, user):
+        self.users.append(user)
+        return self
+
+    def has_user(self, userId):
+        return self.users.filter(users_in_workspace.c.user_id == userId).count() > 0
+
+    def remove_user(self, user):
+        if self.has_user(user.id):
+            self.users.remove(user)
+            return self
+
     def to_dict(self):
         return {'id': self.id, 'name': self.name, 'ownerId': self.owner_id, 'url': self.url,
-                'createdAt': self.created_at, 'updatedAt': self.updated_at
+                'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users.all())
                 }
 
     def to_dict_relations(self):

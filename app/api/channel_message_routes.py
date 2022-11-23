@@ -13,7 +13,7 @@ channel_message_router = Blueprint("channel_messages", __name__)
 
 @channel_message_router('/<int:message_id>', methods=["PUT"])
 @login_required
-def edit_channel_message(self, message_id):
+def edit_channel_message(message_id):
     form = ChannelMessageForm
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -25,7 +25,7 @@ def edit_channel_message(self, message_id):
             existing_message.edited = data['edited']
         except KeyError as e:
             pass
-        existing_message.upedated_at = datetime.now()
+        existing_message.updated_at = datetime.now()
         db.session.commit()
         return existing_message.to_dict()
 
@@ -34,7 +34,7 @@ def edit_channel_message(self, message_id):
 
 @channel_message_router('/<int:message_id>', methods=['DELETE'])
 @login_required
-def delete_message(self, message_id):
+def delete_message(message_id):
     existing_message = ChannelMessages.query.get_or_404(message_id)
     if existing_message.sender_id != current_user.id:
         # handle  forbidden error here
