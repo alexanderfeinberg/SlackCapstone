@@ -110,6 +110,14 @@ export const createChannelThunk =
     }
   };
 
+export const deleteChannelThunk = (channelId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/channels/${channelId}`);
+  if (response.ok) {
+    dispatch(deleteChannel(channelId));
+    return;
+  }
+};
+
 export const loadSubbedChannelsThunk = () => async (dispatch) => {
   const response = await csrfFetch(`/api/workspaces/channels/subscribed`);
   if (response.ok) {
