@@ -54,7 +54,7 @@ def create_workspace():
             f"You already have a workspace named {form.data['name']}")
     if form.validate_on_submit():
         new_workspace = Workspace(name=form.data['name'], url=form.data['url'],
-                                  owner=get_current_user(current_user.id))
+                                  owner=get_current_user(current_user.id), users=[get_current_user(current_user.id)])
         db.session.add(new_workspace)
         db.session.commit()
         return jsonify(new_workspace.to_dict_relations())
@@ -90,3 +90,21 @@ def create_channel(workspace_id):
 def get_workspace_channels(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     return jsonify([channel.to_dict_relations() for channel in workspace.channels])
+
+# Get subscribed channels within a workspace
+
+
+@workspace_router.route('<int:workspace_id>/channels/subscribed')
+@login_required
+def subscribed_channels(workspace_id):
+    user = get_current_user(current_user.id)
+    channels = user.subbed_channels_by_workspace(workspace_id)
+    return jsonify([channel.to_dict() for channel in channels])
+
+
+# Get subscribed worksapces
+@workspace_router.route('/subscribed')
+@login_required
+def subscribed_workspaces():
+    user = get_current_user(current_user.id)
+    return jsonify([workspace.to_dict() for workspace in user.subscribed_workspaces])

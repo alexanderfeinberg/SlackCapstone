@@ -1,0 +1,21 @@
+{
+    session:{},
+    users:{
+        user:{},
+        userList:{}
+    },
+    workspaces:{
+        workspace:{},
+        workspaceList:{}
+    },
+    channels:{
+        channel:{},
+        channels{}
+    },
+    subscribed:{
+        workplaces:{},
+        channels:{}
+    },
+    messages:{}
+
+}

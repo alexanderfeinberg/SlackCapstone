@@ -49,6 +49,11 @@ class User(db.Model, UserMixin):
             filter(lambda workspace: workspace.name == name, self.owned_workspaces))
         return len(existing) > 0
 
+    def subbed_channels_by_workspace(self, workspace_id):
+        filtered = [
+            channel for channel in self.subscribed_channels if channel.workspace_id == workspace_id]
+        return filtered
+
     def to_dict(self):
         return {
             'id': self.id,
