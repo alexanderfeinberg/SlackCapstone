@@ -12,6 +12,7 @@ from .api.workspace_routes import workspace_router
 from .api.channel_routes import channel_router
 from .seeds import seed_commands
 from .config import Config
+from .socket import socketio
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -39,6 +40,7 @@ app.register_blueprint(channel_router,
                        url_prefix='/api/channels')
 
 db.init_app(app)
+socketio.init_app(app)
 Migrate(app, db)
 
 # Application Security
@@ -99,3 +101,7 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
+
+if __name__ == "__main__":
+    socketio.run(app)
