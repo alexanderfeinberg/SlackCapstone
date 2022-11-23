@@ -12,16 +12,18 @@ socketio = SocketIO(cors_allowed_origins=origins)
 users = {}
 
 
-@socketio.on("connect")
+@socketio.on("sign_in")
 def user_connect(data):
     print('SOCKET ID ', request.sid)
+    print("SIGN IN EVENT")
+    print("DATAA ", data)
     user = data['user']
     users[request.sid] = user
-    emit(users)
+    emit("sign_in", data, broadcast=True)
     print(f'client id:{request.sid} username:{user} has connected')
 
 
-@socketio.on('disconnet')
+@socketio.on('disconnect')
 def user_disconnect():
     del users[request.sid]
     emit(users)
