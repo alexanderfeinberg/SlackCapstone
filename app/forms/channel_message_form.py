@@ -5,5 +5,6 @@ from app.models import User
 
 
 class ChannelMessageForm(FlaskForm):
-    content = StringField("Message", validators=[DataRequired()])
+    content = StringField("Message", validators=[
+                          DataRequired(message="Message required")])
     edited = BooleanField("Edited")

@@ -8,13 +8,23 @@ from datetime import datetime
 
 channel_message_router = Blueprint("channel_messages", __name__)
 
+# Get all channel messages
+
+
+@channel_message_router.route('/')
+def get_all_messages():
+    messages = ChannelMessages.query.all()
+    if not messages:
+        return jsonify([])
+    return jsonify([message.to_dict() for message in messages])
+
 # Edit channel Message
 
 
 @channel_message_router.route('/<int:message_id>', methods=["PUT"])
 @login_required
 def edit_channel_message(message_id):
-    form = ChannelMessageForm
+    form = ChannelMessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data

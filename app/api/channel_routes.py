@@ -116,7 +116,27 @@ def remove_user_from_channel(channel_id):
     return {"message": "Successfully removed current user from channel", 'statusCode': 200}
 
 
-# # Add channel message
-# @channel_router('/<int:channel_id>/messages')
-# @login_required
-# def add_message(self):
+# Add channel message
+@channel_router.route('/<int:channel_id>/messages', methods=["POST"])
+@login_required
+def add_message(channel_id):
+    form = ChannelMessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        channel = Channel.query.get_or_404(channel_id)
+        new_mesage = ChannelMessages(content=form.data['content'], edited=form.data['edited'], sender=get_current_user(
+            current_user.id), channel=channel)
+        db.session.add(new_mesage)
+        db.session.commit()
+        return jsonify(new_mesage.to_dict())
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+# Get channel messages
+
+
+@channel_router.route('/<int:channel_id>/messages')
+def get_channel_messages(channel_id):
+    channel = Channel.query.get_or_404(channel_id)
+    if not channel.messages:
+        return jsonify([])
+    return jsonify([message.to_dict() for message in channel.messages])
