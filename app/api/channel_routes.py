@@ -98,7 +98,7 @@ def add_user_to_channel(channel_id):
         res = channel.add_user(user)
         channel.users = res.users
         db.session.commit()
-        return jsonify([user.to_dict() for user in channel.users])
+        return jsonify(channel.to_dict())
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
@@ -113,7 +113,7 @@ def remove_user_from_channel(channel_id):
     res = channel.remove_user(curr_user)
     channel.users = res.users
     db.session.commit()
-    return {"message": "Successfully removed current user from channel", 'statusCode': 200}
+    return jsonify(channel.to_dict())
 
 
 # Add channel message
