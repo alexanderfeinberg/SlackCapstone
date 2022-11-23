@@ -11,7 +11,7 @@ channel_message_router = Blueprint("channel_messages", __name__)
 # Edit channel Message
 
 
-@channel_message_router('/<int:message_id>', methods=["PUT"])
+@channel_message_router.route('/<int:message_id>', methods=["PUT"])
 @login_required
 def edit_channel_message(message_id):
     form = ChannelMessageForm
@@ -32,7 +32,7 @@ def edit_channel_message(message_id):
 # Delete channel message
 
 
-@channel_message_router('/<int:message_id>', methods=['DELETE'])
+@channel_message_router.route('/<int:message_id>', methods=['DELETE'])
 @login_required
 def delete_message(message_id):
     existing_message = ChannelMessages.query.get_or_404(message_id)

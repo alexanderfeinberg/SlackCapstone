@@ -8,6 +8,8 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.channel_message_routes import channel_message_router
+from .api.workspace_routes import workspace_router
+from .api.channel_routes import channel_router
 from .seeds import seed_commands
 from .config import Config
 
@@ -31,6 +33,11 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(channel_message_router,
                        url_prefix='/api/channel-messages')
+app.register_blueprint(workspace_router,
+                       url_prefix='/api/workspaces')
+app.register_blueprint(channel_router,
+                       url_prefix='/api/channels')
+
 db.init_app(app)
 Migrate(app, db)
 

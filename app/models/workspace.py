@@ -37,7 +37,7 @@ class Workspace(db.Model):
 
     def to_dict(self):
         return {'id': self.id, 'name': self.name, 'ownerId': self.owner_id, 'url': self.url,
-                'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users.all())
+                'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users)
                 }
 
     def to_dict_relations(self):

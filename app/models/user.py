@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 from .joins import users_in_channel, users_in_workspace
+from .workspace import Workspace
 
 
 class User(db.Model, UserMixin):
@@ -42,6 +43,11 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def check_unique_workspace_names(self, name):
+        existing = list(
+            filter(lambda workspace: workspace.name == name, self.owned_workspaces))
+        return len(existing) > 0
 
     def to_dict(self):
         return {

@@ -25,7 +25,7 @@ def validation_errors_to_error_messages(validation_errors):
 # Get all channels
 
 
-@channel_router('/')
+@channel_router.route('/')
 def get_all_channels():
     channels = Channel.query.all()
     if not channels:
@@ -34,7 +34,7 @@ def get_all_channels():
 
 
 # Get channel by id
-@channel_router('/<int:channel_id>')
+@channel_router.route('/<int:channel_id>')
 def get_channel_by_id(channel_id):
     channel = Channel.query.get_or_404(channel_id)
     return jsonify(channel.to_dict_relations())
@@ -42,7 +42,7 @@ def get_channel_by_id(channel_id):
 # Delete channel
 
 
-@channel_router('/<int:channel_id>', methods=["DELETE"])
+@channel_router.route('/<int:channel_id>', methods=["DELETE"])
 @login_required
 def delete_channel(channel_id):
     channel = Channel.query.get_or_404(channel_id)
@@ -56,14 +56,15 @@ def delete_channel(channel_id):
 
 
 # Edit Channel
-@channel_router('/<int:channel_id>', methods=["PUT"])
+@channel_router.route('/<int:channel_id>', methods=["PUT"])
 @login_required
-def edit_channel(self, channel_id):
+def edit_channel(channel_id):
     channel = Channel.query.get_or_404(channel_id)
     if channel.owner_id != current_user.id:
         # Handle forbidden error here
         pass
     form = ChannelForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         channel.name = form.data['name']
         try:
@@ -73,14 +74,24 @@ def edit_channel(self, channel_id):
         channel.updated_at = datetime.now()
         db.session.commit()
         return jsonify(channel.to_dict_relations())
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+# Get users from channel
+
+
+@channel_router.route('/<int:channel_id>/users')
+def get_users_in_channel(channel_id):
+    channel = Channel.query.get_or_404(channel_id)
+    return jsonify([user.to_dict() for user in channel.users])
 
 # Add user to channel
 
 
-@channel_router('/<int:channel_id/users', methods=['POST'])
+@channel_router.route('/<int:channel_id>/users', methods=['POST'])
 @login_required
 def add_user_to_channel(channel_id):
     form = AddUserForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         channel = Channel.query.get_or_404(channel_id)
         user = User.query.get_or_404(form.data['user_id'])
@@ -94,12 +105,18 @@ def add_user_to_channel(channel_id):
 # Remove current user from channel
 
 
-@channel_router('/<int:channel_id>/users', method=["DELETE"])
+@channel_router.route('/<int:channel_id>/users', methods=["DELETE"])
 @login_required
-def remove_user_from_channel(channel_id, user_id):
+def remove_user_from_channel(channel_id):
     channel = Channel.query.get_or_404(channel_id)
-    current_user = get_current_user(current_user.id)
-    res = channel.remove_user(current_user)
+    curr_user = get_current_user(current_user.id)
+    res = channel.remove_user(curr_user)
     channel.users = res.users
     db.session.commit()
     return {"message": "Successfully removed current user from channel", 'statusCode': 200}
+
+
+# # Add channel message
+# @channel_router('/<int:channel_id>/messages')
+# @login_required
+# def add_message(self):

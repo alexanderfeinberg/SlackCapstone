@@ -5,7 +5,7 @@ Base = declarative_base()
 
 users_in_workspace = db.Table(
     'UsersInWorkspace',
-    Base.metadata,
+
     db.Column("user_id", db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), primary_key=True),
     db.Column("workspace_id", db.Integer, db.ForeignKey(
@@ -15,7 +15,7 @@ users_in_workspace = db.Table(
 
 users_in_channel = db.Table(
     'UsersInChannel',
-    Base.metadata,
+
     db.Column("user_id", db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), primary_key=True),
     db.Column("channel_id", db.Integer, db.ForeignKey(

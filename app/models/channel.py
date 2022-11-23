@@ -28,11 +28,14 @@ class Channel(db.Model):
     messages = db.relationship("ChannelMessages", back_populates="channel")
 
     def add_user(self, user):
+        if self.has_user(user.id):
+            raise Exception("User is already in this channel!")
         self.users.append(user)
         return self
 
     def has_user(self, userId):
-        return self.users.filter(users_in_channel.c.user_id == userId).count() > 0
+        all_users = [user for user in self.users]
+        return len(list(filter(lambda user: user.id == userId, all_users))) > 0
 
     def remove_user(self, user):
         if self.has_user(user.id):
@@ -40,8 +43,8 @@ class Channel(db.Model):
             return self
 
     def to_dict(self):
-        return {'id': self.id, 'name': self.name, 'ownerId': self.ownerId, 'workspaceId': self.workspace_id, 'description': self.description,
-                'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users.all())}
+        return {'id': self.id, 'name': self.name, 'ownerId': self.owner_id, 'workspaceId': self.workspace_id, 'description': self.description,
+                'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users)}
 
     def to_dict_relations(self):
         return {'id': self.id, 'name': self.name, 'owner': self.owner.to_dict(), 'users': [user.to_dict() for user in self.users], 'workspace': self.workspace.to_dict(),

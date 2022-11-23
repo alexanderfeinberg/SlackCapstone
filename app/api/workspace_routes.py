@@ -7,7 +7,7 @@ from ..models.db import db
 from datetime import datetime
 from .helpers import get_current_user
 
-workspace_routes = Blueprint("workspaces", __name__)
+workspace_router = Blueprint("workspaces", __name__)
 
 
 def validation_errors_to_error_messages(validation_errors):
@@ -23,7 +23,7 @@ def validation_errors_to_error_messages(validation_errors):
 # Get all workspaces
 
 
-@workspace_routes('/')
+@workspace_router.route('/')
 def get_all_work_spaces():
     workspaces = Workspace.query.all()
 
@@ -34,7 +34,7 @@ def get_all_work_spaces():
 # Get workspace by ID
 
 
-@workspace_routes('<int:workspace_id>')
+@workspace_router.route('<int:workspace_id>')
 def get_workspace_by_id(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     return workspace.to_dict_relations()
@@ -42,11 +42,16 @@ def get_workspace_by_id(workspace_id):
 # Create new workspace
 
 
-@workspace_routes('/', methods=["POST"])
+@workspace_router.route('/', methods=["POST"])
 @login_required
 def create_workspace():
     form = WorkspaceForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    resp = get_current_user(
+        current_user.id).check_unique_workspace_names(form.data['name'])
+    if resp:
+        raise Exception(
+            f"You already have a workspace named {form.data['name']}")
     if form.validate_on_submit():
         new_workspace = Workspace(name=form.data['name'], url=form.data['url'],
                                   owner=get_current_user(current_user.id))
@@ -59,15 +64,15 @@ def create_workspace():
 # Create channel
 
 
-@workspace_routes('/<int:workspace_id>/channels', methods=["POST"])
+@workspace_router.route('/<int:workspace_id>/channels', methods=["POST"])
 @login_required
 def create_channel(workspace_id):
     form = ChannelForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
+        print("FORM DATAAA ", form.data.keys())
         del data['csrf_token']
-        del data['submit']
 
         workspace = Workspace.query.get_or_404(workspace_id)
         new_channel = Channel(**data, owner=get_current_user(current_user.id),
@@ -81,7 +86,7 @@ def create_channel(workspace_id):
 
 
 # Get all channels by workspace
-@workspace_routes('/<int:workspace_id>/channels')
+@workspace_router.route('/<int:workspace_id>/channels')
 def get_workspace_channels(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     return jsonify([channel.to_dict_relations() for channel in workspace.channels])
