@@ -37,7 +37,7 @@ def edit_channel_message(message_id):
             pass
         existing_message.updated_at = datetime.now()
         db.session.commit()
-        return existing_message.to_dict()
+        return jsonify({"Message": existing_message.to_dict()})
 
 # Delete channel message
 

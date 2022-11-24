@@ -21,7 +21,7 @@ export const loadChannel = (channel) => {
 export const loadChannelList = (channelList) => {
   return {
     type: LOAD_CHANNEL_LIST,
-    channeList,
+    channelList,
   };
 };
 
@@ -126,7 +126,9 @@ export const editChannelThunk =
   };
 
 export const deleteChannelThunk = (channelId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/channels/${channelId}`);
+  const response = await csrfFetch(`/api/channels/${channelId}`, {
+    method: "DELETE",
+  });
   if (response.ok) {
     dispatch(deleteChannel(channelId));
     return;

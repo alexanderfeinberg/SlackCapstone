@@ -128,7 +128,7 @@ def add_message(channel_id):
             current_user.id), channel=channel)
         db.session.add(new_mesage)
         db.session.commit()
-        return jsonify(new_mesage.to_dict())
+        return jsonify({"Message": new_mesage.to_dict()})
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 # Get channel messages
@@ -139,4 +139,4 @@ def get_channel_messages(channel_id):
     channel = Channel.query.get_or_404(channel_id)
     if not channel.messages:
         return jsonify([])
-    return jsonify([message.to_dict() for message in channel.messages])
+    return jsonify({"Messages": [message.to_dict() for message in channel.messages]})

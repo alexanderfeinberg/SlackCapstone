@@ -80,3 +80,33 @@ export const deleteMessageThunk = (messageId) => async (dispatch) => {
     dispatch(deleteMessage(messageId));
   }
 };
+
+let initialState = {
+  messages: {},
+};
+
+export default function channelMessageReducer(state = initialState, action) {
+  switch (action.type) {
+    case LOAD_MESSAGES:
+      const newState = { ...state, messages: {} };
+      action.Messages.forEach((message) => {
+        newState.messages[message.id] = message;
+      });
+
+    case CREATE_MESSAGE:
+      const createState = { ...state, messages: { ...state.messages } };
+      const newMessageId = action.Message.id;
+      createState.messages[newMessageId] = action.Message;
+      return createState;
+
+    case EDIT_MESSAGE:
+      const editState = { ...state, messages: { ...state.messages } };
+      editState[action.Message.id] = action.Message;
+      return editState;
+
+    case DELETE_MESSAGES:
+      const deleteState = { ...state, messages: { ...state.messages } };
+      delete deleteState.messages[action.messageId];
+      return deleteState;
+  }
+}
