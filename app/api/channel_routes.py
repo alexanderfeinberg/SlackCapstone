@@ -30,14 +30,14 @@ def get_all_channels():
     channels = Channel.query.all()
     if not channels:
         return jsonify([])
-    return jsonify([channel.to_dict_relations() for channel in channels])
+    return jsonify({"Channels": [channel.to_dict() for channel in channels]})
 
 
 # Get channel by id
 @channel_router.route('/<int:channel_id>')
 def get_channel_by_id(channel_id):
     channel = Channel.query.get_or_404(channel_id)
-    return jsonify(channel.to_dict_relations())
+    return jsonify({"Channel": channel.to_dict()})
 
 # Delete channel
 
@@ -73,7 +73,7 @@ def edit_channel(channel_id):
             pass
         channel.updated_at = datetime.now()
         db.session.commit()
-        return jsonify(channel.to_dict_relations())
+        return jsonify({"Channel": channel.to_dict()})
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 # Get users from channel
@@ -82,7 +82,7 @@ def edit_channel(channel_id):
 @channel_router.route('/<int:channel_id>/users')
 def get_users_in_channel(channel_id):
     channel = Channel.query.get_or_404(channel_id)
-    return jsonify([user.to_dict() for user in channel.users])
+    return jsonify({"Users": [user.to_dict() for user in channel.users]})
 
 # Add user to channel
 
@@ -98,7 +98,7 @@ def add_user_to_channel(channel_id):
         res = channel.add_user(user)
         channel.users = res.users
         db.session.commit()
-        return jsonify(channel.to_dict())
+        return jsonify({"Channel": channel.to_dict()})
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
@@ -113,7 +113,7 @@ def remove_user_from_channel(channel_id):
     res = channel.remove_user(curr_user)
     channel.users = res.users
     db.session.commit()
-    return jsonify(channel.to_dict())
+    return jsonify({"Channel": channel.to_dict()})
 
 
 # Add channel message

@@ -80,7 +80,7 @@ def create_channel(workspace_id):
         db.session.add(new_channel)
         db.session.commit()
 
-        return jsonify(new_channel.to_dict_relations())
+        return jsonify({"Channel": new_channel.to_dict()})
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
@@ -89,7 +89,7 @@ def create_channel(workspace_id):
 @workspace_router.route('/<int:workspace_id>/channels')
 def get_workspace_channels(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
-    return jsonify([channel.to_dict_relations() for channel in workspace.channels])
+    return jsonify({"Channels": [channel.to_dict() for channel in workspace.channels]})
 
 # Get subscribed channels within a workspace
 
@@ -99,7 +99,7 @@ def get_workspace_channels(workspace_id):
 def subscribed_channels(workspace_id):
     user = get_current_user(current_user.id)
     channels = user.subbed_channels_by_workspace(workspace_id)
-    return jsonify([channel.to_dict() for channel in channels])
+    return jsonify({"Channels": [channel.to_dict() for channel in channels]})
 
 
 # Get subscribed worksapces

@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import { csrfFetch } from "./csrf";
 
 //Constants
@@ -168,3 +169,34 @@ export const removeChannelSubThunk = (channelId) => async (dispatch) => {
     return channel;
   }
 };
+
+let initialState = {
+  channel: {},
+  subscribed: {},
+  channelList: {},
+};
+
+export default function ChannelReducer(state = initialState, action) {
+  switch (action.type) {
+    case LOAD_CHANNEL:
+      const loadState = { ...state, channel: { ...action.Channel } };
+      return loadState;
+    case LOAD_CHANNEL_LIST:
+      const loadListState = { ...state, channelList: {} };
+      action.Channels.forEach((channel) => {
+        loadListState.channelList[channel.id] = channel;
+      });
+      return loadListState;
+
+    case CREATE_CHANNEL:
+      const createState = {
+        ...state,
+        channel: { ...action.Channel },
+        channelList: { ...state.channelList },
+        subscribed: { ...state.subscribed },
+      };
+      createState.channelList[action.Channel.id] = action.Channel;
+      createState.subscribed[action.Channel.id] = action.Channel;
+      return createState;
+  }
+}
