@@ -66,12 +66,14 @@ export default function workspaceReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_SUBSCRIBED_WORKSPACES:
       const loadSubbed = { ...state, subscribed: {} };
-      action.Workspaces.forEach((workspace) => {
+      action.workspaceList.Workspaces.forEach((workspace) => {
         loadSubbed.subscribed[workspace.id] = workspace;
       });
       return loadSubbed;
     case LOAD_WORKSPACE:
       const loadState = { ...state, workspace: { ...action.Workspace } };
       return loadState;
+    default:
+      return state;
   }
 }

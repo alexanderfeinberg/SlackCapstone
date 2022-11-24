@@ -9,6 +9,7 @@ import UsersList from "./components/UsersList";
 import User from "./components/User";
 import { authenticate } from "./store/session";
 import TestSocket from "./components/socket/testsocket";
+import WorkspaceList from "./components/WebsiteHome/WorkspaceList";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -43,7 +44,7 @@ function App() {
           <User />
         </ProtectedRoute>
         <Route path="/" exact={true}>
-          <h1>My Home Page</h1>
+          <WorkspaceList />
         </Route>
       </Switch>
     </BrowserRouter>

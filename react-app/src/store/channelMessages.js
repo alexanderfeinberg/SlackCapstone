@@ -34,7 +34,7 @@ export const deleteMessage = (messageId) => {
 
 //Thunks
 export const loadMessagesThunk = (channelId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/channels/${channelId / messages}`);
+  const response = await csrfFetch(`/api/channels/${channelId}`);
   if (response.ok) {
     const messages = await response.json();
     dispatch(loadMessages(messages));
@@ -108,5 +108,8 @@ export default function channelMessageReducer(state = initialState, action) {
       const deleteState = { ...state, messages: { ...state.messages } };
       delete deleteState.messages[action.messageId];
       return deleteState;
+
+    default:
+      return state;
   }
 }

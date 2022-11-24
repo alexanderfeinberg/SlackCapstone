@@ -238,5 +238,7 @@ export default function ChannelReducer(state = initialState, action) {
       const removeSub = { ...state, subscribed: { ...state.subscribed } };
       delete removeSub.subscribed[action.channelId];
       return removeSub;
+    default:
+      return state;
   }
 }
