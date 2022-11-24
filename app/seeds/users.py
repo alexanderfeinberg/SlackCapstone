@@ -3,16 +3,27 @@ from app.models import db, User, environment, SCHEMA
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
-    demo = User(
-        username='Demo', email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+    instances = [
+        User(
+            username='demo', first_name='Test', last_name='Test', email='demo@gmail.com', password='password'),
+        User(
+            username='demo1', first_name='Test', last_name='Test', email='demo1@gmail.com', password='password'),
+        User(
+            username='demo2', first_name='Test', last_name='Test', email='demo2@gmail.com', password='password'),
+        User(
+            username='demo3', first_name='Test', last_name='Test', email='demo3@gmail.com', password='password'),
+        User(
+            username='demo4', first_name='Test', last_name='Test', email='demo4@gmail.com', password='password'),
+        User(
+            username='demo5', first_name='Test', last_name='Test', email='demo5@gmail.com', password='password'),
+        User(
+            username='demo6', first_name='Test', last_name='Test', email='demo6@gmail.com', password='password'),
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    ]
+
+    for instance in instances:
+        db.session.add(instance)
+
     db.session.commit()
 
 
@@ -24,8 +35,9 @@ def seed_users():
 # it will reset the primary keys for you as well.
 def undo_users():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM users")
-        
+
     db.session.commit()
