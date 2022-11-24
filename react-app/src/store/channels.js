@@ -233,5 +233,10 @@ export default function ChannelReducer(state = initialState, action) {
       const createSub = { ...state, subscribed: { ...state.subscribed } };
       createSub.subscribed[action.Channel.id] = action.Channel;
       return createSub;
+
+    case REMOVE_CHANNEL_SUBSCRIPTION:
+      const removeSub = { ...state, subscribed: { ...state.subscribed } };
+      delete removeSub.subscribed[action.channelId];
+      return removeSub;
   }
 }
