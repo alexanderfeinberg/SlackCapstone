@@ -110,6 +110,21 @@ export const createChannelThunk =
     }
   };
 
+export const editChannelThunk =
+  (channelId, editedChannel) => async (dispatch) => {
+    const response = await csrfFetch(`/api/channels/${channelId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editedChannel),
+    });
+
+    if (response.ok) {
+      const channel = await response.json();
+      dispatch(editChannel(channel));
+      return channel;
+    }
+  };
+
 export const deleteChannelThunk = (channelId) => async (dispatch) => {
   const response = await csrfFetch(`/api/channels/${channelId}`);
   if (response.ok) {
