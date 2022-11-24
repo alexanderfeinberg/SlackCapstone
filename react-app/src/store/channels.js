@@ -209,5 +209,29 @@ export default function ChannelReducer(state = initialState, action) {
 
       editState.channelList[action.Channel.id] = action.Channel;
       editState.subscribed[action.Channel.id] = action.Channel;
+      return editState;
+
+    case DELETE_CHANNEL:
+      const deleteState = {
+        ...state,
+        subscribed: { ...state.subscribed },
+        channelList: { ...state.channelList },
+      };
+
+      delete deleteState.subscribed[action.channelId];
+      delete deleteState.channelList[action.channelId];
+      return deleteState;
+
+    case LOAD_SUBSCRIBED_CHANNELS:
+      const loadSubbed = { ...state, subscribed: {} };
+      action.Channels.forEach((channel) => {
+        loadSubbed.subscribed[channel.id] = channel;
+      });
+      return loadSubbed;
+
+    case CREATE_CHANNEL_SUBSCRIPTION:
+      const createSub = { ...state, subscribed: { ...state.subscribed } };
+      createSub.subscribed[action.Channel.id] = action.Channel;
+      return createSub;
   }
 }
