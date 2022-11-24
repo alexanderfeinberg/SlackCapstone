@@ -56,4 +56,27 @@ export const createMessageThunk = (channelId, message) => async (dispatch) => {
   }
 };
 
-export const editMessageThunk = (messageId) => async (dispatch) => {};
+export const editMessageThunk =
+  (messageId, editedMessage) => async (dispatch) => {
+    const response = await csrfFetch(`/api/channel-messages/${messageId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editedMessage),
+    });
+
+    if (response.ok) {
+      const message = await response.json();
+      dispatch(editMessage(message));
+      return message;
+    }
+  };
+
+export const deleteMessageThunk = (messageId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/channel-messages/${messageId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(deleteMessage(messageId));
+  }
+};
