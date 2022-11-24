@@ -32,8 +32,9 @@ def user_disconnect():
 
 @socketio.on("chat")
 def handle_chat(data):
-    room = data['room']
-    emit("chat", data, to=room)
+    # room = data['room']
+    emit("chat", data, broadcast=True)
+    # to=room
 
 
 @socketio.on("join")

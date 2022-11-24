@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadSubbedWorkspacesThunk } from "../../store/workspaces";
-
+import SubscribedChannelList from "./SubscribedChannelList";
 const WorkspaceList = () => {
   const dispatch = useDispatch();
   const workspaces = useSelector((state) => state.workspace.subscribed);
@@ -18,6 +18,7 @@ const WorkspaceList = () => {
           <li key={idx}>{workspace.name}</li>
         ))}
       </ul>
+      <SubscribedChannelList workspaceId={workspaces["1"].id} />
     </div>
   );
 };

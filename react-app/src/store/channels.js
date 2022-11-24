@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { csrfFetch } from "./csrf";
 
 //Constants
@@ -7,7 +6,7 @@ const LOAD_CHANNEL_LIST = "channels/LOAD_CHANNEL_LIST";
 const CREATE_CHANNEL = "channels/CREATE_CHANNEL";
 const EDIT_CHANNEL = "channels/EDIT_CHANNEL";
 const DELETE_CHANNEL = "cahnnels/DELETE_CHANNEL";
-const LOAD_SUBSCRIBED_CHANNELS = "channels/LOAD_channels_CHANNELS";
+const LOAD_SUBSCRIBED_CHANNELS = "channels/LOAD_SUBSCRIBED_CHANNELS";
 const CREATE_CHANNEL_SUBSCRIPTION = "channels/CREATE_CHANNEL_SUBSCRIPTION";
 const REMOVE_CHANNEL_SUBSCRIPTION = "channels/REMOVE_CHANNEL_SUBSCRIPTION";
 
@@ -47,10 +46,10 @@ const deleteChannel = (channelId) => {
   };
 };
 
-export const loadSubbedChannels = (channelList) => {
+export const loadSubbedChannels = (channels) => {
   return {
     type: LOAD_SUBSCRIBED_CHANNELS,
-    channelList,
+    channels,
   };
 };
 
@@ -136,12 +135,14 @@ export const deleteChannelThunk = (channelId) => async (dispatch) => {
   }
 };
 
-export const loadSubbedChannelsThunk = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/workspaces/channels/subscribed`);
+export const loadSubbedChannelsThunk = (workspaceId) => async (dispatch) => {
+  const response = await csrfFetch(
+    `/api/workspaces/${workspaceId}/channels/subscribed`
+  );
   if (response.ok) {
-    const channelList = await response.json();
-    dispatch(loadSubbedChannels(channelList));
-    return channelList;
+    const channels = await response.json();
+    dispatch(loadSubbedChannels(channels));
+    return channels;
   }
 };
 
@@ -224,7 +225,7 @@ export default function ChannelReducer(state = initialState, action) {
 
     case LOAD_SUBSCRIBED_CHANNELS:
       const loadSubbed = { ...state, subscribed: {} };
-      action.Channels.forEach((channel) => {
+      action.channels.Channels.forEach((channel) => {
         loadSubbed.subscribed[channel.id] = channel;
       });
       return loadSubbed;

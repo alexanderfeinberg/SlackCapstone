@@ -10,7 +10,7 @@ import User from "./components/User";
 import { authenticate } from "./store/session";
 import TestSocket from "./components/socket/testsocket";
 import WorkspaceList from "./components/WebsiteHome/WorkspaceList";
-
+import Channel from "./components/Channels/channel";
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -42,6 +42,9 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
+        </ProtectedRoute>
+        <ProtectedRoute path="/channels/:channelId" exact={true}>
+          <Channel />
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <WorkspaceList />
