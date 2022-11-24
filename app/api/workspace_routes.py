@@ -37,7 +37,7 @@ def get_all_work_spaces():
 @workspace_router.route('<int:workspace_id>')
 def get_workspace_by_id(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
-    return workspace.to_dict_relations()
+    return {"Workspace": workspace.to_dict()}
 
 # Create new workspace
 
@@ -107,4 +107,4 @@ def subscribed_channels(workspace_id):
 @login_required
 def subscribed_workspaces():
     user = get_current_user(current_user.id)
-    return jsonify([workspace.to_dict() for workspace in user.subscribed_workspaces])
+    return jsonify({"Workspaces": [workspace.to_dict() for workspace in user.subscribed_workspaces]})
