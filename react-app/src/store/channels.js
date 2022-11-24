@@ -198,5 +198,16 @@ export default function ChannelReducer(state = initialState, action) {
       createState.channelList[action.Channel.id] = action.Channel;
       createState.subscribed[action.Channel.id] = action.Channel;
       return createState;
+
+    case EDIT_CHANNEL:
+      const editState = {
+        ...state,
+        channel: { ...action.Channel },
+        channelList: { ...state.channelList },
+        subscribed: { ...state.subscribed },
+      };
+
+      editState.channelList[action.Channel.id] = action.Channel;
+      editState.subscribed[action.Channel.id] = action.Channel;
   }
 }
