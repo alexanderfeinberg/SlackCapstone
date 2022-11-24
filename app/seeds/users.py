@@ -1,25 +1,26 @@
 from app.models import db, User, environment, SCHEMA
 
+instances = [
+    User(
+        first_name='Test', last_name='Test', email='demo@gmail.com', password='password'),
+    User(
+        first_name='Test', last_name='Test', email='demo1@gmail.com', password='password'),
+    User(
+        first_name='Test', last_name='Test', email='demo2@gmail.com', password='password'),
+    User(
+        first_name='Test', last_name='Test', email='demo3@gmail.com', password='password'),
+    User(
+        first_name='Test', last_name='Test', email='demo4@gmail.com', password='password'),
+    User(
+        first_name='Test', last_name='Test', email='demo5@gmail.com', password='password'),
+    User(
+        first_name='Test', last_name='Test', email='demo6@gmail.com', password='password'),
 
+]
 # Adds a demo user, you can add other users here if you want
-def seed_users():
-    instances = [
-        User(
-            username='demo', first_name='Test', last_name='Test', email='demo@gmail.com', password='password'),
-        User(
-            username='demo1', first_name='Test', last_name='Test', email='demo1@gmail.com', password='password'),
-        User(
-            username='demo2', first_name='Test', last_name='Test', email='demo2@gmail.com', password='password'),
-        User(
-            username='demo3', first_name='Test', last_name='Test', email='demo3@gmail.com', password='password'),
-        User(
-            username='demo4', first_name='Test', last_name='Test', email='demo4@gmail.com', password='password'),
-        User(
-            username='demo5', first_name='Test', last_name='Test', email='demo5@gmail.com', password='password'),
-        User(
-            username='demo6', first_name='Test', last_name='Test', email='demo6@gmail.com', password='password'),
 
-    ]
+
+def seed_users():
 
     for instance in instances:
         db.session.add(instance)

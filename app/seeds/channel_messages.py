@@ -1,17 +1,18 @@
 from app.models import db, ChannelMessages, environment, SCHEMA
 
+instances = [
+    ChannelMessages(sender_id=1, channel_id=1,
+                    content="Testing!", edited=False),
+    ChannelMessages(sender_id=1, channel_id=2,
+                    content="Testing channel2", edited=False),
+    ChannelMessages(sender_id=2, channel_id=2,
+                    content="Testing user 2", edited=False),
+    ChannelMessages(sender_id=3, channel_id=3,
+                    content="Testing user nad channel3", edited=False),
+]
+
 
 def seed_channel_messages():
-    instances = [
-        ChannelMessages(sender_id=1, channel_id=1,
-                        content="Testing!", edited=False),
-        ChannelMessages(sender_id=1, channel_id=2,
-                        content="Testing channel2", edited=False),
-        ChannelMessages(sender_id=2, channel_id=2,
-                        content="Testing user 2", edited=False),
-        ChannelMessages(sender_id=3, channel_id=3,
-                        content="Testing user nad channel3", edited=False),
-    ]
 
     for instance in instances:
         db.session.add(instance)

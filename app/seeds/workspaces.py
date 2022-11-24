@@ -1,10 +1,11 @@
 from app.models import db, Workspace, environment, SCHEMA
 
+instances = [
+    Workspace(name="App Academy", owner_id=1, url="testURL")
+]
+
 
 def seed_workspaces():
-    instances = [
-        Workspace(name="App Academy", owner_id=1, url="testURL")
-    ]
 
     for instance in instances:
         db.session.add(instance)
