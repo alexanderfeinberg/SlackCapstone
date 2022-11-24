@@ -1,3 +1,5 @@
+import { csrfFetch } from "./csrf";
+
 //Constants
 const LOAD_WORKSPACE = "workspaces/LOAD_WORKSPACE";
 const LOAD_SUBSCRIBED_WORKSPACES = "workspaces/LOAD_SUSCRIBED_WORKSPACES";
@@ -33,6 +35,15 @@ const removeWorkspaceSub = (workspace) => {
 };
 
 // Thunks
+
+export const loadWorkspaceThunk = (workspaceId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/workspaces/${workspaceId}`);
+  if (response.ok) {
+    const workspace = await response.json();
+    dispatch(loadWorkspace(workspace));
+    return workspace;
+  }
+};
 export const loadSubbedWorkspacesThunk = () => async (dispatch) => {
   const response = await csrfFetch(`/api/workspaces/subscribed`);
   if (response.ok) {
