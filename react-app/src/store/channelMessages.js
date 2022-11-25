@@ -95,8 +95,8 @@ export default function channelMessageReducer(state = initialState, action) {
 
     case CREATE_MESSAGE:
       const createState = { ...state, messages: { ...state.messages } };
-      const newMessageId = action.Message.id;
-      createState.messages[newMessageId] = action.Message;
+      const newMessageId = action.message.Message.id;
+      createState.messages[newMessageId] = action.message.Message;
       return createState;
 
     case EDIT_MESSAGE:

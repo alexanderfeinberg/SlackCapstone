@@ -18,7 +18,9 @@ const SubscribedChannelList = ({ workspaceId }) => {
     <div>
       <ul>
         {Object.values(channels).map((channel, idx) => (
-          <li key={idx}>{channel.name}</li>
+          <li key={idx}>
+            <a href={`/channels/${channel.id}`}>{channel.name}</a>
+          </li>
         ))}
       </ul>
     </div>

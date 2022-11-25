@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { loadChannelThunk } from "../../store/channels";
+import { createMessageThunk } from "../../store/channelMessages";
+import ChannelMessage from "../ChannelMessages/ChannelMessage";
+import configureStore from "../../store";
 let socket;
 
 const Channel = () => {
@@ -19,6 +22,9 @@ const Channel = () => {
     await dispatch(loadChannelThunk(channelId));
     socket = io();
     socket.on("sign_in", (data) => setUserList(data));
+    socket.on("join", (oldMessages) =>
+      setMessages((messages) => [...messages, ...oldMessages])
+    );
     socket.on("chat", (chat) => setMessages((messages) => [...messages, chat]));
     socket.emit("sign_in", { user: currentUser });
 
@@ -33,12 +39,19 @@ const Channel = () => {
     }
   }, [channel]);
 
-  const handleChatsend = (e) => {
+  const handleChatsend = async (e) => {
     e.preventDefault();
     console.log("SOCKET ", socket);
 
+    const newMessage = await dispatch(
+      createMessageThunk(channel.id, { content: userMessage, edited: false })
+    );
+
+    console.log("NEW MESSAGE ", newMessage);
+
     socket.emit("chat", {
       msg: userMessage,
+      msgData: newMessage,
       user: currentUser,
       room: channel.id,
     });
@@ -48,19 +61,17 @@ const Channel = () => {
   if (!isLoaded) return null;
   return (
     <div>
-      {/* <div>
+      <div>
         <h3>User List</h3>
         <ul>
-          {userList.map((onlineUser, idx) => (
-            <li key={idx}>{userList.firstName}</li>
+          {Object.values(userList).map((onlineUser, idx) => (
+            <li key={idx}>{onlineUser.firstName}</li>
           ))}
         </ul>
-      </div> */}
+      </div>
       <div>
         {messages.map((message, idx) => (
-          <li key={idx}>
-            {message.user.firstName}: {message.msg}
-          </li>
+          <ChannelMessage key={idx} message={message} />
         ))}
       </div>
       <form onSubmit={handleChatsend}>

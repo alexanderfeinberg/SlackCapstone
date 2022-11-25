@@ -22,7 +22,8 @@ class ChannelMessages(db.Model):
     channel = db.relationship("Channel", back_populates="messages")
 
     def to_dict(self):
-        return {'id': self.id, 'senderId': self.sender_id, 'channelId': self.channel_id, 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at, 'updatedAt': self.updated_at}
+        print("STRFTIME ")
+        return {'id': self.id, 'senderId': self.sender_id, 'channelId': self.channel_id, 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at.strftime('%m/%d/%Y'), 'updatedAt': self.updated_at.strftime('%m/%d/%Y')}
 
     def to_dict_relations(self):
-        return {'id': self.id, 'sender': self.sender.to_dict(), 'channel': self.channel.to_dict(), 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at, 'updatedAt': self.updated_at}
+        return {'id': self.id, 'sender': self.sender.to_dict(), 'channel': self.channel.to_dict(), 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at.strftime('%m/%d/%Y'), 'updatedAt': self.updated_at.strftime('%m/%d/%Y')}
