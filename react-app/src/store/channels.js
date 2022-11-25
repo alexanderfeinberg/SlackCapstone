@@ -71,8 +71,8 @@ export const removeChannelSub = (channelId) => {
 export const loadChannelThunk = (channelId) => async (dispatch) => {
   const response = await csrfFetch(`/api/channels/${channelId}`);
   if (response.ok) {
-    const channel = response.json();
-    dispatch(loadChannel(channel));
+    const channel = await response.json();
+    await dispatch(loadChannel(channel));
     return channel;
   }
 };
@@ -180,7 +180,7 @@ let initialState = {
 export default function ChannelReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_CHANNEL:
-      const loadState = { ...state, channel: { ...action.Channel } };
+      const loadState = { ...state, channel: { ...action.channel.Channel } };
       return loadState;
     case LOAD_CHANNEL_LIST:
       const loadListState = { ...state, channelList: {} };

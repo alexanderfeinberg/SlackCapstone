@@ -17,9 +17,9 @@ def user_connect(data):
     print('SOCKET ID ', request.sid)
     print("SIGN IN EVENT")
     print("DATAA ", data)
-    user = data['user']
+    user = data['user']['firstName']
     users[request.sid] = user
-    emit("sign_in", data, broadcast=True)
+    emit("sign_in", users, broadcast=True)
     print(f'client id:{request.sid} username:{user} has connected')
 
 
@@ -32,15 +32,17 @@ def user_disconnect():
 
 @socketio.on("chat")
 def handle_chat(data):
-    # room = data['room']
-    emit("chat", data, broadcast=True)
+    room = data['room']
+    emit("chat", data, to=room)
     # to=room
 
 
 @socketio.on("join")
 def on_join(data):
+    print("JOIN DATA ", data)
     user = data['user']
     room = data['room']
+
     join_room(room)
     print(f'{user} has entered room {room}')
 
