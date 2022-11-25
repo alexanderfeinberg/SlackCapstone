@@ -64,3 +64,11 @@ def on_leave(data):
     room = data['room']
     leave_room(room)
     print(f'{user} has left room {room}')
+
+
+@socketio.on("load_messages")
+def load_messages(data):
+    room = data['room']
+    messages = load_past_messages(room)
+    print("LOAD PREV MESSAGES ", messages)
+    emit('load_messages', messages, to=room)

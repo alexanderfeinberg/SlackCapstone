@@ -3,34 +3,52 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { loadChannelThunk } from "../../store/channels";
-import { createMessageThunk } from "../../store/channelMessages";
+import {
+  createMessageThunk,
+  loadMessagesThunk,
+} from "../../store/channelMessages";
 import ChannelMessage from "../ChannelMessages/ChannelMessage";
-import configureStore from "../../store";
+import { connectSocket, disconnectSocket } from "../../store/socket";
 let socket;
 
 const Channel = () => {
   const { channelId } = useParams();
   const dispatch = useDispatch();
   const [userMessage, setUserMessage] = useState("");
-  const [messages, setMessages] = useState([]);
   const [userList, setUserList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const currentUser = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.channel);
+  const messages = useSelector((state) => state.channelMessage.messages);
 
   useEffect(async () => {
     await dispatch(loadChannelThunk(channelId));
     socket = io();
+    dispatch(connectSocket(socket));
+
     socket.on("sign_in", (data) => setUserList(data));
-    socket.on("join", (oldMessages) =>
-      setMessages((messages) => [...messages, ...oldMessages])
+    socket.on(
+      "join",
+      async (oldMessages) => await dispatch(loadMessagesThunk(channelId))
     );
-    socket.on("chat", (chat) => setMessages((messages) => [...messages, chat]));
+    socket.on(
+      "chat",
+      async (chat) => await dispatch(loadMessagesThunk(channelId))
+    );
+
+    socket.on(
+      "load_messages",
+      async (chat) => await dispatch(loadMessagesThunk(channelId))
+    ); //FIX LATER, IM TAKING IN THE WHOLE CHAT AS A PARAM FROM SOCKET AND NOT USING IT THEN LOADING ALL MESSAGES FROM DB, IT IS REPITITVE
+
     socket.emit("sign_in", { user: currentUser });
 
     setIsLoaded(true);
 
-    return () => socket.disconnect();
+    return () => {
+      socket.disconnect();
+      dispatch(disconnectSocket());
+    };
   }, []);
 
   useEffect(() => {
@@ -50,7 +68,6 @@ const Channel = () => {
     console.log("NEW MESSAGE ", newMessage);
 
     socket.emit("chat", {
-      msg: userMessage,
       msgData: newMessage,
       user: currentUser,
       room: channel.id,
@@ -70,8 +87,8 @@ const Channel = () => {
         </ul>
       </div>
       <div>
-        {messages.map((message, idx) => (
-          <ChannelMessage key={idx} message={message} />
+        {Object.values(messages).map((message, idx) => (
+          <ChannelMessage key={idx} messageId={message.id} />
         ))}
       </div>
       <form onSubmit={handleChatsend}>

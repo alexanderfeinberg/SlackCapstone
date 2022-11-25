@@ -34,7 +34,7 @@ export const deleteMessage = (messageId) => {
 
 //Thunks
 export const loadMessagesThunk = (channelId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/channels/${channelId}`);
+  const response = await csrfFetch(`/api/channels/${channelId}/messages`);
   if (response.ok) {
     const messages = await response.json();
     dispatch(loadMessages(messages));
@@ -66,6 +66,7 @@ export const editMessageThunk =
 
     if (response.ok) {
       const message = await response.json();
+      console.log("MESSAGE REDUCER RESPONSE ", message);
       dispatch(editMessage(message));
       return message;
     }
@@ -89,9 +90,13 @@ export default function channelMessageReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_MESSAGES:
       const newState = { ...state, messages: {} };
-      action.Messages.forEach((message) => {
-        newState.messages[message.id] = message;
-      });
+      if (action.messageList.Messages) {
+        action.messageList.Messages.forEach((message) => {
+          newState.messages[message.id] = message;
+        });
+        return newState;
+      }
+      return newState;
 
     case CREATE_MESSAGE:
       const createState = { ...state, messages: { ...state.messages } };
@@ -100,8 +105,9 @@ export default function channelMessageReducer(state = initialState, action) {
       return createState;
 
     case EDIT_MESSAGE:
+      console.log("EDIT ACTION ", action);
       const editState = { ...state, messages: { ...state.messages } };
-      editState[action.Message.id] = action.Message;
+      editState.messages[action.message.Message.id] = action.message.Message;
       return editState;
 
     case DELETE_MESSAGES:
