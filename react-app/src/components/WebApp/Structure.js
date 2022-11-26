@@ -12,6 +12,7 @@ const Structure = () => {
   const dispatch = useDispatch();
   const { workspaceId } = useParams();
   const workspace = useSelector((state) => state.workspace.workspace);
+  const uiDisplay = useSelector((state) => state.ui.display);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(async () => {
@@ -19,6 +20,19 @@ const Structure = () => {
     await dispatch(loadWorkspaceThunk(workspaceId));
     setIsLoaded(true);
   }, []);
+
+  const handleContainerDisplay = () => {
+    switch (uiDisplay) {
+      case "channel":
+        return <Channel />;
+      case "allChannels":
+        return <h1>ALL CHANNELS HERE</h1>;
+      case "directMessage":
+        <h1>DM HERE</h1>;
+      case "allPeople":
+        return <h1>ALL PEOPLE HERE</h1>;
+    }
+  };
 
   if (!isLoaded) return null;
 

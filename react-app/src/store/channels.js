@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { displayChannel, displayAllChannels } from "./ui";
 
 //Constants
 const LOAD_CHANNEL = "channels/LOAD_CHANNEL";
@@ -74,6 +75,7 @@ export const loadChannelThunk = (channelId) => async (dispatch) => {
     const channel = await response.json();
     console.log("LOAD CHANNEL RESP", channel);
     await dispatch(loadChannel(channel));
+    dispatch(displayChannel());
     return channel;
   }
 };
@@ -89,6 +91,7 @@ export const loadChannelListThunk = (workspaceId) => async (dispatch) => {
   if (response.ok) {
     const channelList = await response.json();
     dispatch(loadChannelList(channelList));
+    dispatch(displayAllChannels());
     return channelList;
   }
 };
