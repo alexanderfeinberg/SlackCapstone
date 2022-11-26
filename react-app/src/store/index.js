@@ -5,6 +5,7 @@ import workspace from "./workspaces";
 import channel from "./channels";
 import channelMessage from "./channelMessages";
 import socket from "./socket";
+import ui from "./ui";
 
 const rootReducer = combineReducers({
   session,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   channel,
   channelMessage,
   socket,
+  ui,
 });
 
 let enhancer;
