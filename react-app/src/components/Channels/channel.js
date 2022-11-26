@@ -12,7 +12,6 @@ import { connectSocket, disconnectSocket } from "../../store/socket";
 let socket;
 
 const Channel = () => {
-  const { channelId } = useParams();
   const dispatch = useDispatch();
   const [userMessage, setUserMessage] = useState("");
   const [userList, setUserList] = useState([]);
@@ -24,25 +23,8 @@ const Channel = () => {
   useEffect(async () => {
     socket = io();
     dispatch(connectSocket(socket));
-
     socket.on("sign_in", (data) => setUserList(data));
-    socket.on(
-      "join",
-      async (oldMessages) => await dispatch(loadMessagesThunk(channelId))
-    );
-    socket.on(
-      "chat",
-      async (chat) => await dispatch(loadMessagesThunk(channelId))
-    );
-
-    socket.on(
-      "load_messages",
-      async (chat) => await dispatch(loadMessagesThunk(channelId))
-    ); //FIX LATER, IM TAKING IN THE WHOLE CHAT AS A PARAM FROM SOCKET AND NOT USING IT THEN LOADING ALL MESSAGES FROM DB, IT IS REPITITVE
-
     socket.emit("sign_in", { user: currentUser });
-
-    setIsLoaded(true);
 
     return () => {
       socket.disconnect();
@@ -51,8 +33,24 @@ const Channel = () => {
   }, []);
 
   useEffect(() => {
-    if (socket) {
+    if (channel.id) {
+      console.log("CHANNEL ", channel);
+
+      socket.on(
+        "load_messages",
+        async (chat) => await dispatch(loadMessagesThunk(channel.id))
+      );
+
+      socket.on(
+        "chat",
+        async (chat) => await dispatch(loadMessagesThunk(channel.id))
+      );
+      //FIX LATER, IM TAKING IN THE WHOLE CHAT AS A PARAM FROM SOCKET AND NOT USING IT THEN LOADING ALL MESSAGES FROM DB, IT IS REPITITVE
+
       socket.emit("join", { user: currentUser, room: channel.id });
+
+      socket.emit("load_messages", { room: channel.id });
+      setIsLoaded(true);
     }
   }, [channel]);
 

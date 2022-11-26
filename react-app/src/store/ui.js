@@ -35,5 +35,7 @@ export default function displayReducer(state = initialState, action) {
     case DISPLAY_PEOPLE:
       const displayPeopleState = { ...state, display: "allPeople" };
       return displayPeopleState;
+    default:
+      return state;
   }
 }

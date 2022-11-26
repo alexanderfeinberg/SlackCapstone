@@ -52,10 +52,9 @@ def on_join(data):
     print("JOIN DATA ", data)
     user = data['user']
     room = data['room']
-    old_messages = load_past_messages(room)
     join_room(room)
     print(f'{user} has entered room {room}')
-    emit('join', old_messages, to=room)
+    # emit('join', , to=room)
 
 
 @socketio.on("leave")
