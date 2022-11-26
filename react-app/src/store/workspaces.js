@@ -71,7 +71,10 @@ export default function workspaceReducer(state = initialState, action) {
       });
       return loadSubbed;
     case LOAD_WORKSPACE:
-      const loadState = { ...state, workspace: { ...action.Workspace } };
+      const loadState = {
+        ...state,
+        workspace: { ...action.workspace.Workspace },
+      };
       return loadState;
     default:
       return state;

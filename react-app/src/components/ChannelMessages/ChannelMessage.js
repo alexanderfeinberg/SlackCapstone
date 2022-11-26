@@ -50,6 +50,9 @@ const ChannelMessage = ({ messageId }) => {
   );
   return (
     <div>
+      <div>
+        {message.sender.firstName} {message.sender.lastName}
+      </div>
       {message.content ? message.content : message.msgData.Message.content}
       <div>
         {showEditForm && editForm}

@@ -22,7 +22,6 @@ const Channel = () => {
   const messages = useSelector((state) => state.channelMessage.messages);
 
   useEffect(async () => {
-    await dispatch(loadChannelThunk(channelId));
     socket = io();
     dispatch(connectSocket(socket));
 

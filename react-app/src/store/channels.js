@@ -72,6 +72,7 @@ export const loadChannelThunk = (channelId) => async (dispatch) => {
   const response = await csrfFetch(`/api/channels/${channelId}`);
   if (response.ok) {
     const channel = await response.json();
+    console.log("LOAD CHANNEL RESP", channel);
     await dispatch(loadChannel(channel));
     return channel;
   }

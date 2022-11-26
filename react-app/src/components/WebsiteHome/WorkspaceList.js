@@ -18,7 +18,6 @@ const WorkspaceList = () => {
           <li key={idx}>{workspace.name}</li>
         ))}
       </ul>
-      <SubscribedChannelList workspaceId={workspaces["1"].id} />
     </div>
   );
 };

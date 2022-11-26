@@ -62,7 +62,7 @@ class User(db.Model, UserMixin):
             'firstName': self.first_name,
             'lastName': self.last_name,
             'profilePicture': self.profile_picture,
-            'createdAt': self.created_at
+            'createdAt': self.created_at.strftime('%m/%d/%Y')
         }
 
     def to_dict_relations(self): return {

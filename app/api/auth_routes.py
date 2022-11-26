@@ -69,6 +69,10 @@ def sign_up():
             last_name=form.data['last_name'],
             password=form.data['password']
         )
+        # DEV ONLY DELETE LATER
+        user.subscribed_workspaces.append()
+
+        ##
         db.session.add(user)
         db.session.commit()
         login_user(user)

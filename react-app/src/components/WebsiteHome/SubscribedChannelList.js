@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadSubbedChannelsThunk } from "../../store/channels";
+import {
+  loadChannelThunk,
+  loadSubbedChannelsThunk,
+} from "../../store/channels";
 
-const SubscribedChannelList = ({ workspaceId }) => {
+const SubscribedChannelList = () => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const channels = useSelector((state) => state.channel.subscribed);
+  const workspace = useSelector((state) => state.workspace.workspace);
 
-  useEffect(() => {
-    dispatch(loadSubbedChannelsThunk(workspaceId)).then(() =>
-      setIsLoaded(true)
-    );
+  useEffect(async () => {
+    await dispatch(loadSubbedChannelsThunk(workspace.id));
+    setIsLoaded(true);
   }, []);
+
+  useEffect(async () => {
+    if (Object.values(channels).length) {
+      await dispatch(loadChannelThunk(Object.values(channels)[0].id));
+    }
+  }, [isLoaded]);
 
   if (!isLoaded) return null;
   return (
