@@ -3,14 +3,15 @@ import SubscribedChannelList from "../WebsiteHome/SubscribedChannelList";
 import Channel from "../Channels/channel";
 import AllChannels from "../Channels/AllChannels/AllChannels";
 import ProtectedRoute from "../../components/auth/ProtectedRoute";
-import { BrowserRouter, Route, Switch, useRouteMatch } from "react-router-dom";
-
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { loadWorkspaceThunk } from "../../store/workspaces";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import "./Structure.css";
 
 const Structure = () => {
   const dispatch = useDispatch();
@@ -54,12 +55,17 @@ const Structure = () => {
       <div className="container-right">
         <div className="container-data">
           <Switch>
-            <Route path={`${path}/channels/:channelId`}>
+            <ProtectedRoute path={`${path}/channels/:channelId`}>
               <Channel />
-            </Route>
+            </ProtectedRoute>
             <Route path={`${path}/allChannels`}>
               <AllChannels />
             </Route>
+            <Redirect
+              to={{
+                pathname: `${path}/channels/1`,
+              }}
+            />
           </Switch>
         </div>
       </div>

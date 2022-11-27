@@ -13,7 +13,8 @@ const ChannelMessage = ({ messageId }) => {
   );
 
   const [editedMessage, setEditedMessage] = useState(
-    message.content ? message.content : message.msgData.Message.content
+    // message.content ? message.content : message.msgData.Message.content
+    message.content
   );
   const [showEditForm, setShowEditForm] = useState(false);
   const socket = useSelector((state) => state.socket.socket);
@@ -53,6 +54,7 @@ const ChannelMessage = ({ messageId }) => {
       <div>
         {message.sender.firstName} {message.sender.lastName}
       </div>
+      <div>{message.updatedAt.split(",")[0]}</div>
       {message.content ? message.content : message.msgData.Message.content}
       <div>
         {showEditForm && editForm}

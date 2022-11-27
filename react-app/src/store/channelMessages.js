@@ -92,6 +92,10 @@ export default function channelMessageReducer(state = initialState, action) {
       const newState = { ...state, messages: {} };
       if (action.messageList.Messages) {
         action.messageList.Messages.forEach((message) => {
+          if (message.msgData) {
+            console.log("MESSAGE ");
+            message = message.msgData.Message;
+          }
           newState.messages[message.id] = message;
         });
         return newState;

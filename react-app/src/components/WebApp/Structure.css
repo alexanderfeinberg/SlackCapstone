@@ -1,0 +1,24 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  max-height: 100%;
+}
+.container-left {
+  width: 25%;
+  display: flex;
+  background-color: #611f69;
+  color: darkgray;
+}
+.container-workspaces {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-subscribed {
+  width: 100%;
+}
+
+.container-right {
+  width: 100%;
+}

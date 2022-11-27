@@ -1,0 +1,11 @@
+.subbed-channel-individual-container {
+  display: flex;
+}
+
+.hover:hover {
+  background-color: #2e3440;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}

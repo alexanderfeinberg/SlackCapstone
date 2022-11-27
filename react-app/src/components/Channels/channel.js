@@ -9,6 +9,7 @@ import {
 } from "../../store/channelMessages";
 import ChannelMessage from "../ChannelMessages/ChannelMessage";
 import { connectSocket, disconnectSocket } from "../../store/socket";
+import "./Channel.css";
 let socket;
 
 const Channel = () => {
@@ -78,30 +79,41 @@ const Channel = () => {
 
   if (!isLoaded) return null;
   return (
-    <div>
-      <div>
-        <h2>
-          {channel.name} Users:{channel.userCount}
-        </h2>
-        <h3>User List</h3>
+    <div className="chat-container">
+      <div className="chat-header-container">
+        <div className="chat-header-title header">
+          <div className="chat-header-icon">
+            <i class="fa-solid fa-hashtag"></i>
+          </div>
+          {channel.name}
+        </div>
+        <div className="chat-people-count">
+          <button>
+            <i class="fa-solid fa-user"></i>
+            {channel.userCount}
+          </button>
+        </div>
+        {/* <h3>User List</h3>
         <ul>
           {Object.values(userList).map((onlineUser, idx) => (
             <li key={idx}>{onlineUser.firstName}</li>
           ))}
-        </ul>
+        </ul> */}
       </div>
-      <div>
+      <div className="chat-messages-container">
         {Object.values(messages).map((message, idx) => (
           <ChannelMessage key={idx} messageId={message.id} />
         ))}
       </div>
-      <form onSubmit={handleChatsend}>
-        <textarea
-          value={userMessage}
-          onChange={(e) => setUserMessage(e.target.value)}
-        />
-        <button type="submit">Send message</button>
-      </form>
+      <div className="chat-input-container">
+        <div className="chat-input">
+          <textarea
+            value={userMessage}
+            onChange={(e) => setUserMessage(e.target.value)}
+          />
+          <button onClick={handleChatsend}>Send</button>
+        </div>
+      </div>
     </div>
   );
 };

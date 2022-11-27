@@ -12,12 +12,14 @@ const WorkspaceList = () => {
 
   if (!isLoaded) return null;
   return (
-    <div>
-      <ul>
+    <div className="workspace-list-container">
+      <div className="workplace-list">
         {Object.values(workspaces).map((workspace, idx) => (
-          <li key={idx}>{workspace.name}</li>
+          <div className="workplace-individual" key={idx}>
+            {workspace.name}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
