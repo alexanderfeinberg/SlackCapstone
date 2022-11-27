@@ -4,6 +4,7 @@ import {
   editMessageThunk,
   deleteMessageThunk,
 } from "../../store/channelMessages";
+import "./ChannelMessages.css";
 
 const ChannelMessage = ({ messageId }) => {
   const dispatch = useDispatch();
@@ -50,12 +51,18 @@ const ChannelMessage = ({ messageId }) => {
   );
 
   return (
-    <div>
-      <div>
-        {message.sender.firstName} {message.sender.lastName}
+    <div className="channel-message-container">
+      <div className="channel-message-header">
+        <div className="channel-message-name">
+          {message.sender.firstName} {message.sender.lastName}
+        </div>
+        <div className="channel-message-date">
+          {message.updatedAt.split(",")[0]}
+        </div>
       </div>
-      <div>{message.updatedAt.split(",")[0]}</div>
-      {message.content ? message.content : message.msgData.Message.content}
+      <div className="channel-message-content">
+        {message.content ? message.content : message.msgData.Message.content}
+      </div>
       <div>
         {showEditForm && editForm}
         {message.senderId === user.id && (

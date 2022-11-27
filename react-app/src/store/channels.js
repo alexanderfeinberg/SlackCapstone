@@ -169,7 +169,9 @@ export const removeChannelSubThunk = (channelId) => async (dispatch) => {
   });
   if (response.ok) {
     const channel = await response.json();
-    dispatch(removeChannelSub(channel.id));
+    console.log("RESP ", channel);
+
+    dispatch(removeChannelSub(channel.Channel.id));
     return channel;
   }
 };
@@ -186,7 +188,8 @@ export default function ChannelReducer(state = initialState, action) {
       const loadState = { ...state, channel: { ...action.channel.Channel } };
       return loadState;
     case LOAD_CHANNEL_LIST:
-      const loadListState = { ...state, channelList: {} };
+      const loadListState = Object.assign({}, state, { channelList: {} });
+      // const loadListState = { ...state, channelList: {} };
       action.channelList.Channels.forEach((channel) => {
         loadListState.channelList[channel.id] = channel;
       });
@@ -227,7 +230,8 @@ export default function ChannelReducer(state = initialState, action) {
       return deleteState;
 
     case LOAD_SUBSCRIBED_CHANNELS:
-      const loadSubbed = { ...state, subscribed: {} };
+      // const loadSubbed = { ...state, subscribed: {} };
+      const loadSubbed = Object.assign({}, state, { subscribed: {} });
       action.channels.Channels.forEach((channel) => {
         loadSubbed.subscribed[channel.id] = channel;
       });
@@ -239,8 +243,16 @@ export default function ChannelReducer(state = initialState, action) {
       return createSub;
 
     case REMOVE_CHANNEL_SUBSCRIPTION:
-      const removeSub = { ...state, subscribed: { ...state.subscribed } };
-      delete removeSub.subscribed[action.channelId];
+      const tempSubbed = { ...state.subscribed };
+      console.log("TEMP SUBBED ", tempSubbed);
+      delete tempSubbed[action.channelId];
+      console.log("TEMP SUBBED ", tempSubbed, action.channelId);
+      const removeSub = Object.assign({}, state, {
+        subscribed: { ...tempSubbed },
+      });
+
+      // delete removeSub.subscribed[action.channelId];
+      console.log("REMOPVE CHANNEL ", state === removeSub);
       return removeSub;
     default:
       return state;

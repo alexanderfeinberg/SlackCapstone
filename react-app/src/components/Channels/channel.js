@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ModalContext } from "../../context/Modal";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { loadChannelThunk } from "../../store/channels";
@@ -16,6 +17,8 @@ const Channel = () => {
   const dispatch = useDispatch();
   const { channelId } = useParams();
 
+  const { setModalType, setSubModalType } = useContext(ModalContext);
+
   const currentUser = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.channel);
   const messages = useSelector((state) => state.channelMessage.messages);
@@ -24,14 +27,14 @@ const Channel = () => {
   const [userList, setUserList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const initializeSocket = () => {
+  const initializeSocketHandler = () => {
     socket = io();
     dispatch(connectSocket(socket));
     socket.on("sign_in", (data) => setUserList(data));
     socket.emit("sign_in", { user: currentUser });
   };
 
-  const disconnectSocket = () => {
+  const disconnectSocketHandler = () => {
     socket.emit("leave", { room: channel.id, user: currentUser });
     socket.disconnect();
     dispatch(disconnectSocket());
@@ -42,7 +45,7 @@ const Channel = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    initializeSocket();
+    initializeSocketHandler();
     if (channel.id) {
       socket.on(
         "load_messages",
@@ -60,7 +63,7 @@ const Channel = () => {
       setIsLoaded(true);
     }
 
-    return () => disconnectSocket();
+    return () => disconnectSocketHandler();
   }, [channel]);
 
   const handleChatsend = async (e) => {
@@ -78,18 +81,28 @@ const Channel = () => {
     setUserMessage("");
   };
 
+  const setChannelInfoModal = () => {
+    setModalType("channelInfo");
+    setSubModalType("about");
+  };
+
+  const setMembersInfoModal = () => {
+    setModalType("channelInfo");
+    setSubModalType("members");
+  };
+
   if (!isLoaded) return null;
   return (
     <div className="chat-container">
       <div className="chat-header-container">
-        <div className="chat-header-title header">
+        <div className="chat-header-title header" onClick={setChannelInfoModal}>
           <div className="chat-header-icon">
-            <i class="fa-solid fa-hashtag"></i>
+            <i class="fa-solid fa-hashtag" onClick={setChannelInfoModal}></i>
           </div>
           {channel.name}
         </div>
         <div className="chat-people-count">
-          <button>
+          <button onClick={setMembersInfoModal}>
             <i class="fa-solid fa-user"></i>
             {channel.userCount}
           </button>

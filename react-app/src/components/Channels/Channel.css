@@ -9,7 +9,9 @@
 
 .chat-header-title {
   display: flex;
-  padding-left: 15px;
+  margin-left: 15px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .header {
@@ -32,6 +34,7 @@
   border-radius: 15px;
   display: flex;
   padding: 8px;
+  height: 6rem;
 }
 
 .chat-input textarea {
@@ -49,4 +52,9 @@
   border: none;
   align-self: flex-end;
   margin: 0px 15px 15px 0px;
+}
+
+.chat-header-title:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }

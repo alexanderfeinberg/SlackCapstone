@@ -1,0 +1,15 @@
+.channel-message-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  padding: 5px;
+}
+.channel-message-header {
+  display: flex;
+  align-items: center;
+}
+
+.channel-message-date {
+  margin-left: 10px;
+  color: gray;
+}
