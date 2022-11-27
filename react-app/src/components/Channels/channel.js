@@ -15,25 +15,35 @@ let socket;
 const Channel = () => {
   const dispatch = useDispatch();
   const { channelId } = useParams();
-  const [userMessage, setUserMessage] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+
   const currentUser = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.channel);
   const messages = useSelector((state) => state.channelMessage.messages);
+
+  const [userMessage, setUserMessage] = useState("");
+  const [userList, setUserList] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const initializeSocket = () => {
+    socket = io();
+    dispatch(connectSocket(socket));
+    socket.on("sign_in", (data) => setUserList(data));
+    socket.emit("sign_in", { user: currentUser });
+  };
+
+  const disconnectSocket = () => {
+    socket.emit("leave", { room: channel.id, user: currentUser });
+    socket.disconnect();
+    dispatch(disconnectSocket());
+  };
 
   useEffect(async () => {
     await dispatch(loadChannelThunk(channelId));
   }, [dispatch]);
 
   useEffect(() => {
-    socket = io();
-    dispatch(connectSocket(socket));
-    socket.on("sign_in", (data) => setUserList(data));
-    socket.emit("sign_in", { user: currentUser });
+    initializeSocket();
     if (channel.id) {
-      console.log("CHANNEL ", channel);
-
       socket.on(
         "load_messages",
         async (chat) => await dispatch(loadMessagesThunk(channel.id))
@@ -46,28 +56,19 @@ const Channel = () => {
       //FIX LATER, IM TAKING IN THE WHOLE CHAT AS A PARAM FROM SOCKET AND NOT USING IT THEN LOADING ALL MESSAGES FROM DB, IT IS REPITITVE
 
       socket.emit("join", { user: currentUser, room: channel.id });
-
       socket.emit("load_messages", { room: channel.id });
       setIsLoaded(true);
     }
 
-    return () => {
-      console.log("CHANNEL USE EFFECT CLEANUP");
-      socket.emit("leave", { room: channel.id, user: currentUser });
-      socket.disconnect();
-      dispatch(disconnectSocket());
-    };
+    return () => disconnectSocket();
   }, [channel]);
 
   const handleChatsend = async (e) => {
     e.preventDefault();
-    console.log("SOCKET ", socket);
 
     const newMessage = await dispatch(
       createMessageThunk(channel.id, { content: userMessage, edited: false })
     );
-
-    console.log("NEW MESSAGE ", newMessage);
 
     socket.emit("chat", {
       msgData: newMessage,

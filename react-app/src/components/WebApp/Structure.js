@@ -59,7 +59,7 @@ const Structure = () => {
               <Channel />
             </ProtectedRoute>
             <Route path={`${path}/allChannels`}>
-              <AllChannels />
+              <AllChannels workspace={workspace} />
             </Route>
             <Redirect
               to={{

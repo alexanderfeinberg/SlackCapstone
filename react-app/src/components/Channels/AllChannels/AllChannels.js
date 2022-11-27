@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadChannelListThunk } from "../../../store/channels";
-const AllChannels = ({ workspaceId }) => {
+const AllChannels = ({ workspace }) => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const channels = useSelector((state) => state.channel.channelList);
 
   useEffect(() => {
     (async () => {
-      await dispatch(loadChannelListThunk(workspaceId));
+      await dispatch(loadChannelListThunk(workspace.id));
       setIsLoaded(true);
     })();
     return () => console.log("ALL CHANNELS CLEAN UP");

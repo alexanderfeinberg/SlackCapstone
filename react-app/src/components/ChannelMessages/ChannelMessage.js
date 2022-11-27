@@ -11,25 +11,23 @@ const ChannelMessage = ({ messageId }) => {
   const message = useSelector(
     (state) => state.channelMessage.messages[messageId]
   );
-
-  const [editedMessage, setEditedMessage] = useState(
-    // message.content ? message.content : message.msgData.Message.content
-    message.content
-  );
-  const [showEditForm, setShowEditForm] = useState(false);
   const socket = useSelector((state) => state.socket.socket);
   const channel = useSelector((state) => state.channel.channel);
   const user = useSelector((state) => state.session.user);
 
+  const [editedMessage, setEditedMessage] = useState(message.content);
+  const [showEditForm, setShowEditForm] = useState(false);
+
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log("HANDLING EDIT ", message);
+
     await dispatch(
       editMessageThunk(message.id, {
         content: editedMessage,
         edited: true,
       })
     );
+
     socket.emit("load_messages", { room: channel.id });
     setShowEditForm(false);
   };
@@ -39,6 +37,7 @@ const ChannelMessage = ({ messageId }) => {
       socket.emit("load_messages", { room: channel.id })
     );
   };
+
   const editForm = (
     <form type="submit">
       <textarea
@@ -49,6 +48,7 @@ const ChannelMessage = ({ messageId }) => {
       <button onClick={handleEdit}>Submit</button>
     </form>
   );
+
   return (
     <div>
       <div>

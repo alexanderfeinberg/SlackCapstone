@@ -9,11 +9,13 @@ import "./SubscribedChannelList.css";
 
 const SubscribedChannelList = () => {
   const dispatch = useDispatch();
+  let history = useHistory();
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [showDropDown, setShowDropDown] = useState(true);
+
   const channels = useSelector((state) => state.channel.subscribed);
   const workspace = useSelector((state) => state.workspace.workspace);
-  let history = useHistory();
 
   useEffect(async () => {
     await dispatch(loadSubbedChannelsThunk(workspace.id));
