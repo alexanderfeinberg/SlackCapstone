@@ -4,8 +4,11 @@ import { loadSubbedWorkspacesThunk } from "../../store/workspaces";
 import SubscribedChannelList from "./SubscribedChannelList";
 const WorkspaceList = () => {
   const dispatch = useDispatch();
+
   const workspaces = useSelector((state) => state.workspace.subscribed);
+
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     dispatch(loadSubbedWorkspacesThunk()).then(() => setIsLoaded(true));
   }, []);
