@@ -75,7 +75,7 @@ export const loadChannelThunk = (channelId) => async (dispatch) => {
     const channel = await response.json();
     console.log("LOAD CHANNEL RESP", channel);
     await dispatch(loadChannel(channel));
-    dispatch(displayChannel());
+    // dispatch(displayChannel());
     return channel;
   }
 };
@@ -91,7 +91,6 @@ export const loadChannelListThunk = (workspaceId) => async (dispatch) => {
   if (response.ok) {
     const channelList = await response.json();
     dispatch(loadChannelList(channelList));
-    dispatch(displayAllChannels());
     return channelList;
   }
 };
@@ -188,7 +187,7 @@ export default function ChannelReducer(state = initialState, action) {
       return loadState;
     case LOAD_CHANNEL_LIST:
       const loadListState = { ...state, channelList: {} };
-      action.Channels.forEach((channel) => {
+      action.channelList.Channels.forEach((channel) => {
         loadListState.channelList[channel.id] = channel;
       });
       return loadListState;

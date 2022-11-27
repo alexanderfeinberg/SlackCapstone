@@ -13,6 +13,7 @@ let socket;
 
 const Channel = () => {
   const dispatch = useDispatch();
+  const { channelId } = useParams();
   const [userMessage, setUserMessage] = useState("");
   const [userList, setUserList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,18 +22,14 @@ const Channel = () => {
   const messages = useSelector((state) => state.channelMessage.messages);
 
   useEffect(async () => {
+    await dispatch(loadChannelThunk(channelId));
+  }, [dispatch]);
+
+  useEffect(() => {
     socket = io();
     dispatch(connectSocket(socket));
     socket.on("sign_in", (data) => setUserList(data));
     socket.emit("sign_in", { user: currentUser });
-
-    return () => {
-      socket.disconnect();
-      dispatch(disconnectSocket());
-    };
-  }, []);
-
-  useEffect(() => {
     if (channel.id) {
       console.log("CHANNEL ", channel);
 
@@ -52,6 +49,13 @@ const Channel = () => {
       socket.emit("load_messages", { room: channel.id });
       setIsLoaded(true);
     }
+
+    return () => {
+      console.log("CHANNEL USE EFFECT CLEANUP");
+      socket.emit("leave", { room: channel.id, user: currentUser });
+      socket.disconnect();
+      dispatch(disconnectSocket());
+    };
   }, [channel]);
 
   const handleChatsend = async (e) => {
@@ -76,6 +80,9 @@ const Channel = () => {
   return (
     <div>
       <div>
+        <h2>
+          {channel.name} Users:{channel.userCount}
+        </h2>
         <h3>User List</h3>
         <ul>
           {Object.values(userList).map((onlineUser, idx) => (

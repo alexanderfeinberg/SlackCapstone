@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   loadChannelThunk,
   loadSubbedChannelsThunk,
@@ -10,17 +11,12 @@ const SubscribedChannelList = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const channels = useSelector((state) => state.channel.subscribed);
   const workspace = useSelector((state) => state.workspace.workspace);
+  let history = useHistory();
 
   useEffect(async () => {
     await dispatch(loadSubbedChannelsThunk(workspace.id));
     setIsLoaded(true);
   }, []);
-
-  useEffect(async () => {
-    if (Object.values(channels).length) {
-      await dispatch(loadChannelThunk(Object.values(channels)[0].id));
-    }
-  }, [isLoaded]);
 
   if (!isLoaded) return null;
   return (
@@ -28,10 +24,20 @@ const SubscribedChannelList = () => {
       <ul>
         {Object.values(channels).map((channel, idx) => (
           <li key={idx}>
-            <a href={`/channels/${channel.id}`}>{channel.name}</a>
+            <a
+              onClick={async () => {
+                await dispatch(loadChannelThunk(channel.id));
+                history.push(
+                  `/workspaces/${workspace.id}/channels/${channel.id}`
+                );
+              }}
+            >
+              {channel.name}
+            </a>
           </li>
         ))}
       </ul>
+      <a href={`/workspaces/${workspace.id}/allChannels`}>Browse Channels</a>
     </div>
   );
 };

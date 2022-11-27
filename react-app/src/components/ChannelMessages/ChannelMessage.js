@@ -7,7 +7,7 @@ import {
 
 const ChannelMessage = ({ messageId }) => {
   const dispatch = useDispatch();
-  console.log("DISPLAYTING MESSAGE ", messageId);
+
   const message = useSelector(
     (state) => state.channelMessage.messages[messageId]
   );

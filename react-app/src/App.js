@@ -44,7 +44,7 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/workspaces/:workspaceId" exact={true}>
+        <ProtectedRoute path="/workspaces/:workspaceId">
           <Structure />
         </ProtectedRoute>
         <Route path="/" exact={true}>

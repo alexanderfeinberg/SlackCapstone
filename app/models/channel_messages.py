@@ -23,7 +23,7 @@ class ChannelMessages(db.Model):
 
     def to_dict(self):
         print("STRFTIME ", self.updated_at.strftime('%m/%d/%Y'))
-        return {'id': self.id, 'senderId': self.sender_id, 'sender': self.sender.to_dict(), 'channelId': self.channel_id, 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at.strftime('%m/%d/%Y'), 'updatedAt': self.updated_at.strftime('%m/%d/%Y')}
+        return {'id': self.id, 'senderId': self.sender_id, 'sender': self.sender.to_dict(), 'channelId': self.channel_id, 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at.strftime('%m/%d/%Y, %H%M%S'), 'updatedAt': self.updated_at.strftime('%m/%d/%Y, %H%M%S')}
 
     def to_dict_relations(self):
-        return {'id': self.id, 'sender': self.sender.to_dict(), 'channel': self.channel.to_dict(), 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at.strftime('%m/%d/%Y'), 'updatedAt': self.updated_at.strftime('%m/%d/%Y')}
+        return {'id': self.id, 'sender': self.sender.to_dict(), 'channel': self.channel.to_dict(), 'content': self.content, 'edited': self.edited, 'createdAt': self.created_at.strftime('%m/%d/%Y, %H%M%S'), 'updatedAt': self.updated_at.strftime('%m/%d/%Y, %H%M%S')}
