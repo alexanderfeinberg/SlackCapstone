@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ActionModalContext } from "../../../context/ActionModals";
 import { removeChannelSubThunk } from "../../../store/channels";
 let month;
 let day;
@@ -24,6 +25,8 @@ const AboutSubModal = () => {
   const dispatch = useDispatch();
   const channel = useSelector((state) => state.channel.channel);
 
+  const { setActionModalType } = useContext(ActionModalContext);
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -42,7 +45,18 @@ const AboutSubModal = () => {
   return (
     <div className="sub-modal-inner-content">
       <div className="sub-modal-item">
-        <div className="sub-modal-item-title">Description</div>
+        <div className="sub-modal-item-title">
+          <div className="sub-modal-title-content">Description</div>
+          <div className="sub-modal-title-edit">
+            <button
+              onClick={() => {
+                setActionModalType("editChannelDescription");
+              }}
+            >
+              Edit
+            </button>
+          </div>
+        </div>
         <div classNAme="sub-modal-item-content">{channel.description}</div>
       </div>
       <div className="sub-modal-item">

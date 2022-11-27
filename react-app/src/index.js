@@ -4,17 +4,22 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import configureStore from "./store";
-import { ModalProvider } from "./context/Modal";
-import { SelectModal } from "./context/Modal";
+import { ModalProvider, SelectModal } from "./context/Modal";
+import { SelectActionModal, ActionModalProvider } from "./context/ActionModals";
+
 const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ModalProvider>
-        <SelectModal />
-        <App />
-      </ModalProvider>
+      <ActionModalProvider>
+        <ModalProvider>
+          <SelectModal />
+
+          <SelectActionModal />
+          <App />
+        </ModalProvider>
+      </ActionModalProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
