@@ -1,5 +1,6 @@
 import { csrfFetch } from "./csrf";
 import { displayChannel, displayAllChannels } from "./ui";
+import { objectAssign } from "./helper";
 
 //Constants
 const LOAD_CHANNEL = "channels/LOAD_CHANNEL";
@@ -220,15 +221,6 @@ export default function ChannelReducer(state = initialState, action) {
         "channelList",
         "subscribed"
       );
-      // const editState = {
-      //   ...state,
-      //   channel: { ...action.Channel },
-      //   channelList: { ...state.channelList },
-      //   subscribed: { ...state.subscribed },
-      // };
-      // editedState["channel"] = Object.assign({}, editedState.channel);
-      // editedState["channelList"] = Object.assign({}, editedState.channelList);
-      // editedState["subscribed"] = Object.assign({}, editedState.subscribed);
 
       if (editedState.channel.id === action.channel.Channel.id) {
         console.log("CURR CHANNEL");
@@ -269,11 +261,3 @@ export default function ChannelReducer(state = initialState, action) {
       return state;
   }
 }
-
-export const objectAssign = (oldState, ...args) => {
-  const newState = Object.assign({}, oldState);
-  for (let arg of args) {
-    newState[arg] = Object.assign({}, newState[arg]);
-  }
-  return newState;
-};

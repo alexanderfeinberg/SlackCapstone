@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalContext } from "../../context/Modal";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,8 @@ const Channel = () => {
   const { channelId } = useParams();
 
   const { setModalType, setSubModalType } = useContext(ModalContext);
+
+  const messagesEndRef = useRef(null);
 
   const currentUser = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.channel);
@@ -65,6 +67,10 @@ const Channel = () => {
 
     return () => disconnectSocketHandler();
   }, [channel]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  });
 
   const handleChatsend = async (e) => {
     e.preventDefault();
@@ -128,6 +134,7 @@ const Channel = () => {
           <button onClick={handleChatsend}>Send</button>
         </div>
       </div>
+      <div ref={messagesEndRef}></div>
     </div>
   );
 };

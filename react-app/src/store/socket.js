@@ -1,3 +1,4 @@
+import { objectAssign } from "./helper";
 const CONNECT = "socket/CONNECT";
 const DISCONNECT = "socket/DISCONNECT";
 
@@ -22,7 +23,8 @@ export default function socketReducer(state = initialState, action) {
   switch (action.type) {
     case CONNECT:
       const socket = action.socket;
-      const connectState = { ...state, socket };
+      const connectState = objectAssign(state);
+      connectState.socket = socket;
       return connectState;
     case DISCONNECT:
       const disconnectState = {};

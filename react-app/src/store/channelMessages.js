@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { objectAssign } from "./helper";
 
 //Constants
 const LOAD_MESSAGES = "channelMessages/LOAD_MESSAGES";
@@ -89,8 +90,9 @@ let initialState = {
 export default function channelMessageReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_MESSAGES:
-      const newState = Object.assign({}, state);
-      newState.messages = Object.assign({}, newState.messages);
+      const newState = objectAssign(state);
+      newState.messages = {};
+
       if (action.messageList.Messages) {
         action.messageList.Messages.forEach((message) => {
           if (message.msgData) {
@@ -104,21 +106,20 @@ export default function channelMessageReducer(state = initialState, action) {
       return newState;
 
     case CREATE_MESSAGE:
-      const createState = Object.assign({}, state);
-      createState.messages = Object.assign({}, createState.messages);
+      const createState = objectAssign(state, "messages");
+
       const newMessageId = action.message.Message.id;
       createState.messages[newMessageId] = action.message.Message;
       return createState;
 
     case EDIT_MESSAGE:
-      const editState = Object.assign({}, state);
-      editState.messages = Object.assign({}, editState.messages);
+      const editState = objectAssign(state, "messages");
+
       editState.messages[action.message.Message.id] = action.message.Message;
       return editState;
 
     case DELETE_MESSAGES:
-      const deleteState = Object.assign({}, state);
-      deleteState.messages = Object.assign({}.deleteState.messages);
+      const deleteState = objectAssign(state, "messages");
 
       delete deleteState.messages[action.messageId];
       return deleteState;

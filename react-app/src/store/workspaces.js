@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { objectAssign } from "./helper";
 
 //Constants
 const LOAD_WORKSPACE = "workspaces/LOAD_WORKSPACE";
@@ -65,16 +66,16 @@ let initialState = {
 export default function workspaceReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_SUBSCRIBED_WORKSPACES:
-      const loadSubbed = { ...state, subscribed: {} };
+      const loadSubbed = objectAssign(state);
+      loadSubbed.subscribed = {};
       action.workspaceList.Workspaces.forEach((workspace) => {
         loadSubbed.subscribed[workspace.id] = workspace;
       });
       return loadSubbed;
     case LOAD_WORKSPACE:
-      const loadState = {
-        ...state,
-        workspace: { ...action.workspace.Workspace },
-      };
+      const loadState = objectAssign(state);
+      loadState.workspace = { ...action.workspace.Workspace };
+
       return loadState;
     default:
       return state;
