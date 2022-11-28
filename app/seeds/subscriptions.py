@@ -14,11 +14,11 @@ def seed_subscriptions():
     db.session.commit()
 
 
-# def undo_subscriptions():
-#     if environment == "production":
-#         db.session.execute(
-#             f"TRUNCATE table {SCHEMA}.follows RESTART IDENTITY CASCADE;")
-#     else:
-#         db.session.execute("DELETE FROM followers")
+def undo_subscriptions():
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.users_in_channel RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM subscribed_channels")
 
-#     db.session.commit()
+    db.session.commit()
