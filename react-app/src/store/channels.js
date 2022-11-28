@@ -260,6 +260,7 @@ export default function ChannelReducer(state = initialState, action) {
 
     case REMOVE_CHANNEL_SUBSCRIPTION:
       const removeSub = objectAssign(state, "subscribed");
+      delete removeSub.subscribed[action.channelId];
       return removeSub;
     default:
       return state;
