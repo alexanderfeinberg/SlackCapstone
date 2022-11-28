@@ -24,6 +24,7 @@ const Channel = () => {
   const currentUser = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.channel);
   const messages = useSelector((state) => state.channelMessage.messages);
+  const existingSocket = useSelector((state) => state.socket.socket);
 
   const [userMessage, setUserMessage] = useState("");
   const [userList, setUserList] = useState([]);
@@ -37,9 +38,11 @@ const Channel = () => {
   };
 
   const disconnectSocketHandler = () => {
-    socket.emit("leave", { room: channel.id, user: currentUser });
-    socket.disconnect();
-    dispatch(disconnectSocket());
+    if (existingSocket) {
+      socket.emit("leave", { room: channel.id, user: currentUser });
+      socket.disconnect();
+      dispatch(disconnectSocket());
+    }
   };
 
   useEffect(async () => {
