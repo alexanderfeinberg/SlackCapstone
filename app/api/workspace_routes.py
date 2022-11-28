@@ -100,7 +100,7 @@ def get_workspace_channels(workspace_id):
 def subscribed_channels(workspace_id):
     user = get_current_user(current_user.id)
     channels = user.subbed_channels_by_workspace(workspace_id)
-    return jsonify({"Channels": [channel.to_dict() for channel in channels]})
+    return jsonify({"Channels": [channel.to_dict(current_user.id) for channel in channels]})
 
 
 # Get subscribed worksapces

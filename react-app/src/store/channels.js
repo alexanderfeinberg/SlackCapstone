@@ -138,6 +138,7 @@ export const deleteChannelThunk = (channelId) => async (dispatch) => {
   const response = await csrfFetch(`/api/channels/${channelId}`, {
     method: "DELETE",
   });
+  console.log("DELETE CHANNEL RESP", response);
   if (response.ok) {
     dispatch(deleteChannel(channelId));
     return;

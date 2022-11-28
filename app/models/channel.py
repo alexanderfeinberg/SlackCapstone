@@ -33,18 +33,21 @@ class Channel(db.Model):
         self.users.append(user)
         return self
 
-    def has_user(self, userId):
+    def has_user(self, user_id):
         all_users = [user for user in self.users]
-        return len(list(filter(lambda user: user.id == userId, all_users))) > 0
+        return len(list(filter(lambda user: user.id == user_id, all_users))) > 0
 
     def remove_user(self, user):
         if self.has_user(user.id):
             self.users.remove(user)
             return self
 
-    def to_dict(self):
-        return {'id': self.id, 'name': self.name, 'ownerId': self.owner_id, 'workspaceId': self.workspace_id, 'description': self.description,
-                'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users)}
+    def to_dict(self, user_id=None):
+        return_dict = {'id': self.id, 'name': self.name, 'ownerId': self.owner_id, 'workspaceId': self.workspace_id, 'description': self.description,
+                       'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users)}
+        if user_id:
+            return_dict['currentUserSubscribed'] = self.has_user(user_id)
+        return return_dict
 
     def to_dict_relations(self):
         return {'id': self.id, 'name': self.name, 'owner': self.owner.to_dict(), 'users': [user.to_dict() for user in self.users], 'workspace': self.workspace.to_dict(),

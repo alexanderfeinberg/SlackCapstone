@@ -1,7 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useContext } from "react";
 import { ActionModalContext } from "../../../context/ActionModals";
-import { removeChannelSubThunk } from "../../../store/channels";
+import { useHistory } from "react-router-dom";
+import {
+  removeChannelSubThunk,
+  deleteChannelThunk,
+} from "../../../store/channels";
 let month;
 let day;
 let year;
@@ -23,7 +27,11 @@ const months = {
 
 const AboutSubModal = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const channel = useSelector((state) => state.channel.channel);
+  const user = useSelector((state) => state.session.user);
+  const workspace = useSelector((state) => state.workspace.workspace);
 
   const { setActionModalType, setSubActionModalType } =
     useContext(ActionModalContext);
@@ -32,17 +40,29 @@ const AboutSubModal = () => {
 
   useEffect(() => {
     if (channel) {
-      setIsLoaded(true);
       const date = new Date(channel.createdAt);
       month = months[date.getMonth()];
-      day = date.getDay();
+      day = date.getDate();
+
       year = date.getFullYear();
+
+      setIsLoaded(true);
     }
   }, [channel]);
 
   const handleRemoveSubscription = async () => {
     await dispatch(removeChannelSubThunk(channel.id));
   };
+
+  const handleChannelDelete = () => {
+    dispatch(deleteChannelThunk(channel.id))
+      .then(() => {
+        history.push(`/workspaces/${workspace.id}`);
+      })
+      .catch((e) => console.log("ERROR ", e));
+  };
+
+  if (!isLoaded) return null;
   return (
     <div className="sub-modal-inner-content">
       <div className="sub-modal-item">
@@ -85,6 +105,9 @@ const AboutSubModal = () => {
       </div>
       <div className="sub-modal-action-btns">
         <button onClick={handleRemoveSubscription}>Leave Channel</button>
+        {channel.ownerId === user.id && (
+          <button onClick={handleChannelDelete}>Delete channel</button>
+        )}
       </div>
     </div>
   );
