@@ -1,10 +1,13 @@
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../context/Modal";
 
 const AddChannelsDropdown = ({ setShowCreateDropDown }) => {
   const history = useHistory();
   const workspace = useSelector((state) => state.workspace.workspace);
+
+  const { setModalType } = useContext(ModalContext);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -16,7 +19,13 @@ const AddChannelsDropdown = ({ setShowCreateDropDown }) => {
   return (
     <div className="add-channels-dropdown">
       <div className="create-channel-btn">
-        <button>Create a new channel</button>
+        <button
+          onClick={() => {
+            setModalType("createChannel");
+          }}
+        >
+          Create a new channel
+        </button>
       </div>
       <div className="browse-channels-btn">
         <button

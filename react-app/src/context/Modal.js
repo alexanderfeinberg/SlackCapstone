@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import "./Modal.css";
 import ChannelInfoModal from "../components/ChannelInfoModal";
+import AddChannelModal from "../components/AddChannelModal/AddChannelModal";
 import ReactDOM from "react";
 
 export const ModalContext = React.createContext();
@@ -51,9 +52,11 @@ export const SelectModal = () => {
       </div>
     );
   } else if (modalType === "createChannel") {
+    console.log("CREATE CHANNEL MODAL");
     return (
-      <div className="modal">
-        <div className="modal-background" onClick={closeModal}></div>
+      <div id="modal">
+        <AddChannelModal />
+        <div id="modal-background" onClick={closeModal}></div>
       </div>
     );
   }
