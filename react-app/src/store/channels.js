@@ -62,10 +62,10 @@ export const createChannelSub = (channel) => {
   };
 };
 
-export const removeChannelSub = (channelId) => {
+export const removeChannelSub = (channel) => {
   return {
     type: REMOVE_CHANNEL_SUBSCRIPTION,
-    channelId,
+    channel,
   };
 };
 
@@ -140,7 +140,8 @@ export const deleteChannelThunk = (channelId) => async (dispatch) => {
   });
   console.log("DELETE CHANNEL RESP", response);
   if (response.ok) {
-    dispatch(deleteChannel(channelId));
+    const channel = await response.json();
+    dispatch(deleteChannel(channel));
     return;
   }
 };
@@ -178,7 +179,7 @@ export const removeChannelSubThunk = (channelId) => async (dispatch) => {
     const channel = await response.json();
     console.log("RESP ", channel);
 
-    dispatch(removeChannelSub(channel.Channel.id));
+    dispatch(removeChannelSub(channel));
     return channel;
   }
 };
@@ -253,14 +254,15 @@ export default function ChannelReducer(state = initialState, action) {
       return loadSubbed;
 
     case CREATE_CHANNEL_SUBSCRIPTION:
-      const createSub = objectAssign(state, "subscribed");
-
-      createSub.subscribed[action.Channel.id] = action.Channel;
+      const createSub = objectAssign(state, "subscribed", "channelList");
+      createSub.channelList[action.channel.Channel.id] = action.channel.Channel;
+      createSub.subscribed[action.channel.Channel.id] = action.channel.Channel;
       return createSub;
 
     case REMOVE_CHANNEL_SUBSCRIPTION:
-      const removeSub = objectAssign(state, "subscribed");
-      delete removeSub.subscribed[action.channelId];
+      const removeSub = objectAssign(state, "subscribed", "channelList");
+      delete removeSub.subscribed[action.channel.Channel.id];
+      removeSub.channelList[action.channel.Channel.id] = action.channel.Channel;
       return removeSub;
     default:
       return state;

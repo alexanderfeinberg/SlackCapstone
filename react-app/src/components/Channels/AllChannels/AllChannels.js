@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadChannelListThunk } from "../../../store/channels";
+import Channel from "../channel";
+import ChannelListItem from "./ChannelListItem.js";
+
 const AllChannels = ({ workspace }) => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -14,15 +17,19 @@ const AllChannels = ({ workspace }) => {
     return () => console.log("ALL CHANNELS CLEAN UP");
   }, []);
 
+  const handleCreateSub = () => {};
+
   if (!isLoaded) return null;
 
   return (
-    <div>
-      <ul>
+    <div className="all-channels-container">
+      <div chassName="all-channels-list">
         {Object.values(channels).map((channel, idx) => (
-          <li key={idx}>{channel.name}</li>
+          <div className="all-channel-list-item-container" key={idx}>
+            <ChannelListItem channelId={channel.id} />
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
