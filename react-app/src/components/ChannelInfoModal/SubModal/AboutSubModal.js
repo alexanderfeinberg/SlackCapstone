@@ -50,7 +50,7 @@ const AboutSubModal = () => {
           <div className="sub-modal-title-edit">
             <button
               onClick={() => {
-                setActionModalType("editChannelDescription");
+                setActionModalType("editChannel");
               }}
             >
               Edit

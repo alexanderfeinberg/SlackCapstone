@@ -9,6 +9,7 @@ export const ActionModalProvider = ({ children }) => {
   const modalRef = useRef();
   const [value, setValue] = useState();
   const [actionModalType, setActionModalType] = useState(null);
+  const [subActionModalType, setSubActionModalType] = useState(null);
 
   useEffect(() => {
     setValue(modalRef.current);
@@ -17,7 +18,13 @@ export const ActionModalProvider = ({ children }) => {
   return (
     <>
       <ActionModalContext.Provider
-        value={{ value, actionModalType, setActionModalType }}
+        value={{
+          value,
+          actionModalType,
+          setActionModalType,
+          subActionModalType,
+          setSubActionModalType,
+        }}
       >
         {children}
       </ActionModalContext.Provider>
@@ -34,7 +41,7 @@ export const SelectActionModal = () => {
     setActionModalType(null);
   };
 
-  if (actionModalType === "editChannelDescription") {
+  if (actionModalType === "editChannel") {
     return (
       <div id="action-modal">
         <EditChannelModal />
