@@ -187,10 +187,12 @@ let initialState = {
 export default function ChannelReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_CHANNEL:
-      const loadState = { ...state, channel: { ...action.channel.Channel } };
+      const loadState = objectAssign(state);
+      loadState.channel = { ...action.channel.Channel };
       return loadState;
     case LOAD_CHANNEL_LIST:
-      const loadListState = Object.assign({}, state, { channelList: {} });
+      const loadListState = objectAssign(state);
+      loadListState.channelList = {};
       // const loadListState = { ...state, channelList: {} };
       action.channelList.Channels.forEach((channel) => {
         loadListState.channelList[channel.id] = channel;
@@ -198,12 +200,12 @@ export default function ChannelReducer(state = initialState, action) {
       return loadListState;
 
     case CREATE_CHANNEL:
-      const createState = {
-        ...state,
-        channel: { ...action.Channel },
-        channelList: { ...state.channelList },
-        subscribed: { ...state.subscribed },
-      };
+      const createState = objectAssign(
+        state,
+        "channel",
+        "channelList",
+        "subscribed"
+      );
       createState.channelList[action.channel.Channel.id] =
         action.channel.Channel;
       createState.subscribed[action.channel.Channel.id] =
@@ -211,16 +213,22 @@ export default function ChannelReducer(state = initialState, action) {
       return createState;
 
     case EDIT_CHANNEL:
-      const editedState = Object.assign({}, state);
+      // const editedState = Object.assign({}, state);
+      const editedState = objectAssign(
+        state,
+        "channel",
+        "channelList",
+        "subscribed"
+      );
       // const editState = {
       //   ...state,
       //   channel: { ...action.Channel },
       //   channelList: { ...state.channelList },
       //   subscribed: { ...state.subscribed },
       // };
-      editedState["channel"] = Object.assign({}, editedState.channel);
-      editedState["channelList"] = Object.assign({}, editedState.channelList);
-      editedState["subscribed"] = Object.assign({}, editedState.subscribed);
+      // editedState["channel"] = Object.assign({}, editedState.channel);
+      // editedState["channelList"] = Object.assign({}, editedState.channelList);
+      // editedState["subscribed"] = Object.assign({}, editedState.subscribed);
 
       if (editedState.channel.id === action.channel.Channel.id) {
         console.log("CURR CHANNEL");
@@ -233,11 +241,7 @@ export default function ChannelReducer(state = initialState, action) {
       return editedState;
 
     case DELETE_CHANNEL:
-      const deleteState = {
-        ...state,
-        subscribed: { ...state.subscribed },
-        channelList: { ...state.channelList },
-      };
+      const deleteState = objectAssign(state, "subscribed", "channelList");
 
       delete deleteState.subscribed[action.channelId];
       delete deleteState.channelList[action.channelId];
@@ -245,30 +249,31 @@ export default function ChannelReducer(state = initialState, action) {
 
     case LOAD_SUBSCRIBED_CHANNELS:
       // const loadSubbed = { ...state, subscribed: {} };
-      const loadSubbed = Object.assign({}, state, { subscribed: {} });
+      const loadSubbed = objectAssign(state);
+      loadSubbed.subscribed = {};
       action.channels.Channels.forEach((channel) => {
         loadSubbed.subscribed[channel.id] = channel;
       });
       return loadSubbed;
 
     case CREATE_CHANNEL_SUBSCRIPTION:
-      const createSub = { ...state, subscribed: { ...state.subscribed } };
+      const createSub = objectAssign(state, "subscribed");
+
       createSub.subscribed[action.Channel.id] = action.Channel;
       return createSub;
 
     case REMOVE_CHANNEL_SUBSCRIPTION:
-      const tempSubbed = { ...state.subscribed };
-      console.log("TEMP SUBBED ", tempSubbed);
-      delete tempSubbed[action.channelId];
-      console.log("TEMP SUBBED ", tempSubbed, action.channelId);
-      const removeSub = Object.assign({}, state, {
-        subscribed: { ...tempSubbed },
-      });
-
-      // delete removeSub.subscribed[action.channelId];
-      console.log("REMOPVE CHANNEL ", state === removeSub);
+      const removeSub = objectAssign(state, "subscribed");
       return removeSub;
     default:
       return state;
   }
 }
+
+export const objectAssign = (oldState, ...args) => {
+  const newState = Object.assign({}, oldState);
+  for (let arg of args) {
+    newState[arg] = Object.assign({}, newState[arg]);
+  }
+  return newState;
+};
