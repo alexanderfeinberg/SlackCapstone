@@ -98,6 +98,7 @@ export const loadChannelListThunk = (workspaceId) => async (dispatch) => {
 
 export const createChannelThunk =
   (workspaceId, newChannel) => async (dispatch) => {
+    console.log("WORKSPACE OD", workspaceId);
     const response = await csrfFetch(
       `/api/workspaces/${workspaceId}/channels`,
       {
@@ -106,9 +107,11 @@ export const createChannelThunk =
         body: JSON.stringify(newChannel),
       }
     );
+    console.log("CREATED CHANNEL ", response);
 
     if (response.ok) {
       const channel = await response.json();
+      console.log("CREATED CHANNEL ", channel);
       dispatch(createChannel(channel));
       return channel;
     }

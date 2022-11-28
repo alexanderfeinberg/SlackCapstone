@@ -77,6 +77,7 @@ def create_channel(workspace_id):
         workspace = Workspace.query.get_or_404(workspace_id)
         new_channel = Channel(**data, owner=get_current_user(current_user.id),
                               workspace=workspace)
+        new_channel.add_user(get_current_user(current_user.id))
         db.session.add(new_channel)
         db.session.commit()
 
