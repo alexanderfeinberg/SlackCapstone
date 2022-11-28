@@ -31,11 +31,8 @@ const Channel = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const initializeSocketHandler = () => {
-    if (process.env.ENVIRONMENT === "production") {
-      socket = io("https://transmit.onrender.com/");
-    } else {
-      socket = io();
-    }
+    socket = io();
+
     dispatch(connectSocket(socket));
     socket.on("sign_in", (data) => setUserList(data));
     socket.emit("sign_in", { user: currentUser });

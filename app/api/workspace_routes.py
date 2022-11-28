@@ -90,7 +90,7 @@ def create_channel(workspace_id):
 @workspace_router.route('/<int:workspace_id>/channels')
 def get_workspace_channels(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
-    return jsonify({"Channels": [channel.to_dict() for channel in workspace.channels]})
+    return jsonify({"Channels": [channel.to_dict(user_id=current_user.id) for channel in workspace.channels]})
 
 # Get subscribed channels within a workspace
 
