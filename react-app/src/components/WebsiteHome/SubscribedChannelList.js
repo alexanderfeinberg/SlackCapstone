@@ -6,6 +6,7 @@ import {
   loadSubbedChannelsThunk,
 } from "../../store/channels";
 import "./SubscribedChannelList.css";
+import AddChannelsDropdown from "../AddChannels/AddChannelsDropdown";
 
 const SubscribedChannelList = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const SubscribedChannelList = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [showDropDown, setShowDropDown] = useState(true);
+  const [showCreateDropDown, setShowCreateDropDown] = useState(false);
 
   const channels = useSelector((state) => state.channel.subscribed);
   const workspace = useSelector((state) => state.workspace.workspace);
@@ -54,7 +56,24 @@ const SubscribedChannelList = () => {
           ))}
         </div>
       )}
-      <a href={`/workspaces/${workspace.id}/allChannels`}>Browse Channels</a>
+      <div className="add-channel-container">
+        <div className="add-channel-icon">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <div
+          className="add-channel-text"
+          onClick={() => setShowCreateDropDown(!showCreateDropDown)}
+        >
+          Add channels
+        </div>
+        {showCreateDropDown && (
+          <div className="drop-down-container">
+            <AddChannelsDropdown
+              setShowCreateDropDown={setShowCreateDropDown}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

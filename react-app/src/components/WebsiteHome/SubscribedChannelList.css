@@ -9,3 +9,8 @@
 .pointer:hover {
   cursor: pointer;
 }
+
+.add-channel-container {
+  display: flex;
+  cursor: pointer;
+}
