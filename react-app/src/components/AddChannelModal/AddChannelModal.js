@@ -26,7 +26,7 @@ const AddChannelModal = () => {
     dispatch(createChannelThunk(workspace.id, newChannel)).catch((e) =>
       console.log("ERROR ", e, e.status)
     );
-    // setModalType(null);
+    setModalType(null);
   };
 
   useEffect(() => {
