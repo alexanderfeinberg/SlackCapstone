@@ -21,4 +21,8 @@
 
 .container-right {
   width: 100%;
+  overflow-y: scroll;
+}
+
+.container-data {
 }

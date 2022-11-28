@@ -1,0 +1,20 @@
+.channel-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.all-channel-list-content {
+  box-sizing: border-box;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.all-channel-list-item-header {
+  display: flex;
+}
+
+.all-channel-list-item-subheader {
+  display: flex;
+}

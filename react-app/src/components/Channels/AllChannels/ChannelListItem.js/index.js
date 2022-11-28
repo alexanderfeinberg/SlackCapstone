@@ -5,6 +5,7 @@ import {
   removeChannelSubThunk,
   createChannelSubThunk,
 } from "../../../../store/channels";
+import "./ChannelListItem.css";
 
 const ChannelListItem = ({ channelId }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const ChannelListItem = ({ channelId }) => {
   const user = useSelector((state) => state.session.user);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   useEffect(() => {
     if (channel && user) {
       setIsLoaded(true);
@@ -29,23 +31,36 @@ const ChannelListItem = ({ channelId }) => {
 
   if (!isLoaded) return null;
   return (
-    <div className="channel-list-item">
-      <div className="all-channel-list-item-header">{channel.name}</div>
-      <div className="all-channel-list-item-subheader">
-        {channel.currentUserSubscribed && (
-          <div className="channel-joined-check">Joined</div>
-        )}
-        <div className="channel-user-count">{channel.userCount} members</div>
+    <div
+      className="channel-list-item"
+      onMouseOver={() => {
+        setShowButton(true);
+      }}
+      onMouseLeave={() => setShowButton(false)}
+    >
+      <div className="all-channel-list-content">
+        <div className="all-channel-list-item-header">
+          <div className="chat-header-icon">
+            <i class="fa-solid fa-hashtag"></i>
+          </div>
+          {channel.name}
+        </div>
+        <div className="all-channel-list-item-subheader">
+          {channel.currentUserSubscribed && (
+            <div className="channel-joined-check">Joined</div>
+          )}
+          <div className="channel-user-count">{channel.userCount} members</div>
 
-        <div className="channel-description">{channel.description}</div>
+          <div className="channel-description">{channel.description}</div>
+        </div>
       </div>
       <div className="channel-list-action-btns">
-        {!channel.currentUserSubscribed && (
+        {!channel.currentUserSubscribed && showButton && (
           <button className="subscribe-btn" onClick={handleCreateSub}>
             Join
           </button>
         )}
-        {channel.currentUserSubscribed && (
+        {channel.currentUserSubscribed && showButton && (
           <button className="leave-btn" onClick={handleRemoveSub}>
             Leave
           </button>

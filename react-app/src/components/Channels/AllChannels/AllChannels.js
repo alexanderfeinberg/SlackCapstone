@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadChannelListThunk } from "../../../store/channels";
 import Channel from "../channel";
 import ChannelListItem from "./ChannelListItem.js";
+import "./AllChannels.css";
 
 const AllChannels = ({ workspace }) => {
   const dispatch = useDispatch();
@@ -17,12 +18,14 @@ const AllChannels = ({ workspace }) => {
     return () => console.log("ALL CHANNELS CLEAN UP");
   }, []);
 
-  const handleCreateSub = () => {};
-
   if (!isLoaded) return null;
 
   return (
     <div className="all-channels-container">
+      <div className="all-channels-header-title">All Channels</div>
+      <div classNAme="all-channels-count">
+        {Object.values(channels).length} channels
+      </div>
       <div chassName="all-channels-list">
         {Object.values(channels).map((channel, idx) => (
           <div className="all-channel-list-item-container" key={idx}>
