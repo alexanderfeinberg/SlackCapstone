@@ -25,7 +25,8 @@ const AboutSubModal = () => {
   const dispatch = useDispatch();
   const channel = useSelector((state) => state.channel.channel);
 
-  const { setActionModalType } = useContext(ActionModalContext);
+  const { setActionModalType, setSubActionModalType } =
+    useContext(ActionModalContext);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -51,6 +52,7 @@ const AboutSubModal = () => {
             <button
               onClick={() => {
                 setActionModalType("editChannel");
+                setSubActionModalType("channelDescription");
               }}
             >
               Edit

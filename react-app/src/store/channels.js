@@ -115,6 +115,7 @@ export const createChannelThunk =
 
 export const editChannelThunk =
   (channelId, editedChannel) => async (dispatch) => {
+    console.log("EDIT OBJ ", editedChannel);
     const response = await csrfFetch(`/api/channels/${channelId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -123,6 +124,7 @@ export const editChannelThunk =
 
     if (response.ok) {
       const channel = await response.json();
+      console.log("EDITED CHANNEL ", channel);
       dispatch(editChannel(channel));
       return channel;
     }
@@ -202,21 +204,29 @@ export default function ChannelReducer(state = initialState, action) {
         channelList: { ...state.channelList },
         subscribed: { ...state.subscribed },
       };
-      createState.channelList[action.Channel.id] = action.Channel;
-      createState.subscribed[action.Channel.id] = action.Channel;
+      createState.channelList[action.channel.Channel.id] =
+        action.channel.Channel;
+      createState.subscribed[action.channel.Channel.id] =
+        action.channel.Channel;
       return createState;
 
     case EDIT_CHANNEL:
-      const editState = {
-        ...state,
-        channel: { ...action.Channel },
-        channelList: { ...state.channelList },
-        subscribed: { ...state.subscribed },
-      };
-
-      editState.channelList[action.Channel.id] = action.Channel;
-      editState.subscribed[action.Channel.id] = action.Channel;
-      return editState;
+      const editedState = Object.assign({}, state);
+      // const editState = {
+      //   ...state,
+      //   channel: { ...action.Channel },
+      //   channelList: { ...state.channelList },
+      //   subscribed: { ...state.subscribed },
+      // };
+      if (editedState.channel.id === action.channel.Channel.id) {
+        console.log("CURR CHANNEL");
+        editedState.channel = action.channel.Channel;
+      }
+      editedState.channelList[action.channel.Channel.id] =
+        action.channel.Channel;
+      editedState.subscribed[action.channel.Channel.id] =
+        action.channel.Channel;
+      return editedState;
 
     case DELETE_CHANNEL:
       const deleteState = {

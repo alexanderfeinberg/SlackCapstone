@@ -44,8 +44,9 @@ const EditChannelModal = ({ actionType }) => {
 
   const submitHandler = async () => {
     const editedChannel = {
-      name: editedChannel,
-      description: channel.description,
+      name: data.placeholder === "name" ? editContent : channel.name,
+      description:
+        data.placeholder === "description" ? editContent : channel.description,
     };
     await dispatch(editChannelThunk(channel.id, editedChannel));
     setActionModalType(null);
@@ -55,9 +56,11 @@ const EditChannelModal = ({ actionType }) => {
   return (
     <div id="action-modal-content">
       <div className="action-modal-title">
-        <h1>Rename this channel</h1>
+        <h1>{data.title}</h1>
       </div>
-      <div className="action-modal-subtitle">Channel description</div>
+      {data.subTitle && (
+        <div className="action-modal-subtitle">{data.subTitle}</div>
+      )}
       <div className="action-edit-input">
         <input
           type="text"

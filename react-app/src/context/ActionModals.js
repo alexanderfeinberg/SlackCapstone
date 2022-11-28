@@ -34,7 +34,7 @@ export const ActionModalProvider = ({ children }) => {
 };
 
 export const SelectActionModal = () => {
-  const { value, actionModalType, setActionModalType } =
+  const { value, actionModalType, setActionModalType, subActionModalType } =
     useContext(ActionModalContext);
 
   const closeModal = () => {
@@ -44,10 +44,8 @@ export const SelectActionModal = () => {
   if (actionModalType === "editChannel") {
     return (
       <div id="action-modal">
-        <EditChannelModal />
-        <div id="action-modal-background" onClick={closeModal}>
-          {" "}
-        </div>
+        <EditChannelModal actionType={subActionModalType} />
+        <div id="action-modal-background" onClick={closeModal}></div>
       </div>
     );
   }
