@@ -31,7 +31,11 @@ const Channel = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const initializeSocketHandler = () => {
-    socket = io();
+    if (process.env.ENVIRONMENT === "production") {
+      socket = io("https://transmit.onrender.com/");
+    } else {
+      socket = io();
+    }
     dispatch(connectSocket(socket));
     socket.on("sign_in", (data) => setUserList(data));
     socket.emit("sign_in", { user: currentUser });
@@ -39,6 +43,7 @@ const Channel = () => {
 
   const disconnectSocketHandler = () => {
     if (existingSocket) {
+      console.log("DISCONNCTING");
       socket.emit("leave", { room: channel.id, user: currentUser });
       socket.disconnect();
       dispatch(disconnectSocket());
@@ -51,6 +56,7 @@ const Channel = () => {
 
   useEffect(() => {
     initializeSocketHandler();
+
     if (channel.id) {
       socket.on(
         "load_messages",
