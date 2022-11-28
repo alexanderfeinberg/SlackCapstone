@@ -89,7 +89,8 @@ let initialState = {
 export default function channelMessageReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_MESSAGES:
-      const newState = { ...state, messages: {} };
+      const newState = Object.assign({}, state);
+      newState.messages = Object.assign({}, newState.messages);
       if (action.messageList.Messages) {
         action.messageList.Messages.forEach((message) => {
           if (message.msgData) {
@@ -103,19 +104,22 @@ export default function channelMessageReducer(state = initialState, action) {
       return newState;
 
     case CREATE_MESSAGE:
-      const createState = { ...state, messages: { ...state.messages } };
+      const createState = Object.assign({}, state);
+      createState.messages = Object.assign({}, createState.messages);
       const newMessageId = action.message.Message.id;
       createState.messages[newMessageId] = action.message.Message;
       return createState;
 
     case EDIT_MESSAGE:
-      console.log("EDIT ACTION ", action);
-      const editState = { ...state, messages: { ...state.messages } };
+      const editState = Object.assign({}, state);
+      editState.messages = Object.assign({}, editState.messages);
       editState.messages[action.message.Message.id] = action.message.Message;
       return editState;
 
     case DELETE_MESSAGES:
-      const deleteState = { ...state, messages: { ...state.messages } };
+      const deleteState = Object.assign({}, state);
+      deleteState.messages = Object.assign({}.deleteState.messages);
+
       delete deleteState.messages[action.messageId];
       return deleteState;
 

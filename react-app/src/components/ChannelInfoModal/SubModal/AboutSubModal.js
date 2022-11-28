@@ -47,6 +47,22 @@ const AboutSubModal = () => {
     <div className="sub-modal-inner-content">
       <div className="sub-modal-item">
         <div className="sub-modal-item-title">
+          <div className="sub-modal-title-content">Channel name</div>
+          <div className="sub-modal-title-edit">
+            <button
+              onClick={() => {
+                setActionModalType("editChannel");
+                setSubActionModalType("channelName");
+              }}
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+        <div className="sub-modal-item-content">{channel.name}</div>
+      </div>
+      <div className="sub-modal-item">
+        <div className="sub-modal-item-title">
           <div className="sub-modal-title-content">Description</div>
           <div className="sub-modal-title-edit">
             <button
@@ -59,7 +75,7 @@ const AboutSubModal = () => {
             </button>
           </div>
         </div>
-        <div classNAme="sub-modal-item-content">{channel.description}</div>
+        <div className="sub-modal-item-content">{channel.description}</div>
       </div>
       <div className="sub-modal-item">
         <div className="sub-modal-item-title">Created By</div>

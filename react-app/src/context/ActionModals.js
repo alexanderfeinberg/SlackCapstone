@@ -44,7 +44,7 @@ export const SelectActionModal = () => {
   if (actionModalType === "editChannel") {
     return (
       <div id="action-modal">
-        <EditChannelModal actionType={subActionModalType} />
+        <EditChannelModal />
         <div id="action-modal-background" onClick={closeModal}></div>
       </div>
     );

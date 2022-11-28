@@ -4,39 +4,50 @@ import { useDispatch, useSelector } from "react-redux";
 import { ActionModalContext } from "../../context/ActionModals";
 let data;
 
-const EditChannelModal = ({ actionType }) => {
-  switch (actionType) {
+const EditChannelModal = () => {
+  const { setActionModalType, subActionModalType } =
+    useContext(ActionModalContext);
+  console.log("SUB ACTION TYPE ", subActionModalType);
+  switch (subActionModalType) {
     case "channelName":
+      console.log("HEREEE");
       data = {
         title: "Rename this channel",
         divClass: "channelName",
         subTitle: "Channel name",
         maxLength: 80,
-        placdeholder: "name",
+        placeholder: "name",
       };
+      break;
+
     case "channelDescription":
+      console.log("subActionModalType");
       data = {
         title: "Edit description",
         divClass: "channelDescription",
         placeholder: "description",
       };
+      break;
   }
+
+  console.log("DATA ", data);
 
   const dispatch = useDispatch();
 
   const [editContent, setEditContent] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { setActionModalType } = useContext(ActionModalContext);
-
   const channel = useSelector((state) => state.channel.channel);
 
   useEffect(() => {
     if (channel) {
+      console.log(editContent);
       setEditContent(channel[data.placeholder]);
+
       setIsLoaded(true);
+      console.log(editContent);
     }
-  }, [channel]);
+  }, [channel, subActionModalType]);
 
   const closeActionModalHandler = () => {
     setActionModalType(null);

@@ -218,6 +218,10 @@ export default function ChannelReducer(state = initialState, action) {
       //   channelList: { ...state.channelList },
       //   subscribed: { ...state.subscribed },
       // };
+      editedState["channel"] = Object.assign({}, editedState.channel);
+      editedState["channelList"] = Object.assign({}, editedState.channelList);
+      editedState["subscribed"] = Object.assign({}, editedState.subscribed);
+
       if (editedState.channel.id === action.channel.Channel.id) {
         console.log("CURR CHANNEL");
         editedState.channel = action.channel.Channel;
