@@ -1,0 +1,82 @@
+.modal-title {
+  display: flex;
+  padding: 15px;
+  padding-bottom: 0px;
+  box-sizing: border-box;
+  align-items: center;
+  font-size: 18px;
+}
+
+.modal-title-text {
+  font-size: 23px;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.info-modal {
+  width: 500px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  border-bottom: 1px solid lightgray;
+  padding: 15px 15px 0px 15px;
+}
+
+.modal-options {
+  display: flex;
+  color: grey;
+}
+
+.modal-options div {
+  padding: 15px;
+  padding-bottom: 5px;
+}
+
+.active {
+  border-bottom: 1px solid green;
+}
+
+.submodal-content {
+  padding: 30px;
+}
+
+.sub-modal-inner-content {
+  border-radius: 15px;
+  border: 1px solid lightgray;
+  /* padding: 15px; */
+}
+
+.sub-modal-item {
+  border-bottom: 1px solid lightgray;
+  padding: 15px;
+}
+.sub-modal-item-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sub-modal-item-content {
+  color: gray;
+}
+
+.last-item {
+  border: none;
+}
+
+.red-btn {
+  color: red;
+  cursor: pointer;
+}
+
+.sub-modal-title-edit button {
+  color: #1d9bd1;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}

@@ -111,10 +111,20 @@ const AboutSubModal = () => {
           {channel.ownerId} on {month} {day}, {year}
         </div>
       </div>
-      <div className="sub-modal-action-btns">
-        <button onClick={handleRemoveSubscription}>Leave Channel</button>
+      <div className="sub-modal-item last-item">
+        <div
+          className="sub-modal-item-title red-btn"
+          onClick={handleRemoveSubscription}
+        >
+          Leave Channel
+        </div>
         {channel.ownerId === user.id && (
-          <button onClick={handleChannelDelete}>Delete channel</button>
+          <div
+            className="sub-modal-item-title red-btn"
+            onClick={handleChannelDelete}
+          >
+            Delete channel
+          </div>
         )}
       </div>
     </div>
