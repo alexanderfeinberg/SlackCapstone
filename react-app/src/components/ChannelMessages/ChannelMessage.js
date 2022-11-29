@@ -5,6 +5,7 @@ import {
   deleteMessageThunk,
 } from "../../store/channelMessages";
 import "./ChannelMessages.css";
+import ChatInputText from "../ChatInputText/ChatInputText";
 
 const ChannelMessage = ({ messageId }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ const ChannelMessage = ({ messageId }) => {
 
   const [editedMessage, setEditedMessage] = useState(message.content);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [userMessage, setUserMessage] = useState(false);
 
   const handleEdit = async (e) => {
     e.preventDefault();
@@ -51,27 +54,53 @@ const ChannelMessage = ({ messageId }) => {
   );
 
   return (
-    <div className="channel-message-container">
-      <div className="channel-message-header">
-        <div className="channel-message-name">
-          {message.sender.firstName} {message.sender.lastName}
+    <div
+      className="channel-message-container"
+      onMouseOver={() => setShowDropdown(true)}
+      onMouseLeave={() => setShowDropdown(false)}
+    >
+      <div className="channel-message-top-content">
+        <div className="channel-message-header">
+          <div className="channel-message-name">
+            {message.sender.firstName} {message.sender.lastName}
+          </div>
+          <div className="channel-message-date">
+            {message.updatedAt.split(",")[0]}
+          </div>
         </div>
-        <div className="channel-message-date">
-          {message.updatedAt.split(",")[0]}
+        {message.senderId === user.id && showDropdown && (
+          <div className="channel-message-options">
+            {message.senderId === user.id && showEditForm && editForm}
+            <div className="channel-message-btns">
+              <button
+                onClick={() => {
+                  setShowEditForm(true);
+                  setShowDropdown(false);
+                }}
+              >
+                Edit
+              </button>
+
+              <button className="delete-button" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {!showEditForm && (
+        <div className="channel-message-content">
+          {message.content ? message.content : message.msgData.Message.content}
         </div>
-      </div>
-      <div className="channel-message-content">
-        {message.content ? message.content : message.msgData.Message.content}
-      </div>
-      <div>
-        {showEditForm && editForm}
-        {message.senderId === user.id && (
-          <button onClick={() => setShowEditForm(true)}>Edit</button>
-        )}
-        {message.senderId === user.id && (
-          <button onClick={handleDelete}>Delete</button>
-        )}
-      </div>
+      )}
+      {showEditForm && (
+        <div className="chat-input">
+          <ChatInputText
+            userMessage={userMessage}
+            setUserMessage={setUserMessage}
+          />
+        </div>
+      )}
     </div>
   );
 };

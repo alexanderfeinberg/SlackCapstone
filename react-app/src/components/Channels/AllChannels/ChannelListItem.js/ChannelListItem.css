@@ -2,11 +2,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  border-top: 1px solid lightgray;
+  cursor: pointer;
+}
+
+.channel-list-item:hover {
+  background-color: rgb(249, 249, 249);
 }
 
 .all-channel-list-content {
   box-sizing: border-box;
-  padding: 25px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
 }
@@ -17,4 +24,51 @@
 
 .all-channel-list-item-subheader {
   display: flex;
+}
+
+.dot-seperator {
+  margin: 0px 6px 0px 6px;
+}
+
+.channel-joined-check {
+  color: green;
+}
+
+.all-channel-list-item-subheader {
+  color: grey;
+  font-size: 14px;
+}
+
+.channel-list-action-btns {
+  padding-right: 10px;
+}
+.channel-list-action-btns button {
+  border-radius: 5px;
+
+  height: 2.5rem;
+  width: 100px;
+  cursor: pointer;
+}
+
+.subscribe-btn {
+  background-color: #007a5a;
+  color: white;
+  border: none;
+}
+
+.subscribe-btn:hover {
+  background-color: green;
+}
+
+.leave-btn {
+  border: 1px solid black;
+  background-color: white;
+}
+
+.leave-btn:hover {
+  background-color: rgb(249, 249, 249);
+}
+
+.chat-header-icon {
+  margin-right: 5px;
 }

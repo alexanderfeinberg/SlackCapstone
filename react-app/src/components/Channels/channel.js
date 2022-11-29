@@ -11,6 +11,7 @@ import {
 import ChannelMessage from "../ChannelMessages/ChannelMessage";
 import { connectSocket, disconnectSocket } from "../../store/socket";
 import "./Channel.css";
+import ChatInputText from "../ChatInputText/ChatInputText";
 let socket;
 
 const Channel = () => {
@@ -133,10 +134,11 @@ const Channel = () => {
       </div>
       <div className="chat-input-container">
         <div className="chat-input">
-          <textarea
-            value={userMessage}
-            onChange={(e) => setUserMessage(e.target.value)}
+          <ChatInputText
+            setUserMessage={setUserMessage}
+            userMessage={userMessage}
           />
+
           <button onClick={handleChatsend}>Send</button>
         </div>
       </div>

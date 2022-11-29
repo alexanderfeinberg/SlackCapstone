@@ -22,7 +22,11 @@
 .container-right {
   width: 100%;
   overflow-y: scroll;
+
   padding: 0 1.5rem;
+}
+.container-right::-webkit-scrollbar {
+  width: 0;
 }
 
 .container-data {

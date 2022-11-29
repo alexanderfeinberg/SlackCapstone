@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import {
   removeChannelSubThunk,
@@ -8,9 +9,11 @@ import {
 import "./ChannelListItem.css";
 
 const ChannelListItem = ({ channelId }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const channel = useSelector((state) => state.channel.channelList[channelId]);
+  const workspace = useSelector((state) => state.workspace.workspace);
   const user = useSelector((state) => state.session.user);
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -37,6 +40,9 @@ const ChannelListItem = ({ channelId }) => {
         setShowButton(true);
       }}
       onMouseLeave={() => setShowButton(false)}
+      onClick={() =>
+        history.push(`/workspaces/${workspace.id}/channels/${channel.id}`)
+      }
     >
       <div className="all-channel-list-content">
         <div className="all-channel-list-item-header">
@@ -47,10 +53,13 @@ const ChannelListItem = ({ channelId }) => {
         </div>
         <div className="all-channel-list-item-subheader">
           {channel.currentUserSubscribed && (
-            <div className="channel-joined-check">Joined</div>
+            <>
+              <div className="channel-joined-check">Joined</div>
+              <div className="dot-seperator">·</div>
+            </>
           )}
           <div className="channel-user-count">{channel.userCount} members</div>
-
+          <div className="dot-seperator">·</div>
           <div className="channel-description">{channel.description}</div>
         </div>
       </div>
