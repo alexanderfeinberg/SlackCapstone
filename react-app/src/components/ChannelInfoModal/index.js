@@ -27,14 +27,16 @@ const ChannelInfoModal = ({ subModal }) => {
         </div>
         <div className="modal-options">
           <div
-            className={`modal-option-1 ${subModal === "about" ? "active" : ""}`}
+            className={`modal-option-1 ${
+              localSubModal === "about" ? "active" : ""
+            }`}
             onClick={() => setLocalSubModal("about")}
           >
             About
           </div>
           <div
             className={`modal-option-1 ${
-              subModal === "members" ? "active" : ""
+              localSubModal === "members" ? "active" : ""
             }`}
             onClick={() => setLocalSubModal("members")}
           >

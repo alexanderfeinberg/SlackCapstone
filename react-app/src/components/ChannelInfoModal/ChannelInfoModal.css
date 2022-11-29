@@ -33,6 +33,7 @@
 .modal-options div {
   padding: 15px;
   padding-bottom: 5px;
+  cursor: pointer;
 }
 
 .active {

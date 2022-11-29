@@ -44,3 +44,12 @@
   align-self: flex-end;
   margin: 0px 15px 15px 0px;
 }
+
+.chat-people-count button {
+  border: none;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  background-color: white;
+  height: 1.5rem;
+  cursor: pointer;
+}
