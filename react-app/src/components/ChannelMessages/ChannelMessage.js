@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editMessageThunk,
@@ -6,6 +6,7 @@ import {
 } from "../../store/channelMessages";
 import "./ChannelMessages.css";
 import ChatInputText from "../ChatInputText/ChatInputText";
+import { EditFormContext } from "../../context/EditForm";
 
 const ChannelMessage = ({ messageId }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ const ChannelMessage = ({ messageId }) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const { editFormOpen, setEditFormOpen } = useContext(EditFormContext);
+  console.log("EDIT FORM OPEN ", editFormOpen);
+
   const handleEdit = async (e) => {
     e.preventDefault();
 
@@ -33,6 +37,7 @@ const ChannelMessage = ({ messageId }) => {
 
     socket.emit("load_messages", { room: channel.id });
     setShowEditForm(false);
+    setEditFormOpen(false);
   };
 
   const handleDelete = () => {
@@ -42,20 +47,28 @@ const ChannelMessage = ({ messageId }) => {
   };
 
   const editForm = (
-    <form type="submit">
+    <form type="submit" onSubmit={handleEdit}>
       <div className="chat-input">
         <ChatInputText
           userMessage={editedMessage}
           setUserMessage={setEditedMessage}
         />
-        <button onClick={handleEdit}>Submit</button>
+        <button>Cancel</button>
+        <button type="submit">Save</button>
       </div>
     </form>
   );
 
   useEffect(() => {
     setShowEditForm(false);
+    setEditFormOpen(false);
   }, [messageId]);
+
+  useEffect(() => {
+    if (editFormOpen !== messageId) {
+      setShowEditForm(false);
+    }
+  }, [editFormOpen]);
 
   return (
     <div
@@ -81,6 +94,7 @@ const ChannelMessage = ({ messageId }) => {
                 onClick={() => {
                   setShowEditForm(true);
                   setShowDropdown(false);
+                  setEditFormOpen(messageId);
                 }}
               >
                 Edit
@@ -98,7 +112,7 @@ const ChannelMessage = ({ messageId }) => {
           {message.content ? message.content : message.msgData.Message.content}
         </div>
       )}
-      {showEditForm && editForm}
+      {editFormOpen === messageId && editForm}
     </div>
   );
 };

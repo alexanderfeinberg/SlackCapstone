@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { loadWorkspaceThunk } from "../../store/workspaces";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { EditFormContext, EditFormProvider } from "../../context/EditForm";
 import "./Structure.css";
 
 const Structure = () => {
@@ -54,19 +55,21 @@ const Structure = () => {
       </div>
       <div className="container-right">
         <div className="container-data">
-          <Switch>
-            <ProtectedRoute path={`${path}/channels/:channelId`}>
-              <Channel />
-            </ProtectedRoute>
-            <Route path={`${path}/allChannels`}>
-              <AllChannels workspace={workspace} />
-            </Route>
-            <Redirect
-              to={{
-                pathname: `${path}/channels/1`,
-              }}
-            />
-          </Switch>
+          <EditFormProvider>
+            <Switch>
+              <ProtectedRoute path={`${path}/channels/:channelId`}>
+                <Channel />
+              </ProtectedRoute>
+              <Route path={`${path}/allChannels`}>
+                <AllChannels workspace={workspace} />
+              </Route>
+              <Redirect
+                to={{
+                  pathname: `${path}/channels/1`,
+                }}
+              />
+            </Switch>
+          </EditFormProvider>
         </div>
       </div>
     </div>
