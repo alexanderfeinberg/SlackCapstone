@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useContext } from "react";
 import { ActionModalContext } from "../../../context/ActionModals";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
+import { ModalContext } from "../../../context/Modal";
+
 import {
   removeChannelSubThunk,
   deleteChannelThunk,
@@ -27,7 +29,8 @@ const months = {
 
 const AboutSubModal = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  let history = useHistory();
+  console.log("HISTORY ", history);
 
   const channel = useSelector((state) => state.channel.channel);
   const user = useSelector((state) => state.session.user);
@@ -35,6 +38,7 @@ const AboutSubModal = () => {
 
   const { setActionModalType, setSubActionModalType } =
     useContext(ActionModalContext);
+  const { setModalType } = useContext(ModalContext);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -52,13 +56,17 @@ const AboutSubModal = () => {
 
   const handleRemoveSubscription = async () => {
     await dispatch(removeChannelSubThunk(channel.id));
+    setModalType(null);
+    return <Redirect to={`/workspaces/${workspace.id}/channels`} />;
   };
 
   const handleChannelDelete = () => {
     dispatch(deleteChannelThunk(channel.id))
       .then(() => {
-        history.push(`/workspaces/${workspace.id}`);
+        setModalType(null);
+        return <Redirect to={`/workspaces/${workspace.id}`} />;
       })
+
       .catch((e) => console.log("ERROR ", e));
   };
 

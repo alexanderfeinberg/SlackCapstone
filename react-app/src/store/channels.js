@@ -141,7 +141,7 @@ export const deleteChannelThunk = (channelId) => async (dispatch) => {
   console.log("DELETE CHANNEL RESP", response);
   if (response.ok) {
     const channel = await response.json();
-    dispatch(deleteChannel(channel));
+    dispatch(deleteChannel(channelId));
     return;
   }
 };
@@ -239,7 +239,7 @@ export default function ChannelReducer(state = initialState, action) {
 
     case DELETE_CHANNEL:
       const deleteState = objectAssign(state, "subscribed", "channelList");
-
+      console.log("CHANNEL ");
       delete deleteState.subscribed[action.channelId];
       delete deleteState.channelList[action.channelId];
       return deleteState;
