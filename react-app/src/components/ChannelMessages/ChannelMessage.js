@@ -20,7 +20,6 @@ const ChannelMessage = ({ messageId }) => {
   const [editedMessage, setEditedMessage] = useState(message.content);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [userMessage, setUserMessage] = useState(false);
 
   const handleEdit = async (e) => {
     e.preventDefault();
@@ -44,19 +43,26 @@ const ChannelMessage = ({ messageId }) => {
 
   const editForm = (
     <form type="submit">
-      <textarea
-        type="text"
-        value={editedMessage}
-        onChange={(e) => setEditedMessage(e.target.value)}
-      ></textarea>
-      <button onClick={handleEdit}>Submit</button>
+      <div className="chat-input">
+        <ChatInputText
+          userMessage={editedMessage}
+          setUserMessage={setEditedMessage}
+        />
+        <button onClick={handleEdit}>Submit</button>
+      </div>
     </form>
   );
+
+  useEffect(() => {
+    setShowEditForm(false);
+  }, [messageId]);
 
   return (
     <div
       className="channel-message-container"
-      onMouseOver={() => setShowDropdown(true)}
+      onMouseOver={() => {
+        if (!showEditForm) setShowDropdown(true);
+      }}
       onMouseLeave={() => setShowDropdown(false)}
     >
       <div className="channel-message-top-content">
@@ -70,7 +76,6 @@ const ChannelMessage = ({ messageId }) => {
         </div>
         {message.senderId === user.id && showDropdown && (
           <div className="channel-message-options">
-            {message.senderId === user.id && showEditForm && editForm}
             <div className="channel-message-btns">
               <button
                 onClick={() => {
@@ -93,14 +98,7 @@ const ChannelMessage = ({ messageId }) => {
           {message.content ? message.content : message.msgData.Message.content}
         </div>
       )}
-      {showEditForm && (
-        <div className="chat-input">
-          <ChatInputText
-            userMessage={userMessage}
-            setUserMessage={setUserMessage}
-          />
-        </div>
-      )}
+      {showEditForm && editForm}
     </div>
   );
 };
