@@ -1,0 +1,81 @@
+#action-modal-content {
+  width: 450px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.action-modal-title-text {
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.action-modal-subtitle {
+  margin-bottom: 5px;
+}
+
+.action-edit-input {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 35px;
+}
+
+.action-edit-input i {
+  position: absolute;
+  left: 0.65rem;
+}
+
+.action-modal-btns {
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.action-modal-submit-btn {
+  margin: 0px 0px 0px 15px;
+}
+
+.action-modal-btns button {
+  padding: 7px;
+  border-radius: 5px;
+  box-shadow: none;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.action-modal-cancel-btn button {
+  border: 1px solid lightgray;
+  background-color: white;
+}
+
+.action-modal-submit-btn button {
+  color: white;
+  background-color: #007a5a;
+  border: none;
+}
+
+.action-edit-input textarea {
+  width: 95%;
+  padding: 5px 10px 5px 10px;
+  height: 100%;
+  resize: none;
+}
+
+.action-edit-input input {
+  width: 95%;
+  padding: 5px 10px 5px 30px;
+  height: 100%;
+}
+
+.action-modal-description {
+  min-height: 100px;
+  height: 3rem;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  vertical-align: top;
+}

@@ -107,26 +107,32 @@ const AboutSubModal = () => {
       </div>
       <div className="sub-modal-item">
         <div className="sub-modal-item-title">Created By</div>
-        <div classNAme="sub-modal-item-content">
+        <div className="sub-modal-item-content date">
           {channel.ownerId} on {month} {day}, {year}
         </div>
       </div>
-      <div className="sub-modal-item last-item">
+      <div
+        className={`sub-modal-item ${
+          channel.ownerId !== user.id ? "last-item" : ""
+        }`}
+      >
         <div
           className="sub-modal-item-title red-btn"
           onClick={handleRemoveSubscription}
         >
           Leave Channel
         </div>
-        {channel.ownerId === user.id && (
+      </div>
+      {channel.ownerId === user.id && (
+        <div className="sub-modal-item last-item">
           <div
             className="sub-modal-item-title red-btn"
             onClick={handleChannelDelete}
           >
             Delete channel
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

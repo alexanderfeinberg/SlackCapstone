@@ -65,6 +65,10 @@
   color: gray;
 }
 
+.date {
+  color: black;
+}
+
 .last-item {
   border: none;
 }

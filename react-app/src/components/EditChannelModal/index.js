@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { editChannelThunk } from "../../store/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionModalContext } from "../../context/ActionModals";
+import "./EditChannelModal.css";
 let data;
 
 const EditChannelModal = () => {
@@ -67,17 +68,32 @@ const EditChannelModal = () => {
   return (
     <div id="action-modal-content">
       <div className="action-modal-title">
-        <h1>{data.title}</h1>
+        <div className="action-modal-title-text">{data.title}</div>
       </div>
       {data.subTitle && (
         <div className="action-modal-subtitle">{data.subTitle}</div>
       )}
-      <div className="action-edit-input">
-        <input
-          type="text"
-          value={editContent}
-          onChange={(e) => setEditContent(e.target.value)}
-        ></input>
+      <div className={`action-edit-input action-modal-${data.placeholder}`}>
+        {data.subTitle && <i class="fa-solid fa-hashtag"></i>}
+        {!data.subTitle && (
+          <textarea
+            value={editContent}
+            placeholder={`${
+              data.subTitle ? "# e.g. marketing" : "Add a description"
+            }`}
+            onChange={(e) => setEditContent(e.target.value)}
+          ></textarea>
+        )}
+        {data.subTitle && (
+          <input
+            type="text"
+            value={editContent}
+            placeholder={`${
+              data.subTitle ? "# e.g. marketing" : "Add a description"
+            }`}
+            onChange={(e) => setEditContent(e.target.value)}
+          ></input>
+        )}
       </div>
       <div className="action-modal-btns">
         <div className="action-modal-cancel-btn">
