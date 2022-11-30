@@ -33,6 +33,7 @@
 .redirect {
   color: #1264a3;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .login-content {
@@ -90,19 +91,29 @@
 .login-password-input {
   margin-bottom: 25px;
 }
-.sign-in-btn {
+.auth-btn {
   display: flex;
   justify-content: center;
   height: 2.5rem;
 }
 
-.sign-in-btn button {
+.auth-btn button {
   width: 100%;
   color: white;
-  background-color: #4a154b;
+  background-color: #611f69;
   cursor: pointer;
   border: none;
   border-radius: 6px;
   font-weight: 600;
   font-size: 15px;
+}
+
+.auth-btn:hover button {
+  background-color: #611f69e6;
+}
+
+.login-redirect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

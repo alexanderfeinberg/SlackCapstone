@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import LoginForm from "./components/auth/LoginForm";
+import AuthStructure from "./components/auth/AuthStructure";
 import SignUpForm from "./components/auth/SignUpForm";
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -32,11 +32,11 @@ function App() {
       <NavBar />
       <Switch>
         <Route path="/login" exact={true}>
-          <LoginForm />
+          <AuthStructure type={"login"} />
           {/* <TestSocket /> */}
         </Route>
         <Route path="/sign-up" exact={true}>
-          <SignUpForm />
+          <AuthStructure type={"signup"} />
         </Route>
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />

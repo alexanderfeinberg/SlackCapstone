@@ -14,9 +14,9 @@ const SignUpForm = () => {
   const user = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setErrors([]);
-  }, [firstName, lastName, email, password, repeatPassword]);
+  // useEffect(() => {
+  //   setErrors([]);
+  // }, [firstName, lastName, email, password, repeatPassword]);
 
   const onSignUp = async (e) => {
     e.preventDefault();
@@ -67,6 +67,7 @@ const SignUpForm = () => {
           name="firstName"
           onChange={updateFirstName}
           value={firstName}
+          placeholder="Johnny"
         ></input>
       </div>
       <div>
@@ -76,6 +77,7 @@ const SignUpForm = () => {
           name="lastName"
           onChange={updateLastName}
           value={lastName}
+          placeholder="Appleseed"
         ></input>
       </div>
       <div>
@@ -85,6 +87,7 @@ const SignUpForm = () => {
           name="email"
           onChange={updateEmail}
           value={email}
+          placeholder="name@work-email.com"
         ></input>
       </div>
       <div>
@@ -106,7 +109,9 @@ const SignUpForm = () => {
           required={true}
         ></input>
       </div>
-      <button type="submit">Sign Up</button>
+      <div className="auth-btn">
+        <button type="submit">Sign Up</button>
+      </div>
     </form>
   );
 };
