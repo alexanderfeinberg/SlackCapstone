@@ -1,0 +1,16 @@
+form {
+  box-sizing: border-box;
+}
+
+.input-item {
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+label {
+  margin-bottom: 7px;
+}
+
+.create-account-hook {
+  padding: 5px;
+}

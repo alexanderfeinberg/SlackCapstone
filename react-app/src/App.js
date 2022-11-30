@@ -12,6 +12,8 @@ import TestSocket from "./components/socket/testsocket";
 import WorkspaceList from "./components/WebsiteHome/WorkspaceList";
 import Channel from "./components/Channels/channel";
 import Structure from "./components/WebApp/Structure";
+import SplashPage from "./components/SplashPage";
+
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ function App() {
           <Structure />
         </ProtectedRoute>
         <Route path="/" exact={true}>
-          <WorkspaceList />
+          <SplashPage />
         </Route>
       </Switch>
     </BrowserRouter>

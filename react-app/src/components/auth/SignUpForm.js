@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
+import "./SignupForm.css";
 
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
@@ -60,7 +61,7 @@ const SignUpForm = () => {
           <div key={ind}>{error}</div>
         ))}
       </div>
-      <div>
+      <div className="input-item">
         <label>First Name</label>
         <input
           type="text"
@@ -70,7 +71,7 @@ const SignUpForm = () => {
           placeholder="Johnny"
         ></input>
       </div>
-      <div>
+      <div className="input-item">
         <label>Last Name</label>
         <input
           type="text"
@@ -80,7 +81,7 @@ const SignUpForm = () => {
           placeholder="Appleseed"
         ></input>
       </div>
-      <div>
+      <div className="input-item">
         <label>Email</label>
         <input
           type="text"
@@ -90,7 +91,7 @@ const SignUpForm = () => {
           placeholder="name@work-email.com"
         ></input>
       </div>
-      <div>
+      <div className="input-item">
         <label>Password</label>
         <input
           type="password"
@@ -99,7 +100,7 @@ const SignUpForm = () => {
           value={password}
         ></input>
       </div>
-      <div>
+      <div className="input-item">
         <label>Repeat Password</label>
         <input
           type="password"

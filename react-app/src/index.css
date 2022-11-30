@@ -1,1 +1,6 @@
 /* TODO Add site wide styles */
+
+.resize-body {
+  max-width: 76rem;
+  margin: 0 auto;
+}
