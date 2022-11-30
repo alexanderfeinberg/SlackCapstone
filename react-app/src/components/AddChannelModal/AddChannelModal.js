@@ -10,6 +10,7 @@ const AddChannelModal = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const workspace = useSelector((state) => state.workspace.workspace);
 
@@ -36,42 +37,62 @@ const AddChannelModal = () => {
     }
   }, [workspace]);
 
+  useEffect(() => {
+    if (!name) {
+      setErrors(["Channel must have a name."]);
+    } else if (name) {
+      setErrors([]);
+    }
+  }, [name, description]);
+
   if (!isLoaded) return null;
 
   return (
     <div id="modal-content" className="info-modal">
-      <div className="modal-title header">
-        <div className="modal-title-text">Create a channel</div>
-      </div>
-      <div className="modal-content-items">
-        <form onSubmit={handleSubmit}>
-          <div className="modal-content-item">
-            <div className="modal-content-item-header">Name</div>
-            <div className={`action-edit-input action-modal-name`}>
-              <i class="fa-solid fa-hashtag"></i>
-              <input
-                type="text"
-                value={name}
-                placeholder="e.g. Marketing"
-                onChange={(e) => setName(e.target.value)}
-              ></input>
+      <div className="modal-sub-content">
+        <div className="modal-title">Create a channel</div>
+        <div className="modal-subtitle">
+          Channels are where your team communicates
+        </div>
+        <div className="modal-content-items">
+          <form onSubmit={handleSubmit}>
+            <div className="modal-content-item">
+              <div className="modal-content-item-header">Name</div>
+              <div
+                id="create-channel-name-input"
+                className={`action-edit-input action-modal-name`}
+              >
+                <i class="fa-solid fa-hashtag"></i>
+                <input
+                  type="text"
+                  value={name}
+                  placeholder="e.g. Marketing"
+                  onChange={(e) => setName(e.target.value)}
+                ></input>
+              </div>
             </div>
-            ;
-          </div>
-          <div className="modal-content-item">
-            <div className="modal-content-item-header">Description</div>
-            <div className="modal-content-item-input">
-              <input
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></input>
+            <div className="modal-content-item">
+              <div className="modal-content-item-header">
+                Description
+                <div className="modal-content-item-header-support">
+                  (optional)
+                </div>
+              </div>
+              <div className="modal-content-item-input">
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></input>
+              </div>
             </div>
-          </div>
-          <div className="submit-btn">
-            <button type="submit">Create channel</button>
-          </div>
-        </form>
+            <div className="submit-btn">
+              <button type="submit" disabled={errors.length ? true : false}>
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

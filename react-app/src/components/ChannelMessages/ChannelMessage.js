@@ -53,7 +53,15 @@ const ChannelMessage = ({ messageId }) => {
           userMessage={editedMessage}
           setUserMessage={setEditedMessage}
         />
-        <button>Cancel</button>
+        <button
+          onClick={() => {
+            setEditedMessage(message.content);
+            setShowEditForm(false);
+            setShowDropdown(false);
+          }}
+        >
+          Cancel
+        </button>
         <button type="submit">Save</button>
       </div>
     </form>

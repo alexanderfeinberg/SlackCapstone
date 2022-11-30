@@ -34,7 +34,7 @@ const LoginForm = () => {
   }, [email, password]);
 
   if (user) {
-    return <Redirect to="/" />;
+    return <Redirect to="/workspaces/1" />;
   }
 
   return (
@@ -81,7 +81,7 @@ const LoginForm = () => {
               <div className="login-password-input">
                 <label for="password">Password</label>
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   value={password}
                   onChange={updatePassword}
