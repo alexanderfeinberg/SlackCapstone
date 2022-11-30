@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../context/Modal";
+import "./AddChannelsDropdown.css";
 
 const AddChannelsDropdown = ({ setShowCreateDropDown }) => {
   const history = useHistory();

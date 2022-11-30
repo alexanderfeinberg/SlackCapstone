@@ -107,7 +107,7 @@ const Channel = () => {
   if (!isLoaded) return null;
   return (
     <div className="chat-container">
-      <div className="chat-header-container">
+      <div className="header-container" id="chat-header">
         <div className="chat-header-title header" onClick={setChannelInfoModal}>
           <div className="chat-header-icon">
             <i class="fa-solid fa-hashtag" onClick={setChannelInfoModal}></i>
@@ -137,6 +137,7 @@ const Channel = () => {
           <ChatInputText
             setUserMessage={setUserMessage}
             userMessage={userMessage}
+            channelName={channel.name}
           />
 
           <button onClick={handleChatsend}>Send</button>

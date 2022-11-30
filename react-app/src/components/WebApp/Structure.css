@@ -4,19 +4,22 @@
   max-height: 100%;
 }
 .container-left {
-  /* width: 25%; */
+  width: 40rem;
   display: flex;
   background-color: #611f69;
   color: darkgray;
+  /* padding: 0 1.5rem; */
 }
 .container-workspaces {
-  width: 50%;
+  /* width: 50%; */
   display: flex;
   flex-direction: column;
 }
 
 .container-subscribed {
   width: 100%;
+  border-left: 1px solid lightgray;
+  /* padding: 0 1.5rem; */
 }
 
 .container-right {
@@ -29,5 +32,7 @@
   width: 0;
 }
 
-.container-data {
+.workspace-title {
+  font-size: 18px;
+  color: white;
 }

@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createChannelThunk } from "../../store/channels";
 import { ModalContext } from "../../context/Modal";
+import "./AddChannelModal.css";
 
 const AddChannelModal = () => {
   const { setModalType } = useContext(ModalContext);
@@ -38,7 +39,7 @@ const AddChannelModal = () => {
   if (!isLoaded) return null;
 
   return (
-    <div id="modal-content">
+    <div id="modal-content" className="info-modal">
       <div className="modal-title header">
         <h1>Create a channel</h1>
       </div>

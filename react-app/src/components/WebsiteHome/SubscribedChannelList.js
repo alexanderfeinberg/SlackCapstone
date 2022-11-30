@@ -27,7 +27,7 @@ const SubscribedChannelList = () => {
   if (!isLoaded) return null;
   return (
     <div className="subbed-channels-container">
-      <div className="subbed-channels-btn pointer">
+      <div className="subbed-channels-btn pointer subscription-padding">
         <span
           className="subbed-channels-title "
           onClick={() => setShowDropDown(!showDropDown)}
@@ -39,7 +39,7 @@ const SubscribedChannelList = () => {
         <div className="subbed-channel-list">
           {Object.values(channels).map((channel, idx) => (
             <div
-              className="subbed-channel-individual-container hover pointer"
+              className="subbed-channel-individual-container hover pointer subscription-padding"
               key={idx}
               onClick={async () => {
                 await dispatch(loadChannelThunk(channel.id));
@@ -56,8 +56,8 @@ const SubscribedChannelList = () => {
           ))}
         </div>
       )}
-      <div className="add-channel-container">
-        <div className="add-channel-icon">
+      <div className="add-channel-container hover subscription-padding">
+        <div className="hashtag-icon">
           <i class="fa-solid fa-plus"></i>
         </div>
         <div
@@ -66,6 +66,8 @@ const SubscribedChannelList = () => {
         >
           Add channels
         </div>
+      </div>
+      <div className="container-bottom">
         {showCreateDropDown && (
           <div className="drop-down-container">
             <AddChannelsDropdown

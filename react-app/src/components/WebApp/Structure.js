@@ -49,8 +49,14 @@ const Structure = () => {
         <div className="container-workspaces">
           <WorkspaceList />
         </div>
+
         <div className="container-subscribed">
-          <SubscribedChannelList />
+          <div className="header-container subscription-padding hover">
+            <div className="workspace-title header">{workspace.name}</div>
+          </div>
+          <div className="channel-list">
+            <SubscribedChannelList />
+          </div>
         </div>
       </div>
       <div className="container-right">

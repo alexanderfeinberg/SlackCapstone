@@ -1,0 +1,23 @@
+.add-channels-dropdown {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 0px 5px 0px;
+  height: 4rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.add-channels-dropdown button {
+  border: none;
+  background-color: white;
+  width: 10rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.add-channels-dropdown button:hover {
+  background-color: #1d9bd1;
+  color: white;
+}
