@@ -1,5 +1,8 @@
 .splash-body {
 }
+a {
+  text-decoration: none;
+}
 
 .header-columns-container {
   background-color: #541554;

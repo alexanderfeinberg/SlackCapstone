@@ -1,5 +1,5 @@
 import "./SplashPage.css";
-
+import { Link } from "react-router-dom";
 const SplashPage = () => {
   return (
     <div className="splash-body">
@@ -20,9 +20,13 @@ const SplashPage = () => {
                 can work faster and more flexibly than ever before.
               </div>
               <div className="splash-action-btns">
-                <a className="sign-up-email">Sign up with email</a>
+                <Link to="/sign-up" className="sign-up-email">
+                  Sign up with email
+                </Link>
 
-                <a className="try-for-free">Try for free</a>
+                <Link to="/login" className="try-for-free">
+                  Try for free
+                </Link>
               </div>
               <div className="slogan">
                 <strong>Transmit is free to try</strong> for as long as you’d

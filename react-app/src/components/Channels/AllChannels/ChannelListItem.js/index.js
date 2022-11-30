@@ -26,6 +26,7 @@ const ChannelListItem = ({ channelId }) => {
 
   const handleCreateSub = async () => {
     await dispatch(createChannelSubThunk(channel.id, user.id));
+    history.push(`/workspaces/${workspace.id}/channels/${channelId}`);
   };
 
   const handleRemoveSub = async () => {
@@ -40,9 +41,9 @@ const ChannelListItem = ({ channelId }) => {
         setShowButton(true);
       }}
       onMouseLeave={() => setShowButton(false)}
-      onClick={() =>
-        history.push(`/workspaces/${workspace.id}/channels/${channel.id}`)
-      }
+      // onClick={() =>
+      //   history.push(`/workspaces/${workspace.id}/channels/${channel.id}`)
+      // }
     >
       <div className="all-channel-list-content">
         <div className="all-channel-list-item-header">

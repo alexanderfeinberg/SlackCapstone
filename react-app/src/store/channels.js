@@ -240,6 +240,7 @@ export default function ChannelReducer(state = initialState, action) {
     case DELETE_CHANNEL:
       const deleteState = objectAssign(state, "subscribed", "channelList");
       console.log("CHANNEL ");
+      deleteState.channel = {};
       delete deleteState.subscribed[action.channelId];
       delete deleteState.channelList[action.channelId];
       return deleteState;
@@ -261,6 +262,7 @@ export default function ChannelReducer(state = initialState, action) {
 
     case REMOVE_CHANNEL_SUBSCRIPTION:
       const removeSub = objectAssign(state, "subscribed", "channelList");
+      removeSub.channel = {};
       delete removeSub.subscribed[action.channel.Channel.id];
       removeSub.channelList[action.channel.Channel.id] = action.channel.Channel;
       return removeSub;

@@ -37,7 +37,7 @@ def get_all_channels():
 @channel_router.route('/<int:channel_id>')
 def get_channel_by_id(channel_id):
     channel = Channel.query.get_or_404(channel_id)
-    return jsonify({"Channel": channel.to_dict()})
+    return jsonify({"Channel": channel.to_dict(user_id=current_user.id, owner=True)})
 
 # Delete channel
 

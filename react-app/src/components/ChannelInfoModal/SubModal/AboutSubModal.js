@@ -41,6 +41,7 @@ const AboutSubModal = () => {
   const { setModalType } = useContext(ModalContext);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (channel) {
@@ -56,15 +57,17 @@ const AboutSubModal = () => {
 
   const handleRemoveSubscription = async () => {
     await dispatch(removeChannelSubThunk(channel.id));
+    console.log("BEFORE REDIRECT ", redirect);
+    setRedirect(true);
     setModalType(null);
-    return <Redirect to={`/workspaces/${workspace.id}/channels`} />;
+    console.log("REDIRECTING ", redirect);
   };
 
   const handleChannelDelete = () => {
     dispatch(deleteChannelThunk(channel.id))
       .then(() => {
         setModalType(null);
-        return <Redirect to={`/workspaces/${workspace.id}`} />;
+        setRedirect(true);
       })
 
       .catch((e) => console.log("ERROR ", e));
@@ -73,6 +76,7 @@ const AboutSubModal = () => {
   if (!isLoaded) return null;
   return (
     <div className="sub-modal-inner-content">
+      {redirect && <Redirect to={`/workspaces/${workspace.id}`} />}
       <div className="sub-modal-item">
         <div className="sub-modal-item-title">
           <div className="sub-modal-title-content">Channel name</div>
@@ -105,24 +109,31 @@ const AboutSubModal = () => {
         </div>
         <div className="sub-modal-item-content">{channel.description}</div>
       </div>
-      <div className="sub-modal-item">
-        <div className="sub-modal-item-title">Created By</div>
-        <div className="sub-modal-item-content date">
-          {channel.ownerId} on {month} {day}, {year}
-        </div>
-      </div>
       <div
         className={`sub-modal-item ${
-          channel.ownerId !== user.id ? "last-item" : ""
+          !channel.currentUserSubscribed ? "last-item" : ""
         }`}
       >
-        <div
-          className="sub-modal-item-title red-btn"
-          onClick={handleRemoveSubscription}
-        >
-          Leave Channel
+        <div className="sub-modal-item-title">Created By</div>
+        <div className="sub-modal-item-content date">
+          {channel.ownerId.firstName} {channel.ownerId.lastName} on {month}{" "}
+          {day}, {year}
         </div>
       </div>
+      {channel.currentUserSubscribed && (
+        <div
+          className={`sub-modal-item ${
+            channel.ownerId !== user.id ? "last-item" : ""
+          }`}
+        >
+          <div
+            className="sub-modal-item-title red-btn"
+            onClick={handleRemoveSubscription}
+          >
+            Leave Channel
+          </div>
+        </div>
+      )}
       {channel.ownerId === user.id && (
         <div className="sub-modal-item last-item">
           <div
