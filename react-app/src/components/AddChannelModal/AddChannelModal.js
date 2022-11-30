@@ -41,19 +41,22 @@ const AddChannelModal = () => {
   return (
     <div id="modal-content" className="info-modal">
       <div className="modal-title header">
-        <h1>Create a channel</h1>
+        <div className="modal-title-text">Create a channel</div>
       </div>
       <div className="modal-content-items">
         <form onSubmit={handleSubmit}>
           <div className="modal-content-item">
             <div className="modal-content-item-header">Name</div>
-            <div className="modal-content-item-input">
+            <div className={`action-edit-input action-modal-name`}>
+              <i class="fa-solid fa-hashtag"></i>
               <input
                 type="text"
                 value={name}
+                placeholder="e.g. Marketing"
                 onChange={(e) => setName(e.target.value)}
               ></input>
             </div>
+            ;
           </div>
           <div className="modal-content-item">
             <div className="modal-content-item-header">Description</div>
