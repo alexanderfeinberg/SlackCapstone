@@ -1,0 +1,85 @@
+nav img {
+  height: 40px;
+  width: 45px;
+}
+
+nav {
+  padding-top: 15px;
+  background-color: #541554;
+}
+
+nav a {
+  cursor: pointer;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.left-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30%;
+}
+
+.left-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.logo-text {
+  display: flex;
+  align-items: center;
+}
+.logo-a-btn {
+  margin-left: 8px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.right-links {
+  display: flex;
+  width: 25%;
+  justify-content: space-between;
+  align-items: center;
+}
+.login-auth {
+  width: 7.2rem;
+  text-align: center;
+  border: 1px solid white;
+  padding: 10px;
+  margin-right: 15px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-auth:hover {
+  box-shadow: inset 0 0 0 1px #fff;
+}
+.login-auth a {
+  color: white;
+  font-weight: 600;
+}
+
+.signup-auth {
+  width: 7.2rem;
+  text-align: center;
+  /* border: 1px solid white; */
+  padding: 10px;
+  color: #541554;
+  border-radius: 3px;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+  /* box-shadow: inset 0 0 0 1px #fff; */
+}
+
+.signup-auth:hover {
+  box-shadow: inset 0 0 0 3px #611f69;
+}
+
+.left-links a:hover:not(.logo-text a) {
+  text-decoration: underline;
+}

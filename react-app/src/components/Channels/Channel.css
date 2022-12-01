@@ -47,6 +47,7 @@
   border: none;
   align-self: flex-end;
   margin: 0px 15px 15px 0px;
+  cursor: pointer;
 }
 
 .chat-people-count button {

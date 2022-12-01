@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import AuthStructure from "./components/auth/AuthStructure";
 import SignUpForm from "./components/auth/SignUpForm";
 import NavBar from "./components/NavBar";
@@ -15,10 +15,12 @@ import Structure from "./components/WebApp/Structure";
 import SplashPage from "./components/SplashPage";
 import { ModalProvider, SelectModal } from "./context/Modal";
 import { SelectActionModal, ActionModalProvider } from "./context/ActionModals";
+import AppNavBar from "./components/AppNavBar/AppNavBar";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
     (async () => {
@@ -38,7 +40,6 @@ function App() {
           <SelectModal />
           <SelectActionModal />
 
-          <NavBar />
           <Switch>
             <Route path="/login" exact={true}>
               <AuthStructure type={"login"} />
@@ -54,9 +55,13 @@ function App() {
               <User />
             </ProtectedRoute>
             <ProtectedRoute path="/workspaces/:workspaceId">
+              <AppNavBar />
               <Structure />
             </ProtectedRoute>
             <Route path="/" exact={true}>
+              {user && <Redirect to="/workspaces/1" />}
+
+              <NavBar />
               <SplashPage />
             </Route>
           </Switch>

@@ -12,6 +12,7 @@ import ChannelMessage from "../ChannelMessages/ChannelMessage";
 import { connectSocket, disconnectSocket } from "../../store/socket";
 import "./Channel.css";
 import ChatInputText from "../ChatInputText/ChatInputText";
+
 let socket;
 
 const Channel = () => {
@@ -30,6 +31,7 @@ const Channel = () => {
   const [userMessage, setUserMessage] = useState("");
   const [userList, setUserList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const initializeSocketHandler = () => {
     socket = io();
@@ -51,6 +53,10 @@ const Channel = () => {
   useEffect(async () => {
     await dispatch(loadChannelThunk(channelId));
   }, [dispatch]);
+
+  useEffect(() => {
+    setErrors([]);
+  }, [userMessage]);
 
   useEffect(() => {
     initializeSocketHandler();
@@ -81,10 +87,18 @@ const Channel = () => {
 
   const handleChatsend = async (e) => {
     e.preventDefault();
+    let newMessage;
 
-    const newMessage = await dispatch(
-      createMessageThunk(channel.id, { content: userMessage, edited: false })
-    );
+    try {
+      newMessage = await dispatch(
+        createMessageThunk(channel.id, { content: userMessage, edited: false })
+      );
+    } catch (e) {
+      const eData = await e.json();
+      console.log(eData);
+      setErrors(eData.errors);
+      return;
+    }
 
     socket.emit("chat", {
       msgData: newMessage,
@@ -139,7 +153,11 @@ const Channel = () => {
             userMessage={userMessage}
             channelName={channel.name}
           />
-
+          <div className="errors">
+            {errors.map((error, ind) => (
+              <div key={ind}>{error}</div>
+            ))}
+          </div>
           <button onClick={handleChatsend}>Send</button>
         </div>
       </div>

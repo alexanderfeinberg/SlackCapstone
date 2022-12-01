@@ -12,8 +12,9 @@ const LoginForm = () => {
   //   setErrors([]);
   // }, [email, password]);
 
-  const onLogin = async (e) => {
-    e.preventDefault();
+  const onLogin = async (e, demo) => {
+    if (!demo) e.preventDefault();
+    console.log("email ", email);
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
@@ -56,6 +57,17 @@ const LoginForm = () => {
       </div>
       <div className="auth-btn">
         <button type="submit">Sign In With Email</button>
+      </div>
+      <div className="auth-btn">
+        <button
+          onClick={(e) => {
+            setEmail("demo1@gmail.com");
+            setPassword("password");
+            if (email && password) onLogin(e, true);
+          }}
+        >
+          Demo User
+        </button>
       </div>
     </form>
   );

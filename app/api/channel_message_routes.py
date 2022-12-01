@@ -8,6 +8,18 @@ from datetime import datetime
 
 channel_message_router = Blueprint("channel_messages", __name__)
 
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field}:{error}')
+    return errorMessages
+
+
 # Get all channel messages
 
 
@@ -38,6 +50,7 @@ def edit_channel_message(message_id):
         existing_message.updated_at = datetime.now()
         db.session.commit()
         return jsonify({"Message": existing_message.to_dict()})
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 # Delete channel message
 

@@ -1,0 +1,26 @@
+.app-nav {
+  background-color: #611f69;
+}
+
+.app-nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.app-nav-logo img {
+  height: 20px;
+  width: 20px;
+}
+
+.logout-btn button {
+  padding: 7px;
+  width: 90px;
+  border-radius: 5px;
+  background-color: transparent;
+  box-shadow: none;
+  border: 1px solid white;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
