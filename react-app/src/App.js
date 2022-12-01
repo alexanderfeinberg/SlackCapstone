@@ -13,6 +13,8 @@ import WorkspaceList from "./components/WebsiteHome/WorkspaceList";
 import Channel from "./components/Channels/channel";
 import Structure from "./components/WebApp/Structure";
 import SplashPage from "./components/SplashPage";
+import { ModalProvider, SelectModal } from "./context/Modal";
+import { SelectActionModal, ActionModalProvider } from "./context/ActionModals";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -31,28 +33,35 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
-      <Switch>
-        <Route path="/login" exact={true}>
-          <AuthStructure type={"login"} />
-          {/* <TestSocket /> */}
-        </Route>
-        <Route path="/sign-up" exact={true}>
-          <AuthStructure type={"signup"} />
-        </Route>
-        <ProtectedRoute path="/users" exact={true}>
-          <UsersList />
-        </ProtectedRoute>
-        <ProtectedRoute path="/users/:userId" exact={true}>
-          <User />
-        </ProtectedRoute>
-        <ProtectedRoute path="/workspaces/:workspaceId">
-          <Structure />
-        </ProtectedRoute>
-        <Route path="/" exact={true}>
-          <SplashPage />
-        </Route>
-      </Switch>
+      <ActionModalProvider>
+        <ModalProvider>
+          <SelectModal />
+          <SelectActionModal />
+
+          <NavBar />
+          <Switch>
+            <Route path="/login" exact={true}>
+              <AuthStructure type={"login"} />
+              {/* <TestSocket /> */}
+            </Route>
+            <Route path="/sign-up" exact={true}>
+              <AuthStructure type={"signup"} />
+            </Route>
+            <ProtectedRoute path="/users" exact={true}>
+              <UsersList />
+            </ProtectedRoute>
+            <ProtectedRoute path="/users/:userId" exact={true}>
+              <User />
+            </ProtectedRoute>
+            <ProtectedRoute path="/workspaces/:workspaceId">
+              <Structure />
+            </ProtectedRoute>
+            <Route path="/" exact={true}>
+              <SplashPage />
+            </Route>
+          </Switch>
+        </ModalProvider>
+      </ActionModalProvider>
     </BrowserRouter>
   );
 }

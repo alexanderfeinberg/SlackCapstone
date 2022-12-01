@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.now())
 
     channel_messages = db.relationship(
-        "ChannelMessages", back_populates="sender")
+        "ChannelMessages", back_populates="sender", cascade="all, delete")
 
     subscribed_channels = db.relationship(
         "Channel", secondary=users_in_channel, back_populates="users")

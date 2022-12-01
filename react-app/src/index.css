@@ -1,4 +1,7 @@
 /* TODO Add site wide styles */
+body {
+  margin: 0;
+}
 
 .resize-body {
   max-width: 76rem;

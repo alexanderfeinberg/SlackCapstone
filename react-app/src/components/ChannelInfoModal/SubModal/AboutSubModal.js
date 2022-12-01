@@ -56,19 +56,24 @@ const AboutSubModal = () => {
   }, [channel]);
 
   const handleRemoveSubscription = async () => {
+    setIsLoaded(false);
     await dispatch(removeChannelSubThunk(channel.id));
-    console.log("BEFORE REDIRECT ", redirect);
-    setRedirect(true);
+
     setModalType(null);
-    console.log("REDIRECTING ", redirect);
+    history.push(`/workspaces/${workspace.id}/channels`);
   };
 
   const handleChannelDelete = () => {
+    setIsLoaded(false);
+
     dispatch(deleteChannelThunk(channel.id))
       .then(() => {
         setModalType(null);
         setRedirect(true);
+        history.push(`/workspaces/${workspace.id}/channels`);
       })
+      .catch((e) => e.json())
+      .then((res) => console.log(res))
 
       .catch((e) => console.log("ERROR ", e));
   };
@@ -123,7 +128,7 @@ const AboutSubModal = () => {
       {channel.currentUserSubscribed && (
         <div
           className={`sub-modal-item ${
-            channel.ownerId !== user.id ? "last-item" : ""
+            channel.ownerId.id !== user.id ? "last-item" : ""
           }`}
         >
           <div
@@ -134,7 +139,7 @@ const AboutSubModal = () => {
           </div>
         </div>
       )}
-      {channel.ownerId === user.id && (
+      {channel.ownerId.id === user.id && (
         <div className="sub-modal-item last-item">
           <div
             className="sub-modal-item-title red-btn"

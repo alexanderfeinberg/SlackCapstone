@@ -1,10 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createChannelThunk } from "../../store/channels";
+import { useHistory } from "react-router-dom";
 import { ModalContext } from "../../context/Modal";
 import "./AddChannelModal.css";
 
 const AddChannelModal = () => {
+  const history = useHistory();
+
   const { setModalType } = useContext(ModalContext);
 
   const [name, setName] = useState("");
@@ -25,10 +28,14 @@ const AddChannelModal = () => {
       description,
     };
 
-    dispatch(createChannelThunk(workspace.id, newChannel)).catch((e) =>
-      console.log("ERROR ", e, e.status)
+    const newChannelResp = await dispatch(
+      createChannelThunk(workspace.id, newChannel)
     );
+    console.log("NEW CHANNEL RESP ", newChannelResp);
     setModalType(null);
+    history.push(
+      `/workspaces/${workspace.id}/channels/${newChannelResp.Channel.id}`
+    );
   };
 
   useEffect(() => {

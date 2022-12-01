@@ -25,7 +25,8 @@ class Channel(db.Model):
         "User", secondary=users_in_channel, back_populates="subscribed_channels")
 
     workspace = db.relationship("Workspace", back_populates="channels")
-    messages = db.relationship("ChannelMessages", back_populates="channel")
+    messages = db.relationship(
+        "ChannelMessages", back_populates="channel", cascade="all, delete")
 
     def add_user(self, user):
         if self.has_user(user.id):

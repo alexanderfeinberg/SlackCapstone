@@ -45,10 +45,13 @@ def get_channel_by_id(channel_id):
 @channel_router.route('/<int:channel_id>', methods=["DELETE"])
 @login_required
 def delete_channel(channel_id):
+    print("STARTINGGGG")
     channel = Channel.query.get_or_404(channel_id)
     if channel.owner_id != current_user.id:
         # Handle forbidden error here
         pass
+
+    print("CHANNELLLLLLL ", channel)
 
     db.session.delete(channel)
     db.session.commit()

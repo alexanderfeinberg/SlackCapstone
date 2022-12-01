@@ -17,7 +17,8 @@ class Workspace(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, default=datetime.now())
 
-    channels = db.relationship("Channel", back_populates="workspace")
+    channels = db.relationship(
+        "Channel", back_populates="workspace", cascade="all, delete")
     owner = db.relationship(
         "User", back_populates="owned_workspaces", foreign_keys=[owner_id])
     users = db.relationship(
