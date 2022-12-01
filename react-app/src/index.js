@@ -5,17 +5,12 @@ import "./index.css";
 import App from "./App";
 import configureStore from "./store";
 
-import { SelectActionModal, ActionModalProvider } from "./context/ActionModals";
-
 const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ActionModalProvider>
-        <SelectActionModal />
-        <App />
-      </ActionModalProvider>
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

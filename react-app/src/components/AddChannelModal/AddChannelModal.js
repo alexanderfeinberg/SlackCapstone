@@ -28,10 +28,18 @@ const AddChannelModal = () => {
       description,
     };
 
-    const newChannelResp = await dispatch(
-      createChannelThunk(workspace.id, newChannel)
-    );
-    console.log("NEW CHANNEL RESP ", newChannelResp);
+    let newChannelResp;
+
+    try {
+      newChannelResp = await dispatch(
+        createChannelThunk(workspace.id, newChannel)
+      );
+    } catch (e) {
+      const errorData = await e.json();
+      console.log("CAUGHT ERR ", errorData);
+      setErrors(errorData.errors);
+      return;
+    }
     setModalType(null);
     history.push(
       `/workspaces/${workspace.id}/channels/${newChannelResp.Channel.id}`
@@ -46,7 +54,7 @@ const AddChannelModal = () => {
 
   useEffect(() => {
     if (!name) {
-      setErrors(["Channel must have a name."]);
+      setErrors(["Don't forget to name your channel!"]);
     } else if (name) {
       setErrors([]);
     }
@@ -62,6 +70,11 @@ const AddChannelModal = () => {
           Channels are where your team communicates
         </div>
         <div className="modal-content-items">
+          <div className="errors">
+            {errors.map((err, idx) => (
+              <div key={idx}>{err}</div>
+            ))}
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="modal-content-item">
               <div className="modal-content-item-header">Name</div>

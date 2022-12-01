@@ -8,4 +8,5 @@ class ChannelForm(FlaskForm):
     name = StringField("Name", validators=[
                        DataRequired(message="Channel name is required."),
                        Length(max=80, message="Channel name must be less than 80 characters")])
-    description = StringField("Description")
+    description = StringField("Description", validators=[Length(
+        max=500, message="Channel description must be less than 500 characters.")])

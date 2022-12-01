@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, Workspace
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -62,6 +62,10 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        # existing = User.query.filter(User.email == form.data['email']).first()
+        # if existing:
+        #     print("EXISTS")
+        #     return {'errors': ['A user with that email already exists']}, 401
         user = User(
             # username=form.data['username'],
             email=form.data['email'],
@@ -70,7 +74,12 @@ def sign_up():
             password=form.data['password']
         )
         # DEV ONLY DELETE LATER
-        user.subscribed_workspaces.append()
+        workspace = Workspace.query.get(1)
+
+        print("WORKSPACE111 ", workspace)
+        user.subscribed_workspaces.append(workspace)
+        for channel in workspace.channels:
+            user.subscribed_channels.append(channel)
 
         ##
         db.session.add(user)

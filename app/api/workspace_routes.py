@@ -73,6 +73,10 @@ def create_channel(workspace_id):
         data = form.data
         print("FORM DATAAA ", form.data.keys())
         del data['csrf_token']
+        exists = Channel.query.filter(
+            Channel.name == form.data['name']).first()
+        if (exists and exists.workspace_id == workspace_id):
+            return {"errors": ["A channel with this name already exists"]}, 401
 
         workspace = Workspace.query.get_or_404(workspace_id)
         new_channel = Channel(**data, owner=get_current_user(current_user.id),

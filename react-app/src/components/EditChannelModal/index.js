@@ -37,6 +37,7 @@ const EditChannelModal = () => {
 
   const [editContent, setEditContent] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const channel = useSelector((state) => state.channel.channel);
 
@@ -50,6 +51,8 @@ const EditChannelModal = () => {
     }
   }, [channel, subActionModalType]);
 
+  useEffect(() => setErrors([]), [editContent]);
+
   const closeActionModalHandler = () => {
     setActionModalType(null);
   };
@@ -60,7 +63,13 @@ const EditChannelModal = () => {
       description:
         data.placeholder === "description" ? editContent : channel.description,
     };
-    await dispatch(editChannelThunk(channel.id, editedChannel));
+    try {
+      await dispatch(editChannelThunk(channel.id, editedChannel));
+    } catch (e) {
+      const errData = await e.json();
+      setErrors(errData.errors);
+      return;
+    }
     setActionModalType(null);
   };
 
@@ -69,6 +78,11 @@ const EditChannelModal = () => {
     <div id="action-modal-content">
       <div className="action-modal-title">
         <div className="action-modal-title-text">{data.title}</div>
+      </div>
+      <div className="errors">
+        {errors.map((err, indx) => (
+          <div key={indx}>{err}</div>
+        ))}
       </div>
       {data.subTitle && (
         <div className="action-modal-subtitle">{data.subTitle}</div>

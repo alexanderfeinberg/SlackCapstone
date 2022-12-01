@@ -60,7 +60,6 @@ function App() {
             </ProtectedRoute>
             <Route path="/" exact={true}>
               {user && <Redirect to="/workspaces/1" />}
-
               <NavBar />
               <SplashPage />
             </Route>
