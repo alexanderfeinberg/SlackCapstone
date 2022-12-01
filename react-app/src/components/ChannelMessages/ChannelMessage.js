@@ -21,19 +21,25 @@ const ChannelMessage = ({ messageId }) => {
   const [editedMessage, setEditedMessage] = useState(message.content);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const { editFormOpen, setEditFormOpen } = useContext(EditFormContext);
   console.log("EDIT FORM OPEN ", editFormOpen);
 
   const handleEdit = async (e) => {
     e.preventDefault();
-
-    await dispatch(
-      editMessageThunk(message.id, {
-        content: editedMessage,
-        edited: true,
-      })
-    );
+    try {
+      await dispatch(
+        editMessageThunk(message.id, {
+          content: editedMessage,
+          edited: true,
+        })
+      );
+    } catch (e) {
+      const errData = await e.json();
+      setErrors(errData.errors);
+      return;
+    }
 
     socket.emit("load_messages", { room: channel.id });
     setShowEditForm(false);
@@ -52,6 +58,7 @@ const ChannelMessage = ({ messageId }) => {
         <ChatInputText
           userMessage={editedMessage}
           setUserMessage={setEditedMessage}
+          errors={errors}
         />
         <button
           onClick={() => {
@@ -77,6 +84,10 @@ const ChannelMessage = ({ messageId }) => {
       setShowEditForm(false);
     }
   }, [editFormOpen]);
+
+  useEffect(() => {
+    setErrors([]);
+  }, [editedMessage]);
 
   return (
     <div

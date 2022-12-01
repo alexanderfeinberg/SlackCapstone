@@ -8,6 +8,7 @@
   padding: 8px;
   height: 6rem;
   background-color: white;
+  position: relative;
 }
 
 .chat-input textarea {
@@ -20,4 +21,19 @@
 
 .chat-input button {
   cursor: pointer;
+}
+
+.support-data {
+  position: absolute;
+  bottom: 0;
+  color: gray;
+  display: flex;
+  align-items: flex-end;
+}
+.support-data .errors {
+  margin: 0px 10px;
+  color: red;
+}
+.red {
+  color: red;
 }

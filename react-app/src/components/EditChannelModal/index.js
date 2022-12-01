@@ -67,6 +67,7 @@ const EditChannelModal = () => {
       await dispatch(editChannelThunk(channel.id, editedChannel));
     } catch (e) {
       const errData = await e.json();
+      console.log(errData);
       setErrors(errData.errors);
       return;
     }

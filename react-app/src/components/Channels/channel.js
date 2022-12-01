@@ -153,6 +153,7 @@ const Channel = () => {
             userMessage={userMessage}
             channelName={channel.name}
           />
+
           <div className="errors">
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
