@@ -76,7 +76,7 @@ def edit_channel(channel_id):
             pass
         channel.updated_at = datetime.now()
         db.session.commit()
-        return jsonify({"Channel": channel.to_dict()})
+        return jsonify({"Channel": channel.to_dict(current_user.id, owner=True)})
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 # Get users from channel

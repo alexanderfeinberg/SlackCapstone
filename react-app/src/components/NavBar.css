@@ -81,3 +81,7 @@ nav a {
 .left-links a:hover:not(.logo-text a) {
   text-decoration: underline;
 }
+
+.home-logo {
+  cursor: default;
+}
