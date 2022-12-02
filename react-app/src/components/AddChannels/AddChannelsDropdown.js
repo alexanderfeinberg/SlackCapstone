@@ -23,6 +23,7 @@ const AddChannelsDropdown = ({ setShowCreateDropDown }) => {
         <button
           onClick={() => {
             setModalType("createChannel");
+            setShowCreateDropDown(false);
           }}
         >
           Create a new channel

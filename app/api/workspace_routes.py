@@ -85,7 +85,7 @@ def create_channel(workspace_id):
         db.session.add(new_channel)
         db.session.commit()
 
-        return jsonify({"Channel": new_channel.to_dict()})
+        return jsonify({"Channel": new_channel.to_dict(current_user.id, owner=True)})
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
