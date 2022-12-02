@@ -159,7 +159,12 @@ const Channel = () => {
               <div key={ind}>{error}</div>
             ))}
           </div>
-          <button onClick={handleChatsend}>Send</button>
+          <button
+            onClick={handleChatsend}
+            className={userMessage.length > 0 ? "green" : ""}
+          >
+            Send
+          </button>
         </div>
       </div>
       <div ref={messagesEndRef}></div>
