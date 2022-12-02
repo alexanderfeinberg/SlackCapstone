@@ -23,6 +23,9 @@
 .add-channel-container {
   display: flex;
   margin-top: 5px;
+}
+
+.add-channel-text {
   cursor: pointer;
 }
 
