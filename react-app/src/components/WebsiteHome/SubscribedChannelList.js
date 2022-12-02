@@ -27,9 +27,9 @@ const SubscribedChannelList = () => {
   if (!isLoaded) return null;
   return (
     <div className="subbed-channels-container">
-      <div className="subbed-channels-btn pointer subscription-padding">
+      <div className="subbed-channels-btn subscription-padding">
         <span
-          className="subbed-channels-title "
+          className="subbed-channels-title pointer"
           onClick={() => setShowDropDown(!showDropDown)}
         >
           Channels
