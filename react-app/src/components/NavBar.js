@@ -20,23 +20,29 @@ const NavBar = () => {
             </div>
           </div>
           <div>
-            <a href="https://github.com/alexanderfeinberg/SlackCapstone">
+            <a
+              href="https://github.com/alexanderfeinberg/SlackCapstone"
+              target="_blank"
+            >
               Github
             </a>
           </div>
           <div>
-            <a href="https://www.linkedin.com/in/alex-feinberg/">Linkedin</a>
+            <a
+              href="https://www.linkedin.com/in/alex-feinberg/"
+              target="_blank"
+            >
+              Linkedin
+            </a>
           </div>
         </div>
         <div className="right-links">
-          <div className="login-auth">
-            <NavLink to="/login" exact={true}>
-              Sign in
-            </NavLink>
-          </div>
-          <div className="signup-auth">
-            <NavLink to="/sign-up">Try for free</NavLink>
-          </div>
+          <NavLink className="login-auth" to="/login" exact={true}>
+            Sign in
+          </NavLink>
+          <NavLink className="signup-auth" to="/sign-up">
+            Try for free
+          </NavLink>
 
           {user && <LogoutButton />}
         </div>
