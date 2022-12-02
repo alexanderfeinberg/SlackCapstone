@@ -7,6 +7,7 @@ const MembersSubModal = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const channel = useSelector((state) => state.channel.channel);
+  const onlineUsers = useSelector((state) => state.online.online);
 
   useEffect(async () => {
     if (channel) {
@@ -14,7 +15,7 @@ const MembersSubModal = () => {
       setUsers(resp.Users);
       setIsLoaded(true);
     }
-  }, [channel]);
+  }, [channel, onlineUsers]);
 
   if (!isLoaded) return null;
   return (
@@ -26,6 +27,12 @@ const MembersSubModal = () => {
             <div className="member-full-name">
               {user.firstName} {user.lastName}
             </div>
+            {onlineUsers[user.id] && (
+              <img
+                className="is-online"
+                src="https://miro.medium.com/max/512/1*nZ9VwHTLxAfNCuCjYAkajg.png"
+              />
+            )}
           </div>
         ))}
       </div>

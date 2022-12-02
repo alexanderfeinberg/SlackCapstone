@@ -12,6 +12,7 @@ import ChannelMessage from "../ChannelMessages/ChannelMessage";
 import { connectSocket, disconnectSocket } from "../../store/socket";
 import "./Channel.css";
 import ChatInputText from "../ChatInputText/ChatInputText";
+import { addOnlineUsers, removeOnlineUser } from "../../store/online";
 
 let socket;
 
@@ -29,7 +30,7 @@ const Channel = () => {
   const existingSocket = useSelector((state) => state.socket.socket);
 
   const [userMessage, setUserMessage] = useState("");
-  const [userList, setUserList] = useState([]);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -37,7 +38,8 @@ const Channel = () => {
     socket = io();
 
     dispatch(connectSocket(socket));
-    socket.on("sign_in", (data) => setUserList(data));
+    socket.on("sign_in", (data) => dispatch(addOnlineUsers(data)));
+    socket.on("user_disconnect", (data) => dispatch(removeOnlineUser(data.id)));
     socket.emit("sign_in", { user: currentUser });
   };
 
@@ -45,6 +47,7 @@ const Channel = () => {
     if (existingSocket) {
       console.log("DISCONNCTING");
       socket.emit("leave", { room: channel.id, user: currentUser });
+
       socket.disconnect();
       dispatch(disconnectSocket());
     }

@@ -33,8 +33,12 @@ def user_connect(data):
 
 @socketio.on('disconnect')
 def user_disconnect():
-    del users[request.sid]
-    emit(users)
+    print(users)
+    print(request.sid)
+    print("DISCONNECT EVENTTT")
+    emit("user_disconnect", users[request.sid], broadcast=True)
+    if request.sid in users:
+        del users[request.sid]
     print(f'client {request.sid} has disconnected. ')
 
 
