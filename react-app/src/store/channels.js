@@ -184,6 +184,14 @@ export const removeChannelSubThunk = (channelId) => async (dispatch) => {
   }
 };
 
+export const getChannelUsers = async (channelId) => {
+  const response = await csrfFetch(`/api/channels/${channelId}/users`);
+  if (response.ok) {
+    const users = await response.json();
+    return users;
+  }
+};
+
 let initialState = {
   channel: {},
   subscribed: {},
