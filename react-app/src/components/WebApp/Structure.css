@@ -18,7 +18,7 @@
 
 .container-subscribed {
   width: 100%;
-  border-left: 1px solid lightgray;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
   /* padding: 0 1.5rem; */
 }
 

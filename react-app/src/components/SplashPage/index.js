@@ -90,7 +90,7 @@ const SplashPage = () => {
             <div className="item-right-col">
               <div className="item-content">
                 <div className="item-content-header">
-                  <h1>Bring you team together</h1>
+                  <h1>Bring your team together</h1>
                 </div>
                 <div className="item-content-subtext">
                   At the heart of Transmit are channels: organized spaces for

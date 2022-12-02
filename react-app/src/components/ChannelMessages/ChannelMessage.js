@@ -97,41 +97,48 @@ const ChannelMessage = ({ messageId }) => {
       }}
       onMouseLeave={() => setShowDropdown(false)}
     >
-      <div className="channel-message-top-content">
-        <div className="channel-message-header">
-          <div className="channel-message-name">
-            {message.sender.firstName} {message.sender.lastName}
-          </div>
-          <div className="channel-message-date">
-            {message.updatedAt.split(",")[0]}
-          </div>
-        </div>
-        {message.senderId === user.id && showDropdown && (
-          <div className="channel-message-options">
-            <div className="channel-message-btns">
-              <button
-                onClick={() => {
-                  setShowEditForm(true);
-                  setShowDropdown(false);
-                  setEditFormOpen(messageId);
-                }}
-              >
-                Edit
-              </button>
-
-              <button className="delete-button" onClick={handleDelete}>
-                Delete
-              </button>
+      <div className="message-profile-pic">
+        <img src={message.sender.profilePicture} />
+      </div>
+      <div className="message-content">
+        <div className="channel-message-top-content">
+          <div className="channel-message-header">
+            <div className="channel-message-name">
+              {message.sender.firstName} {message.sender.lastName}
+            </div>
+            <div className="channel-message-date">
+              {message.updatedAt.split(",")[0]}
             </div>
           </div>
-        )}
-      </div>
-      {!showEditForm && (
-        <div className="channel-message-content">
-          {message.content ? message.content : message.msgData.Message.content}
+          {message.senderId === user.id && showDropdown && (
+            <div className="channel-message-options">
+              <div className="channel-message-btns">
+                <button
+                  onClick={() => {
+                    setShowEditForm(true);
+                    setShowDropdown(false);
+                    setEditFormOpen(messageId);
+                  }}
+                >
+                  Edit
+                </button>
+
+                <button className="delete-button" onClick={handleDelete}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-      {editFormOpen === messageId && editForm}
+        {!showEditForm && (
+          <div className="channel-message-content">
+            {message.content
+              ? message.content
+              : message.msgData.Message.content}
+          </div>
+        )}
+        {editFormOpen === messageId && editForm}
+      </div>
     </div>
   );
 };

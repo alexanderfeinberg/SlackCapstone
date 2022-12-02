@@ -4,9 +4,16 @@
   align-items: center;
   height: 50px;
   box-sizing: border-box;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
   z-index: 10;
+}
+
+.container-subscribed .header-container {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.workspace-list-container {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #chat-header {

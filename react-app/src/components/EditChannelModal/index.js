@@ -93,12 +93,11 @@ const EditChannelModal = () => {
         {!data.subTitle && (
           <textarea
             value={editContent}
-            placeholder={`${
-              data.subTitle ? "# e.g. marketing" : "Add a description"
-            }`}
+            placeholder="Add a description"
             onChange={(e) => setEditContent(e.target.value)}
           ></textarea>
         )}
+
         {data.subTitle && (
           <input
             type="text"
