@@ -64,8 +64,9 @@ const AboutSubModal = () => {
   };
 
   const handleChannelDelete = () => {
-    setIsLoaded(false);
+    console.log("IS LOADED ", isLoaded);
 
+    setIsLoaded(false);
     dispatch(deleteChannelThunk(channel.id))
       .then(() => {
         setModalType(null);

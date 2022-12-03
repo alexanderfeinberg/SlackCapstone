@@ -63,7 +63,6 @@ const Channel = () => {
 
   useEffect(() => {
     initializeSocketHandler();
-
     if (channel.id) {
       socket.on(
         "load_messages",

@@ -14,8 +14,10 @@ const ChannelInfoModal = ({ subModal }) => {
   useEffect(() => {
     if (channel) {
       setIsLoaded(true);
-    }
+    } else if (!channel) setIsLoaded(false);
   }, [channel]);
+
+  if (!isLoaded) return null;
   return (
     <div id="modal-content" className="info-modal">
       <div className="modal-header">
