@@ -32,6 +32,7 @@ export default function onlineReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ONLINE_USERS:
       const addUsers = objectAssign(state);
+      addUsers.online = {};
       Object.values(action.users).forEach((user) => {
         addUsers.online[user.id] = user;
       });

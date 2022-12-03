@@ -2,19 +2,15 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalContext } from "../../context/Modal";
 import { useParams } from "react-router-dom";
-import { io } from "socket.io-client";
+
 import { loadChannelThunk } from "../../store/channels";
 import {
   createMessageThunk,
   loadMessagesThunk,
 } from "../../store/channelMessages";
 import ChannelMessage from "../ChannelMessages/ChannelMessage";
-import { connectSocket, disconnectSocket } from "../../store/socket";
 import "./Channel.css";
 import ChatInputText from "../ChatInputText/ChatInputText";
-import { addOnlineUsers, removeOnlineUser } from "../../store/online";
-
-let socket;
 
 const Channel = () => {
   const dispatch = useDispatch();
@@ -27,31 +23,12 @@ const Channel = () => {
   const currentUser = useSelector((state) => state.session.user);
   const channel = useSelector((state) => state.channel.channel);
   const messages = useSelector((state) => state.channelMessage.messages);
-  const existingSocket = useSelector((state) => state.socket.socket);
+  const socket = useSelector((state) => state.socket.socket);
 
   const [userMessage, setUserMessage] = useState("");
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState([]);
-
-  const initializeSocketHandler = () => {
-    socket = io();
-
-    dispatch(connectSocket(socket));
-    socket.on("sign_in", (data) => dispatch(addOnlineUsers(data)));
-    socket.on("user_disconnect", (data) => dispatch(removeOnlineUser(data.id)));
-    socket.emit("sign_in", { user: currentUser });
-  };
-
-  const disconnectSocketHandler = () => {
-    if (existingSocket) {
-      console.log("DISCONNCTING");
-      socket.emit("leave", { room: channel.id, user: currentUser });
-
-      socket.disconnect();
-      dispatch(disconnectSocket());
-    }
-  };
 
   useEffect(async () => {
     await dispatch(loadChannelThunk(channelId));
@@ -62,7 +39,6 @@ const Channel = () => {
   }, [userMessage]);
 
   useEffect(() => {
-    initializeSocketHandler();
     if (channel.id) {
       socket.on(
         "load_messages",
@@ -80,7 +56,11 @@ const Channel = () => {
       setIsLoaded(true);
     }
 
-    return () => disconnectSocketHandler();
+    return () => {
+      socket.emit("leave", { room: channel.id, user: currentUser });
+      socket.off("load_messages");
+      socket.off("chat");
+    };
   }, [channel]);
 
   useEffect(() => {

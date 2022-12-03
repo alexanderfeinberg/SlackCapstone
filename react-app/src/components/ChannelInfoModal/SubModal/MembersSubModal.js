@@ -10,6 +10,7 @@ const MembersSubModal = () => {
   const onlineUsers = useSelector((state) => state.online.online);
 
   useEffect(async () => {
+    console.log("RE-RENDER MEMBERS MODAL");
     if (channel) {
       const resp = await getChannelUsers(channel.id);
       setUsers(resp.Users);

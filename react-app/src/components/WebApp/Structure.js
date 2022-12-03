@@ -11,22 +11,49 @@ import { useEffect } from "react";
 import { loadWorkspaceThunk } from "../../store/workspaces";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { io } from "socket.io-client";
+import { connectSocket, disconnectSocket } from "../../store/socket";
+
 import { EditFormContext, EditFormProvider } from "../../context/EditForm";
 import "./Structure.css";
+import { addOnlineUsers, removeOnlineUser } from "../../store/online";
+let socket;
 
 const Structure = () => {
   const dispatch = useDispatch();
   const { workspaceId } = useParams();
   const workspace = useSelector((state) => state.workspace.workspace);
-  const uiDisplay = useSelector((state) => state.ui.display);
+  const currentUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
+  const existingSocket = useSelector((state) => state.socket.socket);
   let { path, url } = useRouteMatch();
 
-  useEffect(async () => {
-    console.log(workspaceId);
-    await dispatch(loadWorkspaceThunk(workspaceId));
-    setIsLoaded(true);
-  }, []);
+  const initializeSocketHandler = () => {
+    socket = io();
+
+    dispatch(connectSocket(socket));
+    socket.on("sign_in", (data) => dispatch(addOnlineUsers(data)));
+    socket.on("user_disconnect", (data) => dispatch(removeOnlineUser(data.id)));
+    socket.emit("sign_in", { user: currentUser });
+  };
+
+  const disconnectSocketHandler = () => {
+    if (existingSocket) {
+      console.log("DISCONNCTING");
+
+      socket.disconnect();
+      dispatch(disconnectSocket());
+    }
+  };
+
+  useEffect(() => {
+    initializeSocketHandler();
+    (async () => {
+      await dispatch(loadWorkspaceThunk(workspaceId));
+      setIsLoaded(true);
+    })();
+    return () => disconnectSocketHandler();
+  }, [dispatch]);
 
   //   const handleContainerDisplay = () => {
   //     switch (uiDisplay) {
