@@ -8,6 +8,7 @@ from ..models.db import db
 from datetime import datetime
 from .helpers import get_current_user
 
+
 channel_router = Blueprint("channels", __name__)
 
 
@@ -55,6 +56,7 @@ def delete_channel(channel_id):
 
     db.session.delete(channel)
     db.session.commit()
+
     return {"message": f'Channel {channel_id} has been deleted', 'statusCode': 200}
 
 

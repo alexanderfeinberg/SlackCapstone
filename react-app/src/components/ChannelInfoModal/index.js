@@ -12,10 +12,11 @@ const ChannelInfoModal = ({ subModal }) => {
   const [localSubModal, setLocalSubModal] = useState(subModal);
 
   useEffect(() => {
+    console.log("CHANNEL INFO RE RENDER");
     if (channel) {
       setIsLoaded(true);
     } else if (!channel) setIsLoaded(false);
-  }, [channel]);
+  }, []);
 
   if (!isLoaded) return null;
   return (

@@ -61,22 +61,18 @@ const AboutSubModal = () => {
 
     setModalType(null);
     history.push(`/workspaces/${workspace.id}/channels`);
+    return;
   };
 
-  const handleChannelDelete = () => {
+  const handleChannelDelete = async () => {
     console.log("IS LOADED ", isLoaded);
 
     setIsLoaded(false);
-    dispatch(deleteChannelThunk(channel.id))
-      .then(() => {
-        setModalType(null);
-        setRedirect(true);
-        history.push(`/workspaces/${workspace.id}/channels`);
-      })
-      .catch((e) => e.json())
-      .then((res) => console.log(res))
+    await dispatch(deleteChannelThunk(channel.id));
 
-      .catch((e) => console.log("ERROR ", e));
+    setModalType(null);
+    setRedirect(true);
+    history.push(`/workspaces/${workspace.id}/channels`);
   };
 
   if (!isLoaded) return null;
