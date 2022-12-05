@@ -61,6 +61,15 @@ def create_workspace():
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
+# Delete a workspace
+@workspace_router.route('/<int:workspace_id>', methods=['DELETE'])
+@login_required
+def delete_workspace(workspace_id):
+    workspace = Workspace.query.get_or_404(workspace_id)
+    db.session.delete(workspace)
+    db.session.commit()
+    return {"message": "Worksapce succesfully deleted."}, 200
+
 # Create channel
 
 
