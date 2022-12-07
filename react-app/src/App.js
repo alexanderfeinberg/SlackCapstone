@@ -16,6 +16,7 @@ import SplashPage from "./components/SplashPage";
 import { ModalProvider, SelectModal } from "./context/Modal";
 import { SelectActionModal, ActionModalProvider } from "./context/ActionModals";
 import AppNavBar from "./components/AppNavBar/AppNavBar";
+import CreateWorkspaceStructure from "./components/CreateWorkspace/CreateWorkspaceStructure";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -57,6 +58,9 @@ function App() {
             <ProtectedRoute path="/workspaces/:workspaceId">
               <AppNavBar />
               <Structure />
+            </ProtectedRoute>
+            <ProtectedRoute path="/setup-team-name">
+              <CreateWorkspaceStructure step={"steup-team-name"} />
             </ProtectedRoute>
             <Route path="/" exact={true}>
               {user && <Redirect to="/workspaces/1" />}
