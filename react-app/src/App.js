@@ -60,7 +60,7 @@ function App() {
               <Structure />
             </ProtectedRoute>
             <ProtectedRoute path="/setup-team-name">
-              <CreateWorkspaceStructure step={"steup-team-name"} />
+              <CreateWorkspaceStructure step={"setup-team-name"} />
             </ProtectedRoute>
             <Route path="/" exact={true}>
               {user && <Redirect to="/workspaces/1" />}
