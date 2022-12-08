@@ -49,15 +49,17 @@ def create_workspace():
     form['csrf_token'].data = request.cookies['csrf_token']
     resp = get_current_user(
         current_user.id).check_unique_workspace_names(form.data['name'])
+
     if resp:
-        raise Exception(
-            f"You already have a workspace named {form.data['name']}")
+        return {"errors": f"You already have a workspace named {form.data['name']}"}
+
     if form.validate_on_submit():
+        print("FORM VALIDATED")
         new_workspace = Workspace(name=form.data['name'], url=form.data['url'],
                                   owner=get_current_user(current_user.id), users=[get_current_user(current_user.id)])
         db.session.add(new_workspace)
         db.session.commit()
-        return jsonify(new_workspace.to_dict_relations())
+        return jsonify({"Workspace": new_workspace.to_dict_relations()})
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 

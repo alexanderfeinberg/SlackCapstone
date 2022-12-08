@@ -62,6 +62,9 @@ function App() {
             <ProtectedRoute path="/setup-team-name">
               <CreateWorkspaceStructure step={"setup-team-name"} />
             </ProtectedRoute>
+            <ProtectedRoute path="/setup-channels">
+              <CreateWorkspaceStructure step={"setup-channels"} />
+            </ProtectedRoute>
             <Route path="/" exact={true}>
               {user && <Redirect to="/workspaces/1" />}
               <NavBar />

@@ -72,17 +72,18 @@ export const loadSubbedWorkspacesThunk = () => async (dispatch) => {
 };
 
 export const createWorkspaceThunk = (workspaceData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/workspaces`, {
+  console.log("WORKSPACE DATA ", workspaceData);
+  const response = await csrfFetch(`/api/workspaces/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      body: JSON.stringify(workspaceData),
     },
+    body: JSON.stringify(workspaceData),
   });
   if (response.ok) {
     const workspace = await response.json();
     dispatch(createWorkspace(workspace));
-    return workspace;
+    return workspace.Workspace;
   }
 };
 
@@ -116,10 +117,18 @@ export default function workspaceReducer(state = initialState, action) {
 
       return loadState;
     case CREATE_WORKSPACE:
-      const createState = objectAssign(state, "workspaceList");
+      const createState = objectAssign(
+        state,
+        "workspace",
+        "workspaceList",
+        "subscribed"
+      );
       createState.workspace = action.workspace.Workspace;
       createState.workspaceList[action.workspace.Workspace.id] =
         action.workspace.Workspace;
+      createState.subscribed[action.workspace.Workspace.id] =
+        action.workspace.Workspace;
+      return createState;
     case DELETE_WORKSPACE:
       const removeState = objectAssign(state, "workspaceList");
       delete removeState.workspaceList[action.workspaceId];
