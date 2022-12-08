@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-const WorkspaceName = () => {
-  const [companyName, setCompanyName] = useState("");
+const WorkspaceName = ({ props }) => {
+  const history = useHistory();
+  const { companyName, setCompanyName } = props;
   const [errors, setErrors] = useState("");
 
   useEffect(() => {
@@ -11,9 +13,14 @@ const WorkspaceName = () => {
     }
     setErrors([]);
   }, [companyName]);
+
+  const nextBtnHandler = () => {
+    history.push("/setup-channels");
+    return;
+  };
   return (
     <div className="workspace-name-container">
-      <div className="step-count"></div>
+      <div className="step-count">Step 1/2</div>
       <div className="action-title-container">
         <div className="action-title">
           <h3>What’s the name of your company or team?</h3>
@@ -38,6 +45,7 @@ const WorkspaceName = () => {
           disabled={
             companyName.length < 1 || companyName.length > 150 ? true : false
           }
+          onClick={nextBtnHandler}
         >
           Next
         </button>

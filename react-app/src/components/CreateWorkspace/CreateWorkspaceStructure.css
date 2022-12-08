@@ -1,0 +1,20 @@
+.workspace-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace-content {
+  display: grid;
+  grid-template-columns: 260px auto;
+  background-color: #19171d;
+  height: 100vh;
+}
+
+.right-column {
+  background-color: rgb(26, 29, 33);
+  padding: 30px 100px;
+  color: rgb(209, 210, 211);
+}
+.left-column {
+  color: white;
+}
