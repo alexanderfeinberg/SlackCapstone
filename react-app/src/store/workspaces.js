@@ -95,6 +95,21 @@ export const createWorkspaceThunk = (workspaceData) => async (dispatch) => {
   }
 };
 
+export const editWorkspaceThunk =
+  (workspaceId, updatedWorkspace) => async (dispatch) => {
+    const response = await csrfFetch(`/api/workspaces/${workspaceId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedWorkspace),
+    });
+
+    if (response.ok) {
+      const workspace = await response.json();
+      dispatch(editWorkspace(workspace));
+      return workspace;
+    }
+  };
+
 export const deleteWorkspaceThunk = (workspaceId) => async (dispatch) => {
   const response = await csrfFetch(`/api/workspaces/${workspaceId}`, {
     method: "DELETE",
@@ -137,6 +152,26 @@ export default function workspaceReducer(state = initialState, action) {
       createState.subscribed[action.workspace.Workspace.id] =
         action.workspace.Workspace;
       return createState;
+
+    case EDIT_WORKSPACE:
+      const editState = objectAssign(
+        state,
+        "workspace",
+        "workspaceList",
+        "subscribed"
+      );
+      if (editState.workspace.id === action.workspace.Workspace.id) {
+        editState.workspace = action.workspace.Workspace;
+      }
+      editState.workspaceList[action.workspace.Workspace.id] =
+        action.workspace.Workspace;
+
+      if (editState.subscribed[action.workspace.Workspace.id]) {
+        editState.subscribed[action.workspace.Workspace.id] =
+          action.workspace.Workspace;
+      }
+      return editState;
+
     case DELETE_WORKSPACE:
       const removeState = objectAssign(state, "workspaceList");
       delete removeState.workspaceList[action.workspaceId];
