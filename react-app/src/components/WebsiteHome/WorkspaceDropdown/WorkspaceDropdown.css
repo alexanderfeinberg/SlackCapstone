@@ -1,0 +1,17 @@
+.workspace-dropdown-container {
+  position: absolute;
+  top: 100%;
+  z-index: 99;
+  background-color: white;
+  left: 50;
+  min-width: 380px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.workspace-item {
+  box-sizing: border-box;
+  padding: 5px;
+}

@@ -3,6 +3,8 @@ import "./Modal.css";
 import ChannelInfoModal from "../components/ChannelInfoModal";
 import AddChannelModal from "../components/AddChannelModal/AddChannelModal";
 import ReactDOM from "react";
+import EeditWorkspace from "../components/EditWorkspace/EditWorkspace";
+import EditWorkspace from "../components/EditWorkspace/EditWorkspace";
 
 export const ModalContext = React.createContext();
 
@@ -56,6 +58,13 @@ export const SelectModal = () => {
     return (
       <div id="modal">
         <AddChannelModal />
+        <div id="modal-background" onClick={closeModal}></div>
+      </div>
+    );
+  } else if (modalType == "editWorkspace") {
+    return (
+      <div id="modal">
+        <EditWorkspace />
         <div id="modal-background" onClick={closeModal}></div>
       </div>
     );

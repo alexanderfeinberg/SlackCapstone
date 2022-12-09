@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { io } from "socket.io-client";
 import { connectSocket, disconnectSocket } from "../../store/socket";
-
+import WorkspaceDropdown from "../WebsiteHome/WorkspaceDropdown/WorkspaceDropdown";
 import { EditFormContext, EditFormProvider } from "../../context/EditForm";
 import "./Structure.css";
 import { addOnlineUsers, removeOnlineUser } from "../../store/online";
@@ -25,6 +25,7 @@ const Structure = () => {
   const workspace = useSelector((state) => state.workspace.workspace);
   const currentUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showWorkspaceDropdown, setShowWorkspaceDopdown] = useState(false);
   const existingSocket = useSelector((state) => state.socket.socket);
   let { path, url } = useRouteMatch();
 
@@ -55,19 +56,6 @@ const Structure = () => {
     return () => disconnectSocketHandler();
   }, [dispatch]);
 
-  //   const handleContainerDisplay = () => {
-  //     switch (uiDisplay) {
-  //       case "channel":
-  //         return <Channel />;
-  //       case "allChannels":
-  //         return <AllChannels />;
-  //       case "directMessage":
-  //         <h1>DM HERE</h1>;
-  //       case "allPeople":
-  //         return <h1>ALL PEOPLE HERE</h1>;
-  //     }
-  //   };
-
   if (!isLoaded) return null;
 
   return (
@@ -78,8 +66,13 @@ const Structure = () => {
         </div>
 
         <div className="container-subscribed">
-          <div className="header-container subscription-padding hover">
+          <div
+            id="workspace-options-btn"
+            className="header-container subscription-padding hover"
+            onClick={() => setShowWorkspaceDopdown(!showWorkspaceDropdown)}
+          >
             <div className="workspace-title header">{workspace.name}</div>
+            {showWorkspaceDropdown && <WorkspaceDropdown />}
           </div>
           <div className="channel-list">
             <SubscribedChannelList />
