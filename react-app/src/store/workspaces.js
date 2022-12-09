@@ -5,6 +5,7 @@ import { objectAssign } from "./helper";
 const LOAD_WORKSPACE = "workspaces/LOAD_WORKSPACE";
 const LOAD_SUBSCRIBED_WORKSPACES = "workspaces/LOAD_SUSCRIBED_WORKSPACES";
 const CREATE_WORKSPACE = "workspaces/CREATE_WORKSPACE";
+const EDIT_WORKSPACE = "workspaces/EDIT_WORKSPACES";
 const DELETE_WORKSPACE = "workspaces/DELETE_WORKSPACE";
 
 const CREATE_WORKPLACE_SUBSCRIPTION =
@@ -30,6 +31,13 @@ const loadSubbedWorkspaces = (workspaceList) => {
 const createWorkspace = (workspace) => {
   return {
     type: CREATE_WORKSPACE,
+    workspace,
+  };
+};
+
+const editWorkspace = (workspace) => {
+  return {
+    type: EDIT_WORKSPACE,
     workspace,
   };
 };

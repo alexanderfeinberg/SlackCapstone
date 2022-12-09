@@ -62,6 +62,30 @@ def create_workspace():
         return jsonify({"Workspace": new_workspace.to_dict_relations()})
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
+# Edit a workspace
+
+
+@workspace_router.route('/<int:workspace_id>', methods=['PUT'])
+@login_required
+def edit_workspace(workspace_id):
+    workspace = Workspace.query.get_or_404(workspace_id)
+    if workspace.owner_id != current_user.id:
+        return {"errors": "Unauthroized"}, 404
+
+    form = WorkspaceForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        if 'csrf_token' in form.data:
+            del form.data['csrf_token']
+        if 'submit' in form.data:
+            del form.data['submit']
+
+        for key in form.data.keys():
+            setattr(workspace, key, form.data[key])
+        db.session.commit()
+        return {"Workspace": workspace.to_dict()}
+    return {"errors": form.errors}, 404
+
 
 # Delete a workspace
 @workspace_router.route('/<int:workspace_id>', methods=['DELETE'])
