@@ -1,13 +1,20 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ModalContext } from "../../../context/Modal";
 import { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { deleteWorkspaceThunk } from "../../../store/workspaces";
 import AddWorkspaceDropdown from "./AddWorkspaceDropdown/AddWorkspaceDropdown";
+import SwitchWorkspacesDropdown from "./SwitchWorkspacesDropdown";
 import "./WorkspaceDropdown.css";
 
 const WorkspaceDropdown = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const [addWorkspaceDropdown, setAddWorkspaceDropdown] = useState(false);
 
   const workspace = useSelector((state) => state.workspace.workspace);
+  const user = useSelector((state) => state.session.user);
   const { setModalType } = useContext(ModalContext);
 
   const createChannelHandler = () => {
@@ -16,6 +23,11 @@ const WorkspaceDropdown = () => {
 
   const editWorkspaceHandler = () => {
     setModalType("editWorkspace");
+  };
+
+  const deleteWorkspace = async () => {
+    await dispatch(deleteWorkspaceThunk(workspace.id));
+    history.push("/get-started");
   };
 
   return (
@@ -51,8 +63,18 @@ const WorkspaceDropdown = () => {
           </div>
           <div className="workspace-item-text">
             <div className="item-text-content">Switch workspaces</div>
+            <SwitchWorkspacesDropdown />
           </div>
         </div>
+        {workspace.ownerId === user.id && (
+          <div className="workspace-item">
+            <div className="workspace-item-text">
+              <div className="item-text-content red" onClick={deleteWorkspace}>
+                DELETE Workspace
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

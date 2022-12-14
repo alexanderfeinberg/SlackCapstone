@@ -6,8 +6,8 @@ const AddWorkspaceDropdown = () => {
   const history = useHistory();
 
   return (
-    <div className="add-workspace-dropdown-container">
-      <div className="add-workspace-dropdown-item">
+    <div className="side-dropdown-container">
+      <div className="side-dropdown-item">
         <div
           className="item-content"
           onClick={() => history.push("/get-started")}
@@ -15,7 +15,7 @@ const AddWorkspaceDropdown = () => {
           Sign in to another workspace
         </div>
       </div>
-      <div className="add-workspace-dropdown-item">
+      <div className="side-dropdown-item">
         <div
           className="item-content"
           onClick={() => history.push("/setup-team-name")}

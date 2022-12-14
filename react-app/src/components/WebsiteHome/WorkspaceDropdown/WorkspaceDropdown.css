@@ -37,7 +37,12 @@
   box-sizing: border-box;
   padding: 3px 20px;
 }
-.item-section div {
+.item-section > div {
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+.red {
+  color: red;
+  cursor: pointer;
 }
