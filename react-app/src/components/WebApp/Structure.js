@@ -89,11 +89,11 @@ const Structure = () => {
               <Route path={`${path}/allChannels`}>
                 <AllChannels workspace={workspace} />
               </Route>
-              <Redirect
+              {/* <Redirect
                 to={{
                   pathname: `${path}/channels/1`,
                 }}
-              />
+              /> */}
             </Switch>
           </EditFormProvider>
         </div>

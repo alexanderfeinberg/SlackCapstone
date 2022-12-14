@@ -37,7 +37,7 @@ const AuthStructure = ({ type }) => {
   const user = useSelector((state) => state.session.user);
 
   if (user) {
-    return <Redirect to="/workspaces/1" />;
+    return <Redirect to="/get-started" />;
   }
 
   return (

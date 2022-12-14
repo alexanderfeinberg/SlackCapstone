@@ -67,7 +67,7 @@ function App() {
               <GetStarted />
             </ProtectedRoute>
             <Route path="/" exact={true}>
-              {user && <Redirect to="/workspaces/1" />}
+              {user && <Redirect to="/get-started" />}
               <NavBar />
               <SplashPage />
             </Route>
