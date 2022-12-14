@@ -4,14 +4,40 @@
   z-index: 99;
   background-color: white;
   left: 50;
-  min-width: 380px;
+  min-width: 340px;
   border: 1px solid lightgray;
   border-radius: 5px;
-  padding: 10px;
+  /* padding: 10px; */
   box-sizing: border-box;
+}
+.workspace-item-text {
+  position: relative;
 }
 
 .workspace-item {
   box-sizing: border-box;
-  padding: 5px;
+  padding: 10px 0px;
+  border-top: 1px solid rgba(166, 164, 164, 0.5);
+  cursor: pointer;
+}
+.workspace-dropdown-header {
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace-dropdown-title {
+  font-weight: 600;
+}
+
+.workspace-dropdown-url {
+  font-size: 14px;
+}
+.item-text-content {
+  box-sizing: border-box;
+  padding: 3px 20px;
+}
+.item-section div {
+  padding-top: 2px;
+  padding-bottom: 2px;
 }

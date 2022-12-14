@@ -8,9 +8,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
 import { authenticate } from "./store/session";
-import TestSocket from "./components/socket/testsocket";
-import WorkspaceList from "./components/WebsiteHome/WorkspaceList";
-import Channel from "./components/Channels/channel";
+import GetStarted from "./components/WebsiteHome/GetStarted";
 import Structure from "./components/WebApp/Structure";
 import SplashPage from "./components/SplashPage";
 import { ModalProvider, SelectModal } from "./context/Modal";
@@ -64,6 +62,9 @@ function App() {
             </ProtectedRoute>
             <ProtectedRoute path="/setup-channels">
               <CreateWorkspaceStructure step={"setup-channels"} />
+            </ProtectedRoute>
+            <ProtectedRoute path="/get-started">
+              <GetStarted />
             </ProtectedRoute>
             <Route path="/" exact={true}>
               {user && <Redirect to="/workspaces/1" />}
