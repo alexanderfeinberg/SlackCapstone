@@ -26,8 +26,8 @@ const WorkspaceDropdown = () => {
   };
 
   const deleteWorkspace = async () => {
-    await dispatch(deleteWorkspaceThunk(workspace.id));
     history.push("/get-started");
+    await dispatch(deleteWorkspaceThunk(workspace.id));
   };
 
   return (

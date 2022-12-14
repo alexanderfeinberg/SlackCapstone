@@ -173,9 +173,13 @@ export default function workspaceReducer(state = initialState, action) {
       return editState;
 
     case DELETE_WORKSPACE:
-      const removeState = objectAssign(state, "workspaceList");
+      const removeState = objectAssign(state, "workspaceList", "subscribed");
+      console.log("REMOVE STATE ", removeState);
       delete removeState.workspaceList[action.workspaceId];
+      delete removeState.subscribed[action.workspaceId];
+      console.log("AFTER REMOVE STATE ", removeState);
       removeState.workspace = Object.values(removeState.workspaceList)[0];
+      return removeState;
     default:
       return state;
   }
