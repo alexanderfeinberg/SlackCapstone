@@ -42,9 +42,7 @@ const WorkspaceName = ({ props }) => {
       </div>
       <div className="company-name-submit">
         <button
-          disabled={
-            companyName.length < 1 || companyName.length > 150 ? true : false
-          }
+          disabled={companyName.length < 1 ? true : false}
           onClick={nextBtnHandler}
         >
           Next

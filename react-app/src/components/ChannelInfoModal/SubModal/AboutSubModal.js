@@ -68,11 +68,11 @@ const AboutSubModal = () => {
     console.log("IS LOADED ", isLoaded);
 
     setIsLoaded(false);
+    history.push(`/workspaces/${workspace.id}/channels`);
     await dispatch(deleteChannelThunk(channel.id));
 
     setModalType(null);
     setRedirect(true);
-    history.push(`/workspaces/${workspace.id}/channels`);
   };
 
   if (!isLoaded) return null;

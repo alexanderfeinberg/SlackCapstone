@@ -40,7 +40,9 @@ const GetStarted = () => {
               <div className="workspace-list-item" key={idx}>
                 <div className="workspace-info">
                   <div className="workspace-name">{workspace.name}</div>
-                  <div className="workspace-member-count">MEMBER COUNT</div>
+                  <div className="workspace-member-count">
+                    {workspace.userCount} Members
+                  </div>
                 </div>
                 <div className="workspace-action-btn">
                   <button

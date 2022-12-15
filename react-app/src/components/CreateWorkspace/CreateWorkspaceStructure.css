@@ -6,15 +6,72 @@
 .workspace-content {
   display: grid;
   grid-template-columns: 260px auto;
-  background-color: #19171d;
+  background-color: #611f69;
   height: 100vh;
 }
 
 .right-column {
-  background-color: rgb(26, 29, 33);
+  background-color: white;
   padding: 30px 100px;
-  color: rgb(209, 210, 211);
+  color: black;
 }
 .left-column {
   color: white;
+}
+
+.left-column-text {
+  padding: 20px;
+  background-color: #59325a;
+}
+
+.action-title-container {
+  width: 30%;
+}
+
+.action-title {
+  font-size: 30px;
+}
+
+.action-subtitle {
+  width: 40%;
+  font-size: 14.5px;
+  margin-bottom: 20px;
+}
+
+.company-name-input {
+  box-sizing: border-box;
+  width: 40%;
+  margin-bottom: 40px;
+}
+
+.company-name-input > input {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid darkgray;
+}
+
+.company-name-input > input:focus {
+  border-color: #1d9bd14d;
+  box-shadow: 0 0 0 1px #1d9bd14d, 0 0 0 3px #1d9bd14d;
+  outline: none;
+}
+
+.company-name-submit > button {
+  padding: 12px;
+  width: 150px;
+  background-color: #611f69;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.company-name-submit > button:disabled {
+  background-color: #61606138;
+  color: #616061;
+  cursor: default;
 }

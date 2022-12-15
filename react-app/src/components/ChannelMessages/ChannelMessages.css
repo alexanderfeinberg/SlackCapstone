@@ -16,7 +16,8 @@
   width: 100%;
 }
 .channel-message-container:hover {
-  background-color: rgb(249, 249, 249);
+  /* background-color: rgb(249, 249, 249); */
+  background-color: rgb(238, 238, 238);
 }
 
 .channel-message-top-content {
@@ -39,17 +40,18 @@
 
 .channel-message-btns {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
 }
 
 .channel-message-btns button {
   background-color: white;
   border: none;
   height: 2rem;
+  width: 50%;
   /* border-radius: 10px; */
 }
 .channel-message-btns button:hover {
-  background-color: rgb(249, 249, 249);
+  background-color: rgb(222, 222, 222);
   cursor: pointer;
 }
 

@@ -69,7 +69,21 @@ const ChannelMessage = ({ messageId }) => {
         >
           Cancel
         </button>
-        <button type="submit">Save</button>
+        <button
+          type="submit"
+          className={`${
+            editedMessage !== message.content && editedMessage.length < 500
+              ? "green"
+              : ""
+          }`}
+          disabled={
+            editedMessage !== message.content && editedMessage.length < 500
+              ? false
+              : true
+          }
+        >
+          Save
+        </button>
       </div>
     </form>
   );
@@ -120,11 +134,11 @@ const ChannelMessage = ({ messageId }) => {
                     setEditFormOpen(messageId);
                   }}
                 >
-                  Edit
+                  <i class="fa-solid fa-pen"></i>
                 </button>
 
                 <button className="delete-button" onClick={handleDelete}>
-                  Delete
+                  <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
             </div>

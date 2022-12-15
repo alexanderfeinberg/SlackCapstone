@@ -90,3 +90,9 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.workspace-member-count {
+  margin-top: 8px;
+  color: gray;
+  font-size: 13px;
+}

@@ -50,7 +50,9 @@ const CreateWorkspaceStructure = ({ step }) => {
     <div className="workspace-container">
       <div className="empty-nav-bar"></div>
       <div className="workspace-content">
-        <div className="left-column">{companyName}</div>
+        <div className="left-column">
+          <div className="left-column-text">{companyName}</div>
+        </div>
         <div className="right-column">
           <div className="right-column-container">{stepRender}</div>
         </div>
