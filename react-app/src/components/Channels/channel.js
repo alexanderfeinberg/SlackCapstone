@@ -127,6 +127,7 @@ const Channel = () => {
         {Object.values(messages).map((message, idx) => (
           <ChannelMessage key={idx} messageId={message.id} />
         ))}
+        <div ref={messagesEndRef}></div>
       </div>
       <div className="chat-input-container">
         <div className="chat-input">
@@ -149,7 +150,6 @@ const Channel = () => {
           </button>
         </div>
       </div>
-      <div ref={messagesEndRef}></div>
     </div>
   );
 };

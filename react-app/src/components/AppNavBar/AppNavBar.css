@@ -1,5 +1,6 @@
 .app-nav {
   background-color: #611f69;
+  box-sizing: border-box;
 }
 
 .app-nav-container {

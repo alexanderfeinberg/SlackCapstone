@@ -70,7 +70,7 @@ def create_workspace():
 def edit_workspace(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     if workspace.owner_id != current_user.id:
-        return {"errors": "Unauthroized"}, 404
+        return {"errors": "You do not own this workspace."}, 404
 
     form = WorkspaceForm()
     form['csrf_token'].data = request.cookies['csrf_token']

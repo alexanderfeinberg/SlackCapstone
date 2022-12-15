@@ -38,6 +38,11 @@
   height: 9rem;
   display: flex;
   box-sizing: border-box;
+  width: 100%;
+  padding: 0px 15px;
+  /* margin-bottom: 10px; */
+  position: absolute;
+  bottom: 0;
 }
 
 /* rgba(255, 255, 255, 0.7); */
@@ -69,4 +74,18 @@
 .green {
   background-color: green;
   color: white;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  /* flex: 1; */
+
+  max-height: 75vh;
+  /* justify-content: flex-end; */
+}
+.chat-messages-container {
+  /* flex: 1; */
+  overflow-y: scroll;
+  height: 30%;
 }

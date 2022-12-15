@@ -13,6 +13,7 @@ const EditWorkspace = () => {
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspaceURL, setWorkspaceURL] = useState("");
   const [disableSubmit, setDisableSubmit] = useState(true);
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     if (workspace) {
@@ -24,6 +25,7 @@ const EditWorkspace = () => {
 
   useEffect(() => {
     setDisableSubmit(disableHandler());
+    setErrors([]);
   }, [workspaceName, workspaceURL]);
 
   const editWorkspaceHandler = async (e) => {
@@ -41,6 +43,7 @@ const EditWorkspace = () => {
       setModalType(null);
     } catch (e) {
       const data = await e.json();
+      setErrors([data.errors]);
       console.log(data);
     }
   };
@@ -68,7 +71,11 @@ const EditWorkspace = () => {
         </div>
       </div>
       <div className="modal-content-items">
-        <div className="errors"></div>
+        <div className="errors">
+          {errors.map((err, idx) => (
+            <div key={err}>{err}</div>
+          ))}
+        </div>
         <form onSubmit={editWorkspaceHandler}>
           <div className="modal-content-item">
             <div className="modal-content-item-header">Workspace name</div>

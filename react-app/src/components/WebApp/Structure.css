@@ -1,7 +1,7 @@
 .app-container {
   display: flex;
-  height: 100vh;
-  max-height: 100%;
+  box-sizing: border-box;
+  height: 95%;
 }
 .container-left {
   width: 30rem;
@@ -24,7 +24,8 @@
 
 .container-right {
   width: 100%;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  position: relative;
 }
 .container-right::-webkit-scrollbar {
   width: 0;
@@ -38,4 +39,10 @@
 #workspace-options-btn {
   position: relative;
   cursor: pointer;
+}
+
+.container-data {
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: column;
 }
