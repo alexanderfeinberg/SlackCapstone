@@ -61,9 +61,9 @@ const Structure = () => {
   return (
     <div className="app-container">
       <div className="container-left">
-        <div className="container-workspaces">
+        {/* <div className="container-workspaces">
           <WorkspaceList />
-        </div>
+        </div> */}
 
         <div className="container-subscribed">
           <div

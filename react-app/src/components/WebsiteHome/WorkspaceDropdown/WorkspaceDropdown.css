@@ -20,6 +20,11 @@
   border-top: 1px solid rgba(166, 164, 164, 0.5);
   cursor: pointer;
 }
+
+.workspace-item-text:hover {
+  background-color: rgb(238, 238, 238);
+}
+
 .workspace-dropdown-header {
   border-top: none;
   display: flex;

@@ -149,6 +149,9 @@ const ChannelMessage = ({ messageId }) => {
             {message.content
               ? message.content
               : message.msgData.Message.content}
+            {message.edited && (
+              <div className="message-is-edited">(edited)</div>
+            )}
           </div>
         )}
         {editFormOpen === messageId && editForm}

@@ -13,7 +13,7 @@
 }
 
 .hover:hover {
-  background-color: #2e3440;
+  background-color: #541c5a;
 }
 
 .pointer:hover {
@@ -35,4 +35,13 @@
 .container-bottom {
   display: flex;
   justify-content: center;
+}
+
+.active-channel {
+  background-color: #1164a3;
+  color: white;
+}
+
+.active-channel:hover {
+  background-color: #1164a3;
 }

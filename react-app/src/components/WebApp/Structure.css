@@ -4,7 +4,7 @@
   max-height: 100%;
 }
 .container-left {
-  width: 40rem;
+  width: 30rem;
   display: flex;
   background-color: #611f69;
   color: darkgray;
@@ -25,8 +25,6 @@
 .container-right {
   width: 100%;
   overflow-y: scroll;
-
-  padding: 0 1.5rem;
 }
 .container-right::-webkit-scrollbar {
   width: 0;
@@ -39,4 +37,5 @@
 
 #workspace-options-btn {
   position: relative;
+  cursor: pointer;
 }

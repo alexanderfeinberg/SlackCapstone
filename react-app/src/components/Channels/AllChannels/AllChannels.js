@@ -23,7 +23,7 @@ const AllChannels = ({ workspace }) => {
   return (
     <div className="all-channels-container">
       <div className="all-channels-header-title">All Channels</div>
-      <div classNAme="all-channels-count">
+      <div className="all-channels-count">
         {Object.values(channels).length} channels
       </div>
       <div chassName="all-channels-list">

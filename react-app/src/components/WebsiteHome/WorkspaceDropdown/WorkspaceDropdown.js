@@ -37,9 +37,11 @@ const WorkspaceDropdown = () => {
           className="workspace-item workspace-dropdown-header"
           onClick={editWorkspaceHandler}
         >
-          <div className="item-text-content">
-            <div className="workspace-dropdown-title">{workspace.name}</div>
-            <div className="workspace-dropdown-url">{workspace.url}</div>
+          <div className="workspace-item-text">
+            <div className="item-text-content">
+              <div className="workspace-dropdown-title">{workspace.name}</div>
+              <div className="workspace-dropdown-url">{workspace.url}</div>
+            </div>
           </div>
         </div>
         <div className="workspace-item" onClick={createChannelHandler}>

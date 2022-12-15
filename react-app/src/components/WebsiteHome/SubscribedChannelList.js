@@ -17,6 +17,7 @@ const SubscribedChannelList = () => {
   const [showCreateDropDown, setShowCreateDropDown] = useState(false);
 
   const channels = useSelector((state) => state.channel.subscribed);
+  const currChannel = useSelector((state) => state.channel.channel);
   const workspace = useSelector((state) => state.workspace.workspace);
 
   useEffect(async () => {
@@ -27,19 +28,21 @@ const SubscribedChannelList = () => {
   if (!isLoaded) return null;
   return (
     <div className="subbed-channels-container">
-      <div className="subbed-channels-btn subscription-padding">
-        <span
-          className="subbed-channels-title pointer"
-          onClick={() => setShowDropDown(!showDropDown)}
-        >
-          Channels
-        </span>
+      <div
+        className="subbed-channels-btn subscription-padding pointer hover"
+        onClick={() => setShowDropDown(!showDropDown)}
+      >
+        <span className="subbed-channels-title">Channels</span>
       </div>
       {showDropDown && (
         <div className="subbed-channel-list">
           {Object.values(channels).map((channel, idx) => (
             <div
-              className="subbed-channel-individual-container hover pointer subscription-padding"
+              className={`subbed-channel-individual-container hover pointer subscription-padding ${
+                currChannel && currChannel.id === channel.id
+                  ? "active-channel"
+                  : ""
+              }`}
               key={idx}
               onClick={async () => {
                 await dispatch(loadChannelThunk(channel.id));
@@ -56,16 +59,14 @@ const SubscribedChannelList = () => {
           ))}
         </div>
       )}
-      <div className="add-channel-container hover subscription-padding">
+      <div
+        className="add-channel-container hover subscription-padding pointer"
+        onClick={() => setShowCreateDropDown(!showCreateDropDown)}
+      >
         <div className="hashtag-icon">
           <i class="fa-solid fa-plus"></i>
         </div>
-        <div
-          className="add-channel-text"
-          onClick={() => setShowCreateDropDown(!showCreateDropDown)}
-        >
-          Add channels
-        </div>
+        <div className="add-channel-text">Add channels</div>
       </div>
       <div className="container-bottom">
         {showCreateDropDown && (
