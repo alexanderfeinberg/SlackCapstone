@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadSubbedWorkspacesThunk } from "../../store/workspaces";
 import SubscribedChannelList from "./SubscribedChannelList";
+
 const WorkspaceList = () => {
   const dispatch = useDispatch();
 
