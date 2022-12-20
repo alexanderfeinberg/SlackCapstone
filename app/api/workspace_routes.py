@@ -138,7 +138,8 @@ def create_direct_message(workspace_id):
         recipient = User.query.get_or_404(form.data['recipient'])
         workspace = Workspace.query.get_or_404(workspace_id)
         print("WORKSPACE FOUND ", workspace)
-        direct_message = DirectMessage(workspace=workspace)
+        direct_message = DirectMessage(
+            workspace=workspace, owner=User.query.get(current_user.id))
         print("DIRECT MESSAGE MADE ", direct_message)
         db.session.add(direct_message)
         try:

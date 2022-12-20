@@ -46,4 +46,4 @@ class DirectMessage(db.Model):
         return self.messages
 
     def to_dict(self):
-        return {"id": self.id, "workspaceId": self.workspace_id, "users": [user.to_dict() for user in self.users]}
+        return {"id": self.id, "workspaceId": self.workspace_id, "users": [user.to_dict() for user in self.users], "ownerId": self.owner_id}

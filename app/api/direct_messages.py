@@ -58,3 +58,13 @@ def create_direct_messages(id):
         db.session.commit()
         return {"Message": message.to_dict()}
     return {"errors": [form.errors]}, 404
+
+
+@direct_message_router.route('/')
+@login_required
+def get_user_direct_messages():
+    direct_messages = DirectMessage.query.filter(
+        DirectMessage.owner_id == current_user.id).all()
+    if not direct_messages:
+        return {"Messages": []}
+    return {"DirectMessages": [direct_message.to_dict() for direct_message in direct_messages]}
