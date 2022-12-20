@@ -24,6 +24,9 @@ class Workspace(db.Model):
     users = db.relationship(
         "User", secondary=users_in_workspace, back_populates="subscribed_workspaces")
 
+    direct_message_chats = db.relationship(
+        "DirectMessage", back_populates="workspace")
+
     def add_user(self, user):
         self.users.append(user)
         return self

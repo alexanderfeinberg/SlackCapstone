@@ -100,7 +100,7 @@ const Channel = () => {
     setSubModalType("members");
   };
 
-  if (!isLoaded) return null;
+  if (!isLoaded) return <h1>Loading</h1>;
   return (
     <div className="chat-container">
       <div className="header-container" id="chat-header">

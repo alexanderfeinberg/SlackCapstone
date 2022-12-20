@@ -1,7 +1,7 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import request
 import os
-from .models.channel_messages import ChannelMessages
+from .models.messages import Messages
 
 
 if os.environ.get("FLASK_ENV") == "production":
@@ -14,8 +14,8 @@ users = {}
 
 
 def load_past_messages(channel_id):
-    messages = ChannelMessages.query.filter(
-        ChannelMessages.channel_id == channel_id).all()
+    messages = Messages.query.filter(
+        Messages.source_id == channel_id).all()
     print("Messages ", [message.to_dict() for message in messages])
     return [message.to_dict() for message in messages]
 

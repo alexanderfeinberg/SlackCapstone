@@ -26,7 +26,7 @@ class Channel(db.Model):
 
     workspace = db.relationship("Workspace", back_populates="channels")
     messages = db.relationship(
-        "ChannelMessages", back_populates="channel", cascade="all, delete")
+        "Messages", primaryjoin="and_(Messages.source_type=='channel', foreign(Messages.source_id)==Channel.id)", lazy="dynamic", cascade="all, delete")
 
     def add_user(self, user):
         if self.has_user(user.id):

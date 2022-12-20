@@ -22,6 +22,12 @@ users_in_channel = db.Table(
         add_prefix_for_prod("channels.id")), primary_key=True)
 )
 
+users_in_direct_messages = db.Table("UsersInDirectMessages",
+                                    db.Column("users_id", db.Integer, db.ForeignKey(
+                                        add_prefix_for_prod("users.id")), primary_key=True),
+                                    db.Column("direct_message_id", db.Integer, db.ForeignKey(
+                                        add_prefix_for_prod("directMessages.id")), primary_key=True)
+                                    )
 
 if environment == "production":
     users_in_workspace.schema = SCHEMA

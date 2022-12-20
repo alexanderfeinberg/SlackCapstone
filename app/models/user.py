@@ -2,7 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
-from .joins import users_in_channel, users_in_workspace
+from .joins import users_in_channel, users_in_workspace, users_in_direct_messages
 from .workspace import Workspace
 
 
@@ -23,8 +23,11 @@ class User(db.Model, UserMixin):
         db.String(500), default=DEFAULT_PROFILE_PICTURE)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
-    channel_messages = db.relationship(
-        "ChannelMessages", back_populates="sender", cascade="all, delete")
+    owned_direct_messages = db.relationship(
+        "DirectMessage", back_populates="owner")
+
+    messages = db.relationship(
+        "Messages", back_populates="sender", cascade="all, delete")
 
     subscribed_channels = db.relationship(
         "Channel", secondary=users_in_channel, back_populates="users")
@@ -32,6 +35,9 @@ class User(db.Model, UserMixin):
     subscribed_workspaces = db.relationship(
         "Workspace", secondary=users_in_workspace, back_populates="users")
     owned_workspaces = db.relationship("Workspace", back_populates="owner")
+
+    direct_message_chats = db.relationship(
+        "DirectMessage", secondary=users_in_direct_messages, back_populates="users")
 
     @property
     def password(self):

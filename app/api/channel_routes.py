@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from ..models import User, ChannelMessages, Channel
+from ..models import User, Messages, Channel
 from ..forms.channel_message_form import ChannelMessageForm
 from ..forms.add_user_form import AddUserForm
 from ..forms.channel_form import ChannelForm
@@ -129,7 +129,7 @@ def add_message(channel_id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         channel = Channel.query.get_or_404(channel_id)
-        new_mesage = ChannelMessages(content=form.data['content'], edited=form.data['edited'], sender=get_current_user(
+        new_mesage = Messages(source_id=channel.id, source_type="channel", content=form.data['content'], edited=form.data['edited'], sender=get_current_user(
             current_user.id), channel=channel)
         db.session.add(new_mesage)
         db.session.commit()

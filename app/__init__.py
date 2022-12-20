@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.channel_message_routes import channel_message_router
 from .api.workspace_routes import workspace_router
 from .api.channel_routes import channel_router
+from .api.direct_messages import direct_message_router
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
@@ -38,6 +39,8 @@ app.register_blueprint(workspace_router,
                        url_prefix='/api/workspaces')
 app.register_blueprint(channel_router,
                        url_prefix='/api/channels')
+app.register_blueprint(direct_message_router,
+                       url_prefix='/api/dms')
 
 db.init_app(app)
 socketio.init_app(app)

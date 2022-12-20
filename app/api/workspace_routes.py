@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from ..models import User, Workspace, Channel
+from ..models import User, Workspace, Channel, DirectMessage
 from ..forms.workspace_form import WorkspaceForm
 from ..forms.channel_form import ChannelForm
+from ..forms.direct_message_form import DirectMessageForm
 from ..models.db import db
 from datetime import datetime
 from .helpers import get_current_user
@@ -124,8 +125,39 @@ def create_channel(workspace_id):
 
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
+# Create a directMessage
+
+
+@workspace_router.route('/<int:workspace_id>/dms', methods=["POST"])
+@login_required
+def create_direct_message(workspace_id):
+    form = DirectMessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("FORM DATAAAAA ", form.data)
+    if form.validate_on_submit():
+        recipient = User.query.get_or_404(form.data['recipient'])
+        workspace = Workspace.query.get_or_404(workspace_id)
+        print("WORKSPACE FOUND ", workspace)
+        direct_message = DirectMessage(workspace=workspace)
+        print("DIRECT MESSAGE MADE ", direct_message)
+        db.session.add(direct_message)
+        try:
+            direct_message.users = direct_message.add_users(
+                recipient.id, current_user.id)
+        except Exception as e:
+            print("ERRORS FOUND ", e)
+            return {"errors": [e]}, 404
+
+        db.session.commit()
+
+        return {"DirectMessage": direct_message.to_dict()}
+
+    return jsonify({"errors": [form.errors]}), 404
+
 
 # Get all channels by workspace
+
+
 @workspace_router.route('/<int:workspace_id>/channels')
 def get_workspace_channels(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)

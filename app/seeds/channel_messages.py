@@ -1,14 +1,14 @@
-from app.models import db, ChannelMessages, environment, SCHEMA
+from app.models import db, Messages, environment, SCHEMA
 
 instances = [
-    ChannelMessages(sender_id=1, channel_id=1,
-                    content="Testing!", edited=False),
-    ChannelMessages(sender_id=1, channel_id=2,
-                    content="Testing channel2", edited=False),
-    ChannelMessages(sender_id=2, channel_id=2,
-                    content="Testing user 2", edited=False),
-    ChannelMessages(sender_id=3, channel_id=3,
-                    content="Testing user nad channel3", edited=False),
+    Messages(sender_id=1, source_id=1, source_type="channel",
+             content="Testing!", edited=False),
+    Messages(sender_id=1, source_id=2, source_type="channel",
+             content="Testing channel2", edited=False),
+    Messages(sender_id=2, source_id=2, source_type="channel",
+             content="Testing user 2", edited=False),
+    Messages(sender_id=3, source_id=3, source_type="channel",
+             content="Testing user nad channel3", edited=False),
 ]
 
 
@@ -22,8 +22,8 @@ def seed_channel_messages():
 def undo_channel_messages():
     if environment == "production":
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.ChannelMessages RESTART IDENTITY CASCADE;")
+            f"TRUNCATE table {SCHEMA}.Messages RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute("DELETE FROM ChannelMessages")
+        db.session.execute("DELETE FROM Messages")
 
     db.session.commit()

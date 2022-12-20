@@ -1,7 +1,7 @@
 from .users import instances
 from .workspaces import instances as workspaces
 from .channels import instances as channels
-from app.models import db, ChannelMessages, environment, SCHEMA
+from app.models import db, Messages, environment, SCHEMA
 
 
 def seed_subscriptions():
