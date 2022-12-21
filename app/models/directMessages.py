@@ -28,7 +28,7 @@ class DirectMessage(db.Model):
         "User", secondary=users_in_direct_messages, back_populates="direct_message_chats")
 
     messages = db.relationship(
-        "Messages",  primaryjoin="and_(Messages.source_type=='directMessages', foreign(Messages.source_id)==DirectMessage.id)", lazy="dynamic")
+        "Messages",  back_populates="direct_message_chat", primaryjoin="and_(Messages.source_type=='directMessages', foreign(Messages.source_id)==DirectMessage.id)")
 
     def add_users(self, *args):
         if len(self.users) >= 2:
@@ -36,6 +36,7 @@ class DirectMessage(db.Model):
 
         for user_id in args:
             user = User.query.get(user_id)
+            print("CURRENT USERS ", self.users, user)
             if user in self.users:
                 raise Exception("User is already in the chat.")
             self.users.append(user)
@@ -46,4 +47,4 @@ class DirectMessage(db.Model):
         return self.messages
 
     def to_dict(self):
-        return {"id": self.id, "workspaceId": self.workspace_id, "users": [user.to_dict() for user in self.users], "ownerId": self.owner_id}
+        return {"id": self.id, "workspaceId": self.workspace_id, "users": [user.to_dict() for user in self.users], "ownerId": self.owner_id, "type": "directMessage"}

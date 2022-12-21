@@ -35,16 +35,20 @@ def get_direct_message(id):
 def get_direct_messages(id):
     user = User.query.get(current_user.id)
     direct_message = DirectMessage.query.get_or_404(id)
+    messages = Messages.query.filter(
+        Messages.source_id == direct_message.id).filter(Messages.source_type == "directMessage").all()
     if user not in direct_message.users:
         return {"errors": ["User can not access direct message"]}, 404
 
-    return {"Messages": [message.to_dict() for message in direct_message.messages]}
+    print("DIRECT MESSAGE MESSAGES ", messages)
+    return {"Messages": [message.to_dict() for message in messages]}
 
 
 @direct_message_router.route('<int:id>/messages', methods=["POST"])
 @login_required
 def create_direct_messages(id):
     form = ChannelMessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         direct_message = DirectMessage.query.get_or_404(id)
         user = User.query.get(current_user.id)
@@ -52,7 +56,7 @@ def create_direct_messages(id):
             return {"errors": ["User can not access direct message"]}, 404
 
         message = Messages(
-            sender=current_user, content=form.data['content'], source_id=direct_message.id, source_type="directMessage")
+            sender=current_user, content=form.data['content'],  source_type="directMessage", direct_message_chat=direct_message)
         message.direct_message_chat = direct_message
         db.session.add(message)
         db.session.commit()
@@ -63,8 +67,7 @@ def create_direct_messages(id):
 @direct_message_router.route('/')
 @login_required
 def get_user_direct_messages():
-    direct_messages = DirectMessage.query.filter(
-        DirectMessage.owner_id == current_user.id).all()
+    direct_messages = User.query.get(current_user.id).direct_message_chats
     if not direct_messages:
-        return {"Messages": []}
+        return {"DirectMessages": []}
     return {"DirectMessages": [direct_message.to_dict() for direct_message in direct_messages]}

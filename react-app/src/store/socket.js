@@ -1,6 +1,7 @@
 import { objectAssign } from "./helper";
 const CONNECT = "socket/CONNECT";
 const DISCONNECT = "socket/DISCONNECT";
+const ASSIGN_ROOM = "socket/ASSIGN_ROOM";
 
 export const connectSocket = (socket) => {
   return {
@@ -15,8 +16,17 @@ export const disconnectSocket = () => {
   };
 };
 
+export const assignRoom = (room, chatObject) => {
+  return {
+    type: ASSIGN_ROOM,
+    room,
+    chatObject,
+  };
+};
+
 let initialState = {
   socket: {},
+  room: {},
 };
 
 export default function socketReducer(state = initialState, action) {
@@ -29,6 +39,10 @@ export default function socketReducer(state = initialState, action) {
     case DISCONNECT:
       const disconnectState = {};
       return disconnectState;
+    case ASSIGN_ROOM:
+      const roomState = objectAssign(state, "room");
+      roomState.room = { name: action.room, chatObject: action.chatObject };
+      return roomState;
     default:
       return state;
   }

@@ -87,6 +87,29 @@ let initialState = {
   messages: {},
 };
 
+export const loadDMMessages = (directMessageId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/dms/${directMessageId}/messages`);
+  if (response.ok) {
+    const messages = await response.json();
+    dispatch(loadMessages(messages));
+    return messages;
+  }
+};
+
+export const createDMMessageThunk =
+  (directMessageId, directMessageContent) => async (dispatch) => {
+    const response = await csrfFetch(`/api/dms/${directMessageId}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(directMessageContent),
+    });
+    if (response.ok) {
+      const message = await response.json();
+      dispatch(createMessage(message));
+      return message;
+    }
+  };
+
 export default function channelMessageReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_MESSAGES:

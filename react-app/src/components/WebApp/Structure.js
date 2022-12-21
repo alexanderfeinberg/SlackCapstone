@@ -17,6 +17,8 @@ import WorkspaceDropdown from "../WebsiteHome/WorkspaceDropdown/WorkspaceDropdow
 import { EditFormContext, EditFormProvider } from "../../context/EditForm";
 import "./Structure.css";
 import { addOnlineUsers, removeOnlineUser } from "../../store/online";
+import DirectMessageChat from "../DirectMessageChat/DirectMessageChat";
+import ComposeDM from "../composeDM/ComposeDM";
 let socket;
 
 const Structure = () => {
@@ -54,7 +56,7 @@ const Structure = () => {
       setIsLoaded(true);
     })();
     return () => disconnectSocketHandler();
-  }, [dispatch]);
+  }, []);
 
   if (!isLoaded) return null;
 
@@ -89,6 +91,12 @@ const Structure = () => {
               <Route path={`${path}/allChannels`}>
                 <AllChannels workspace={workspace} />
               </Route>
+              <ProtectedRoute path={`${path}/dms/:directMessageId`}>
+                <DirectMessageChat />
+              </ProtectedRoute>
+              <ProtectedRoute path={`${path}/compose`}>
+                <ComposeDM />
+              </ProtectedRoute>
               {/* <Redirect
                 to={{
                   pathname: `${path}/channels/1`,

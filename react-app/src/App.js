@@ -57,6 +57,7 @@ function App() {
               <AppNavBar />
               <Structure />
             </ProtectedRoute>
+
             <ProtectedRoute path="/setup-team-name">
               <CreateWorkspaceStructure step={"setup-team-name"} />
             </ProtectedRoute>

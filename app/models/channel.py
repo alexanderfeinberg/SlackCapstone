@@ -45,7 +45,7 @@ class Channel(db.Model):
 
     def to_dict(self, user_id=None, owner=False):
         return_dict = {'id': self.id, 'name': self.name, 'ownerId': self.owner_id if not owner else self.owner.to_dict(), 'workspaceId': self.workspace_id, 'description': self.description,
-                       'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users)}
+                       'createdAt': self.created_at, 'updatedAt': self.updated_at, 'userCount': len(self.users), "type": "channel"}
         if user_id:
             return_dict['currentUserSubscribed'] = self.has_user(user_id)
         return return_dict
@@ -54,4 +54,4 @@ class Channel(db.Model):
         return {'id': self.id, 'name': self.name, 'owner': self.owner.to_dict(), 'users': [user.to_dict() for user in self.users], 'workspace': self.workspace.to_dict(),
                 'messages': [message.to_dict() for message in self.messages],
                 'description': self.description,
-                'createdAt': self.created_at, 'updatedAt': self.updated_at}
+                'createdAt': self.created_at, 'updatedAt': self.updated_at, "type": "channel"}

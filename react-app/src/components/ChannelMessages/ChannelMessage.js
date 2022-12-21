@@ -17,6 +17,7 @@ const ChannelMessage = ({ messageId }) => {
   const socket = useSelector((state) => state.socket.socket);
   const channel = useSelector((state) => state.channel.channel);
   const user = useSelector((state) => state.session.user);
+  const currentRoom = useSelector((state) => state.socket.room.name);
 
   const [editedMessage, setEditedMessage] = useState(message.content);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -41,14 +42,14 @@ const ChannelMessage = ({ messageId }) => {
       return;
     }
 
-    socket.emit("load_messages", { room: channel.id });
+    socket.emit("load_messages", { room: currentRoom });
     setShowEditForm(false);
     setEditFormOpen(false);
   };
 
   const handleDelete = () => {
     dispatch(deleteMessageThunk(messageId)).then(() =>
-      socket.emit("load_messages", { room: channel.id })
+      socket.emit("load_messages", { room: currentRoom })
     );
   };
 
@@ -92,6 +93,10 @@ const ChannelMessage = ({ messageId }) => {
     setShowEditForm(false);
     setEditFormOpen(false);
   }, [messageId]);
+
+  useEffect(() => {
+    setEditedMessage(message.content);
+  }, [message]);
 
   useEffect(() => {
     if (editFormOpen !== messageId) {

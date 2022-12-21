@@ -142,6 +142,8 @@ def add_message(channel_id):
 @channel_router.route('/<int:channel_id>/messages')
 def get_channel_messages(channel_id):
     channel = Channel.query.get_or_404(channel_id)
+    print("CHANNEL MESSAGES ", [message.to_dict()
+          for message in channel.messages])
     if not channel.messages:
         return jsonify([])
     return jsonify({"Messages": [message.to_dict() for message in channel.messages]})

@@ -40,6 +40,16 @@ def get_workspace_by_id(workspace_id):
     workspace = Workspace.query.get_or_404(workspace_id)
     return {"Workspace": workspace.to_dict()}
 
+# get worksapce users
+
+
+@workspace_router.route('/<int:workspace_id>/users')
+def get_workspace_users(workspace_id):
+    workspace = Workspace.query.get_or_404(workspace_id)
+    if not workspace.users:
+        return {"Users": []}
+    return {"Users": [user.to_dict() for user in workspace.users]}
+
 # Create new workspace
 
 

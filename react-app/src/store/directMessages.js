@@ -49,8 +49,8 @@ export const createDirectMessageThunk =
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        body: JSON.stringify(directMessage),
       },
+      body: JSON.stringify(directMessage),
     });
 
     if (response.ok) {
@@ -81,9 +81,18 @@ export default function DirectMessageReducer(state = initialState, action) {
         {},
         loadAllState.directMessagesList
       );
+      if (!action.directMessages.DirectMessages.length) return loadAllState;
       action.directMessages.DirectMessages.forEach((message) => {
-        loadAllState.directMessagesList[message.id] = message;
+        console.log("MESSAGE ", message);
+        loadAllState.directMessagesList[message.id] = { ...message };
+        loadAllState.directMessagesList[message.id].users = {};
+
+        message.users.forEach((user) => {
+          console.log("USER ", user);
+          loadAllState.directMessagesList[message.id]["users"][user.id] = user;
+        });
       });
+
       return loadAllState;
     case LOAD_DIRECT_MESSAGE:
       const loadState = objectAssign(
@@ -101,12 +110,12 @@ export default function DirectMessageReducer(state = initialState, action) {
     case CREATE_DIRECT_MESSAGE:
       const createState = objectAssign(
         state,
-        "directMessageList",
+        "directMessagesList",
         "directMessage"
       );
       const directMessage = action.directMessage.DirectMessage;
-      createState.directMessageList[directMessage.id] = directMessage;
-      createState, (directMessage = directMessage);
+      createState.directMessagesList[directMessage.id] = directMessage;
+      createState.directMessage = directMessage;
       return createState;
 
     case DELETE_DIRECT_MESSAGE:

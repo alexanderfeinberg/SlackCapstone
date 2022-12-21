@@ -11,6 +11,7 @@ import {
 import ChannelMessage from "../ChannelMessages/ChannelMessage";
 import "./Channel.css";
 import ChatInputText from "../ChatInputText/ChatInputText";
+import { assignRoom } from "../../store/socket";
 
 const Channel = () => {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const Channel = () => {
 
       socket.emit("join", { user: currentUser, room: channel.id });
       socket.emit("load_messages", { room: channel.id });
+      dispatch(assignRoom(channel.id, channel));
       setIsLoaded(true);
     }
 
@@ -100,7 +102,7 @@ const Channel = () => {
     setSubModalType("members");
   };
 
-  if (!isLoaded) return <h1>Loading</h1>;
+  if (!isLoaded) return null;
   return (
     <div className="chat-container">
       <div className="header-container" id="chat-header">

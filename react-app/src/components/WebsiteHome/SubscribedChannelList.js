@@ -7,6 +7,7 @@ import {
 } from "../../store/channels";
 import "./SubscribedChannelList.css";
 import AddChannelsDropdown from "../AddChannels/AddChannelsDropdown";
+import DirectMessageList from "../DirectMessageList/DirectMessageList";
 
 const SubscribedChannelList = () => {
   const dispatch = useDispatch();
@@ -15,15 +16,21 @@ const SubscribedChannelList = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showDropDown, setShowDropDown] = useState(true);
   const [showCreateDropDown, setShowCreateDropDown] = useState(false);
+  const [currentChat, setCurrentChat] = useState(false);
 
   const channels = useSelector((state) => state.channel.subscribed);
   const currChannel = useSelector((state) => state.channel.channel);
   const workspace = useSelector((state) => state.workspace.workspace);
+  let chat = useSelector((state) => state.socket.room);
 
   useEffect(async () => {
     await dispatch(loadSubbedChannelsThunk(workspace.id));
     setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (chat && chat.chatObject) setCurrentChat(chat.chatObject);
+  }, [chat]);
 
   if (!isLoaded) return null;
   return (
@@ -39,7 +46,9 @@ const SubscribedChannelList = () => {
           {Object.values(channels).map((channel, idx) => (
             <div
               className={`subbed-channel-individual-container hover pointer subscription-padding ${
-                currChannel && currChannel.id === channel.id
+                currentChat &&
+                currentChat.type === "channel" &&
+                currentChat.id == channel.id
                   ? "active-channel"
                   : ""
               }`}
@@ -76,6 +85,9 @@ const SubscribedChannelList = () => {
             />
           </div>
         )}
+      </div>
+      <div>
+        <DirectMessageList />
       </div>
     </div>
   );

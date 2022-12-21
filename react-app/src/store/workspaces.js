@@ -14,10 +14,11 @@ const REMOVE_WORKPLACE_SUBSCRIPTION =
   "workspaces/REMOVE_WORKPLACE_SUBSCRIPTION";
 
 //Actions
-const loadWorkspace = (workspace) => {
+const loadWorkspace = (workspace, users) => {
   return {
     type: LOAD_WORKSPACE,
     workspace,
+    users,
   };
 };
 
@@ -64,9 +65,11 @@ const removeWorkspaceSub = (workspaceId) => {
 
 export const loadWorkspaceThunk = (workspaceId) => async (dispatch) => {
   const response = await csrfFetch(`/api/workspaces/${workspaceId}`);
+  const userResp = await csrfFetch(`/api/workspaces/${workspaceId}/users`);
   if (response.ok) {
     const workspace = await response.json();
-    dispatch(loadWorkspace(workspace));
+    const users = await userResp.json();
+    dispatch(loadWorkspace(workspace, users));
     return workspace;
   }
 };
@@ -137,6 +140,7 @@ export default function workspaceReducer(state = initialState, action) {
     case LOAD_WORKSPACE:
       const loadState = objectAssign(state);
       loadState.workspace = { ...action.workspace.Workspace };
+      loadState.workspace.users = action.users;
 
       return loadState;
     case CREATE_WORKSPACE:
