@@ -24,8 +24,8 @@ class Messages(db.Model):
     sender = db.relationship("User", back_populates="messages")
     channel = db.relationship(
         "Channel", primaryjoin="and_(Messages.source_type=='channel', foreign(Messages.source_id)==Channel.id)", uselist=False)
-    # direct_message_chat = db.relationship(
-    #     "DirectMessage", back_populates="messages", primaryjoin="and_(Messages.source_type=='directMessages', foreign(Messages.source_id)==DirectMessage.id)", uselist=False)
+    direct_message_chat = db.relationship(
+        "DirectMessage", back_populates="messages", primaryjoin="and_(Messages.source_type=='directMessages', foreign(Messages.source_id)==DirectMessage.id)", uselist=False)
 
     def to_dict(self):
         print("STRFTIME ", self.updated_at.strftime('%m/%d/%Y'))
