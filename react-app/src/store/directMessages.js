@@ -7,6 +7,9 @@ const LOAD_DIRECT_MESSAGE = "directMessages/Load_DIRECT_MESSAGE";
 const CREATE_DIRECT_MESSAGE = "directMessages/CREATE_DIRECT_MESSAGE";
 const DELETE_DIRECT_MESSAGE = "directMessages/DELETE_CREATE_MESSAGE";
 
+const INCOMING_DM = "directMessages/INCOMING_DM";
+const REMOVE_INCOMING = "directMessage/REMOVE_INCOMING";
+
 //Actions
 export const loadDirectMessages = (directMessages) => {
   return { type: LOAD_DIRECT_MESSAGES, directMessages };
@@ -22,6 +25,14 @@ export const createDirectMessage = (directMessage) => {
 
 export const deleteDirectMessage = (directMessage) => {
   return { type: DELETE_DIRECT_MESSAGE, directMessage };
+};
+
+export const incomingDM = (directMessageId) => {
+  return { type: INCOMING_DM, directMessageId };
+};
+
+export const removeIncoming = (directMessageId) => {
+  return { type: REMOVE_INCOMING, directMessageId };
 };
 
 //Thunks
@@ -130,6 +141,27 @@ export default function DirectMessageReducer(state = initialState, action) {
       }
       delete deleteState.directMessageList[deleteMessage.id];
       return deleteState;
+
+    case INCOMING_DM:
+      const incomingState = objectAssign(
+        state,
+        "directMessage",
+        "directMessagesList"
+      );
+      incomingState.directMessagesList[action.directMessageId].incoming = true;
+      return incomingState;
+
+    case REMOVE_INCOMING:
+      const removeIncomingState = objectAssign(
+        state,
+        "directMessage",
+        "directMessagesList"
+      );
+      removeIncomingState.directMessagesList[
+        action.directMessageId
+      ].incoming = false;
+
+      return removeIncomingState;
 
     default:
       return state;

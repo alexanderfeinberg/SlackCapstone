@@ -5,6 +5,7 @@ import { createDMMessageThunk } from "../../store/channelMessages";
 import { createDirectMessageThunk } from "../../store/directMessages";
 import DirectMessageChat from "../DirectMessageChat/DirectMessageChat";
 import ChatInputText from "../ChatInputText/ChatInputText";
+import "./ComposeDM.css";
 
 const ComposeDM = () => {
   const { workspaceId } = useParams();
@@ -26,15 +27,21 @@ const ComposeDM = () => {
 
   const handleChatsend = async (e) => {
     e.preventDefault();
-    console.log("SELEECTED ", selected, selected[0].id, workspaceId);
+
     let { DirectMessage: directMessage } = await dispatch(
       createDirectMessageThunk(workspaceId, {
         workspace_id: workspaceId,
         recipient: selected[0].id,
       })
     );
+
     let newMessage;
-    console.log("NEW DM ", directMessage);
+
+    socket.emit("incoming_dm", {
+      room: `User${selected[0].id}`,
+      directMessage: directMessage,
+    });
+
     try {
       newMessage = await dispatch(
         createDMMessageThunk(directMessage.id, {
@@ -58,7 +65,7 @@ const ComposeDM = () => {
   useEffect(() => {
     console.log("USE EFFEFCT");
     setOptions([]);
-    if (users && users.Users) {
+    if (users && users.Users && name.length > 0) {
       console.log("USERR ", users);
       for (let user of users.Users) {
         if (user.id === sessionUser.id) continue;
@@ -86,44 +93,52 @@ const ComposeDM = () => {
   }, [selected]);
 
   return (
-    <div>
-      <div>New Message</div>
-      <div>
-        {selected.length &&
-          selected.map((user, idx) => (
-            <div key={idx}>
-              {user.firstName} {user.lastName}
-            </div>
-          ))}
-      </div>
-      {!selected.length && (
-        <div>
-          To:{" "}
+    <div className="compose-dm-container">
+      <div className="compose-header">New Message</div>
+      {!selected.length > 0 && (
+        <div className="compose-input" id="compose-input">
+          <div className="input-text">To: </div>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="#channel or @person"
           />
+          <div className="compose-selected">
+            {selected.length > 0 &&
+              selected.map((user, idx) => (
+                <div key={idx}>
+                  {user.firstName} {user.lastName}
+                </div>
+              ))}
+          </div>
         </div>
       )}
-
-      {!selected.length && (
-        <div>
-          {options.length &&
-            options.map((user, idx) => (
-              <div
-                key={idx}
-                onClick={() => {
-                  setSelected((prevState) => [...prevState, user]);
-                  setOptions([]);
-                }}
-              >
-                {user.firstName} {user.lastName}
-              </div>
-            ))}
+      {!selected.length && name.length > 0 && (
+        <div className="search-results-container">
+          <div className="compose-search-results">
+            {options.length > 0 &&
+              options.map((user, idx) => (
+                <div
+                  className="search-result-listing"
+                  key={idx}
+                  onClick={() => {
+                    setSelected((prevState) => [...prevState, user]);
+                    setOptions([]);
+                  }}
+                >
+                  <div className="search-result-name">
+                    {user.firstName} {user.lastName}
+                  </div>
+                </div>
+              ))}
+            {options.length < 1 && (
+              <div className="compose-no-search-results">No results..</div>
+            )}
+          </div>
         </div>
       )}
-      <div>
+      <div className="compose-chat-container">
         {existingDirectMessage && (
           <DirectMessageChat directMessageIdProp={existingDirectMessage.id} />
         )}

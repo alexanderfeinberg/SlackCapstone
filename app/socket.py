@@ -75,3 +75,10 @@ def load_messages(data):
     messages = load_past_messages(room)
     print("LOAD PREV MESSAGES ", messages)
     emit('load_messages', messages, to=room)
+
+
+@socketio.on("incoming_dm")
+def incoming_dm(data):
+    print("INCOMING DM EVENT")
+    room = data['room']
+    emit("incoming_dm", data['directMessage'], to=room)

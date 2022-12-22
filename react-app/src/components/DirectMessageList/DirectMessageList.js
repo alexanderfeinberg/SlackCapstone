@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { loadDirectMessagesThunk } from "../../store/directMessages";
+import {
+  loadDirectMessagesThunk,
+  removeIncoming,
+} from "../../store/directMessages";
 import { useHistory } from "react-router-dom";
 
 const DirectMessageList = () => {
@@ -47,11 +50,12 @@ const DirectMessageList = () => {
               currentChat.id === dm.id
                 ? "active-channel"
                 : ""
-            }`}
+            } ${dm.incoming ? "incoming" : ""}`}
             key={idx}
-            onClick={() =>
-              history.push(`/workspaces/${workspace.id}/dms/${dm.id}`)
-            }
+            onClick={() => {
+              dispatch(removeIncoming(dm.id));
+              history.push(`/workspaces/${workspace.id}/dms/${dm.id}`);
+            }}
           >
             {dm.id}
           </div>

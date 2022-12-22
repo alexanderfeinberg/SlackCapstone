@@ -19,6 +19,10 @@ import "./Structure.css";
 import { addOnlineUsers, removeOnlineUser } from "../../store/online";
 import DirectMessageChat from "../DirectMessageChat/DirectMessageChat";
 import ComposeDM from "../composeDM/ComposeDM";
+import {
+  loadDirectMessagesThunk,
+  incomingDM,
+} from "../../store/directMessages";
 let socket;
 
 const Structure = () => {
@@ -36,13 +40,22 @@ const Structure = () => {
 
     dispatch(connectSocket(socket));
     socket.on("sign_in", (data) => dispatch(addOnlineUsers(data)));
+    socket.on("incoming_dm", async (data) => {
+      await dispatch(loadDirectMessagesThunk());
+      dispatch(incomingDM(data.id));
+    });
     socket.on("user_disconnect", (data) => dispatch(removeOnlineUser(data.id)));
     socket.emit("sign_in", { user: currentUser });
+    socket.emit("join", { room: `User${currentUser.id}`, user: currentUser });
   };
 
   const disconnectSocketHandler = () => {
     if (existingSocket) {
       console.log("DISCONNCTING");
+      socket.emit("leave", {
+        room: `User${currentUser.id}`,
+        user: currentUser,
+      });
 
       socket.disconnect();
       dispatch(disconnectSocket());

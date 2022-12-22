@@ -28,7 +28,7 @@ class DirectMessage(db.Model):
         "User", secondary=users_in_direct_messages, back_populates="direct_message_chats")
 
     messages = db.relationship(
-        "Messages",  back_populates="direct_message_chat", primaryjoin="and_(Messages.source_type=='directMessages', foreign(Messages.source_id)==DirectMessage.id)")
+        "Messages",  backref=db.backref("direct_message_chat"), primaryjoin="and_(Messages.source_type=='directMessages', foreign(Messages.source_id)==DirectMessage.id)", lazy="dynamic", cascade="all, delete")
 
     def add_users(self, *args):
         if len(self.users) >= 2:

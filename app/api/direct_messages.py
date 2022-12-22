@@ -14,7 +14,13 @@ def delete_direct_message(id):
     print("User in dms ", user in direct_message.users)
     if user not in direct_message.users:
         return {"errors": ["User is not in direct message chat"]}
+    print("DIRECT MESSAGE MESSAGES ", direct_message.messages.all())
     db.session.delete(direct_message)
+    messages = Messages.query.filter(Messages.source_id == direct_message.id).filter(
+        Messages.source_type == "directMessage").all()
+    for message in messages:
+        print("MESSAGEEE ", message.direct_message_chat)
+        db.session.delete(message)
     db.session.commit()
     return {"Message": "Direct message deleted."}
 
@@ -57,7 +63,7 @@ def create_direct_messages(id):
 
         message = Messages(
             sender=current_user, content=form.data['content'],  source_type="directMessage", direct_message_chat=direct_message)
-        message.direct_message_chat = direct_message
+        print("DIRECT MESSAGE CHAT ", message.direct_message_chat)
         db.session.add(message)
         db.session.commit()
         return {"Message": message.to_dict()}

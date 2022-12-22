@@ -119,7 +119,7 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
             </div>
             {recipient.firstName} {recipient.lastName}
             <div>
-              {recipient.online && (
+              {onlineUsers[recipient.id] && (
                 <img
                   className="is-online"
                   src="https://miro.medium.com/max/512/1*nZ9VwHTLxAfNCuCjYAkajg.png"
