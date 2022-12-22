@@ -116,16 +116,15 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
           <div className="chat-header-title header">
             <div className="header-profile-pic">
               <img src={recipient.profilePicture} />
+              <div
+                className={`is-online ${
+                  onlineUsers[recipient.id] ? "green-circle" : "grey-circle"
+                }`}
+              >
+                <i className="fa-solid fa-circle"></i>
+              </div>
             </div>
             {recipient.firstName} {recipient.lastName}
-            <div>
-              {onlineUsers[recipient.id] && (
-                <img
-                  className="is-online"
-                  src="https://miro.medium.com/max/512/1*nZ9VwHTLxAfNCuCjYAkajg.png"
-                />
-              )}
-            </div>
           </div>
         </div>
       )}

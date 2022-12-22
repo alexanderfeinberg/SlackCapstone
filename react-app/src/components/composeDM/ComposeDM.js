@@ -80,12 +80,12 @@ const ComposeDM = () => {
   }, [name]);
 
   useEffect(() => {
+    if (!selected.length) setExistingDirectMessage(null);
     for (let dm of Object.values(directMessages)) {
       console.log("DM ", dm, selected);
       selected.forEach((user) => {
         console.log("SELECTED ", user);
         if (dm.users[user.id]) {
-          console.log("DM ", dm);
           setExistingDirectMessage(dm);
         }
       });
@@ -95,25 +95,33 @@ const ComposeDM = () => {
   return (
     <div className="compose-dm-container">
       <div className="compose-header">New Message</div>
-      {!selected.length > 0 && (
-        <div className="compose-input" id="compose-input">
-          <div className="input-text">To: </div>
+
+      <div className="compose-input" id="compose-input">
+        <div className="input-text">To: </div>
+        <div className="compose-selected">
+          {selected.length > 0 &&
+            selected.map((user, idx) => (
+              <div className="selected-result-container" key={idx}>
+                {user.firstName} {user.lastName}
+                <div
+                  className="remove-selected"
+                  onClick={() => setSelected([])}
+                >
+                  X
+                </div>
+              </div>
+            ))}
+        </div>
+        {selected.length < 1 && (
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="#channel or @person"
           />
-          <div className="compose-selected">
-            {selected.length > 0 &&
-              selected.map((user, idx) => (
-                <div key={idx}>
-                  {user.firstName} {user.lastName}
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
+        )}
+      </div>
+
       {!selected.length && name.length > 0 && (
         <div className="search-results-container">
           <div className="compose-search-results">
@@ -125,6 +133,7 @@ const ComposeDM = () => {
                   onClick={() => {
                     setSelected((prevState) => [...prevState, user]);
                     setOptions([]);
+                    setName("");
                   }}
                 >
                   <div className="search-result-name">

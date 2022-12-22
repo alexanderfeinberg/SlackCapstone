@@ -1,8 +1,17 @@
-.header-profile-pic > img {
-  height: 45px;
-  width: 45px;
-}
-
 .incoming {
   color: red;
+}
+
+.is-online {
+  position: absolute;
+  bottom: 21%;
+  right: 6%;
+}
+
+.green-circle {
+  color: rgb(7, 170, 7);
+}
+
+.grey-circle {
+  color: gray;
 }

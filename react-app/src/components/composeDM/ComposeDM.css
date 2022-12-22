@@ -17,6 +17,8 @@
   padding: 15px 15px;
   box-shadow: 0 1px 0 0 rgb(29 28 29 / 13%), 0 4px 15px -2px #0000003e;
   display: flex;
+  align-items: center;
+  max-height: 19px;
 }
 
 .input-text {
@@ -62,4 +64,20 @@
 
 .compose-no-search-results {
   padding: 10px 20px;
+}
+
+.selected-result-container {
+  white-space: nowrap;
+  margin: 0px 10px;
+  border-radius: 5px;
+  background-color: #1d9bd11a;
+  line-height: 20px;
+  padding: 5px;
+  display: flex;
+}
+
+.remove-selected {
+  margin-left: 8px;
+  color: grey;
+  cursor: pointer;
 }

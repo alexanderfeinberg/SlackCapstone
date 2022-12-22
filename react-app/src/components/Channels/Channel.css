@@ -29,6 +29,8 @@
   display: flex;
   margin-left: 15px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .header {
@@ -91,4 +93,16 @@
   /* flex: 1; */
   overflow-y: scroll;
   height: 30%;
+}
+
+.header-profile-pic {
+  margin-right: 8px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.header-profile-pic > img:not(.is-online) {
+  height: 35px;
+  width: 35px;
+  border-radius: 5px;
 }
