@@ -1,11 +1,21 @@
+.dm-listing {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .incoming {
-  color: red;
+  color: white;
+  padding: 4px;
+  background-color: red;
+  border-radius: 7px;
 }
 
 .is-online {
   position: absolute;
-  bottom: 21%;
-  right: 6%;
+  bottom: 7%;
+  right: -4%;
 }
 
 .green-circle {

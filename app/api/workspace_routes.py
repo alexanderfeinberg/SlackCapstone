@@ -160,8 +160,10 @@ def create_direct_message(workspace_id):
             return {"errors": [e]}, 404
 
         db.session.commit()
+        print("DIRECT MESSAGE INFO ",
+              direct_message.to_dict(), direct_message.users)
 
-        return {"DirectMessage": direct_message.to_dict()}
+        return jsonify({"DirectMessage": direct_message.to_dict()})
 
     return jsonify({"errors": [form.errors]}), 404
 

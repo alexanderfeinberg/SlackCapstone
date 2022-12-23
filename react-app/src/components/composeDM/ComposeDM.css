@@ -57,6 +57,7 @@
 
 .search-result-listing:hover {
   background-color: #1164a3;
+  color: white;
 }
 .search-result-name {
   padding: 5px 0px;

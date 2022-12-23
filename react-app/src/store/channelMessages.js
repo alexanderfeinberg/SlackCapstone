@@ -6,6 +6,7 @@ const LOAD_MESSAGES = "channelMessages/LOAD_MESSAGES";
 const CREATE_MESSAGE = "channelMessages/CREATE_MESSAGES";
 const EDIT_MESSAGE = "channelMessages/EDIT_MESSAGES";
 const DELETE_MESSAGES = "channelMessages/DELETE_MESSAGES";
+const CLEAR_MESSAGE_CACHE = "channelMessages/CLEAR_MESSAGE_CACHE";
 
 //Actions
 export const loadMessages = (messageList) => {
@@ -31,6 +32,10 @@ export const deleteMessage = (messageId) => {
     type: DELETE_MESSAGES,
     messageId,
   };
+};
+
+export const clearMessages = () => {
+  return { type: CLEAR_MESSAGE_CACHE };
 };
 
 //Thunks
@@ -146,6 +151,11 @@ export default function channelMessageReducer(state = initialState, action) {
 
       delete deleteState.messages[action.messageId];
       return deleteState;
+
+    case CLEAR_MESSAGE_CACHE:
+      const messageCache = objectAssign(state, "messages");
+      messageCache.messages = {};
+      return messageCache;
 
     default:
       return state;

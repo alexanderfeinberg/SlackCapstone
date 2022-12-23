@@ -46,3 +46,13 @@
   display: flex;
   flex-direction: column;
 }
+
+.compose-btn {
+  background-color: white;
+  padding: 7px;
+  border-radius: 50%;
+}
+
+.fa-pen-to-square {
+  color: black;
+}

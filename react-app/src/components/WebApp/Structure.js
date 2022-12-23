@@ -4,7 +4,7 @@ import Channel from "../Channels/channel";
 import AllChannels from "../Channels/AllChannels/AllChannels";
 import ProtectedRoute from "../../components/auth/ProtectedRoute";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -27,6 +27,8 @@ let socket;
 
 const Structure = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const { workspaceId } = useParams();
   const workspace = useSelector((state) => state.workspace.workspace);
   const currentUser = useSelector((state) => state.session.user);
@@ -88,6 +90,12 @@ const Structure = () => {
           >
             <div className="workspace-title header">{workspace.name}</div>
             {showWorkspaceDropdown && <WorkspaceDropdown />}
+            <div
+              className="compose-btn"
+              onClick={() => history.push(`/workspaces/${workspaceId}/compose`)}
+            >
+              <i class="fa-regular fa-pen-to-square"></i>
+            </div>
           </div>
           <div className="channel-list">
             <SubscribedChannelList />

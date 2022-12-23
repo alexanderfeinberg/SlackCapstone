@@ -5,13 +5,18 @@ import {
   removeIncoming,
 } from "../../store/directMessages";
 import { useHistory } from "react-router-dom";
+import "./DirectMessageList.css";
 
 const DirectMessageList = () => {
+  console.log("DM LIST RERENDER");
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentChat, setCurrentChat] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(true);
+  const [recipients, setRecipients] = useState({});
+
   console.log("CURR CHAT ", currentChat);
 
   const directMessages = useSelector(
@@ -19,6 +24,7 @@ const DirectMessageList = () => {
   );
   const workspace = useSelector((state) => state.workspace.workspace);
   let chat = useSelector((state) => state.socket.room);
+  const sessionUser = useSelector((state) => state.session.user);
   console.log("CURRENT CHAT ", currentChat);
 
   console.log(directMessages);
@@ -26,7 +32,6 @@ const DirectMessageList = () => {
   useEffect(() => {
     (async () => {
       await dispatch(loadDirectMessagesThunk());
-      setIsLoaded(true);
     })();
   }, []);
 
@@ -36,31 +41,65 @@ const DirectMessageList = () => {
     }
   }, [chat]);
 
+  useEffect(() => {
+    setIsLoaded(false);
+    console.log("RUNNING USE EFFECT");
+    console.log("DM LEN ", Object.values(directMessages).length);
+    if (Object.values(directMessages).length) {
+      for (let dm of Object.values(directMessages)) {
+        console.log("DMMMM ", dm);
+        setRecipients((prevState) => {
+          delete dm.users[sessionUser.id];
+          const newState = { ...prevState, [dm.id]: dm.users };
+          console.log("NEW STATE ", newState);
+          return newState;
+        });
+      }
+      console.log("RECIP HERE ", recipients);
+      if (Object.values(recipients)) setIsLoaded(true);
+    }
+    console.log("RECEPIENTS ", recipients);
+  }, [dispatch, directMessages]);
+
   if (!isLoaded) return null;
 
   return (
-    <div>
-      <div>Direct Messages</div>
-      <div className="dm-list">
-        {Object.values(directMessages).map((dm, idx) => (
-          <div
-            className={`dm-listing ${
-              currentChat &&
-              currentChat.type === "directMessage" &&
-              currentChat.id === dm.id
-                ? "active-channel"
-                : ""
-            } ${dm.incoming ? "incoming" : ""}`}
-            key={idx}
-            onClick={() => {
-              dispatch(removeIncoming(dm.id));
-              history.push(`/workspaces/${workspace.id}/dms/${dm.id}`);
-            }}
-          >
-            {dm.id}
-          </div>
-        ))}
+    <div className="direct-message-container">
+      <div
+        className="direct-message-btn hover subscription-padding"
+        onClick={() => setShowDropdown(!showDropdown)}
+      >
+        Direct Messages
       </div>
+      {showDropdown && (
+        <div className="dm-list">
+          {directMessages &&
+            Object.values(directMessages).map((dm, idx) => (
+              <div
+                className={`dm-listing hover pointer subscription-padding ${
+                  currentChat &&
+                  currentChat.type === "directMessage" &&
+                  currentChat.id === dm.id
+                    ? "active-channel"
+                    : ""
+                }`}
+                key={idx}
+                onClick={() => {
+                  dispatch(removeIncoming(dm.id));
+                  history.push(`/workspaces/${workspace.id}/dms/${dm.id}`);
+                }}
+              >
+                {recipients[dm.id] &&
+                  Object.values(recipients[dm.id]).map((user, idx) => (
+                    <div key={idx}>
+                      {user.firstName} {user.lastName}
+                    </div>
+                  ))}
+                {dm.incoming && <div className="incoming">New</div>}
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 };

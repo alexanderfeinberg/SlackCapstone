@@ -1,7 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { createDMMessageThunk } from "../../store/channelMessages";
+import {
+  createDMMessageThunk,
+  clearMessages,
+} from "../../store/channelMessages";
 import { createDirectMessageThunk } from "../../store/directMessages";
 import DirectMessageChat from "../DirectMessageChat/DirectMessageChat";
 import ChatInputText from "../ChatInputText/ChatInputText";
@@ -30,10 +33,12 @@ const ComposeDM = () => {
 
     let { DirectMessage: directMessage } = await dispatch(
       createDirectMessageThunk(workspaceId, {
-        workspace_id: workspaceId,
+        workspace_id: parseInt(workspaceId),
         recipient: selected[0].id,
       })
     );
+
+    await dispatch(clearMessages());
 
     let newMessage;
 

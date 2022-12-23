@@ -93,6 +93,7 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
       user: sessionUser,
       room: `DM${directMessage.id}`,
     });
+
     setUserMessage("");
     if (!directMessageId)
       history.push(`/workspaces/${workspaceId}/dms/${directMessage.id}`);
@@ -117,7 +118,7 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
             <div className="header-profile-pic">
               <img src={recipient.profilePicture} />
               <div
-                className={`is-online ${
+                className={`is-online fa-xs ${
                   onlineUsers[recipient.id] ? "green-circle" : "grey-circle"
                 }`}
               >

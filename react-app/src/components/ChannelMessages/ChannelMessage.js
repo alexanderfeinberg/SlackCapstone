@@ -62,10 +62,12 @@ const ChannelMessage = ({ messageId }) => {
           errors={errors}
         />
         <button
+          type="button"
           onClick={() => {
             setEditedMessage(message.content);
             setShowEditForm(false);
             setShowDropdown(false);
+            setEditFormOpen(false);
           }}
         >
           Cancel

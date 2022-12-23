@@ -56,6 +56,7 @@ export const loadDirectMessageThunk = (directMessageId) => async (dispatch) => {
 
 export const createDirectMessageThunk =
   (workspaceId, directMessage) => async (dispatch) => {
+    console.log("DM BODY ", directMessage);
     const response = await csrfFetch(`/api/workspaces/${workspaceId}/dms`, {
       method: "POST",
       headers: {
@@ -66,6 +67,7 @@ export const createDirectMessageThunk =
 
     if (response.ok) {
       const newDirectMessage = await response.json();
+      console.log("NEW DM INFO ", newDirectMessage);
       dispatch(createDirectMessage(newDirectMessage));
       return newDirectMessage;
     }
@@ -108,11 +110,13 @@ export default function DirectMessageReducer(state = initialState, action) {
     case LOAD_DIRECT_MESSAGE:
       const loadState = objectAssign(
         state,
-        "directMessageList",
+        "directMessagesList",
         "directMessage"
       );
-      if (!loadState.directMessageList[action.directMessage.DirectMessage.id]) {
-        loadState.directMessageList[action.directMessage.DirectMessage.id] =
+      if (
+        !loadState.directMessagesList[action.directMessage.DirectMessage.id]
+      ) {
+        loadState.directMessagesList[action.directMessage.DirectMessage.id] =
           action.directMessage.DirectMessage;
       }
       loadState.directMessage = action.directMessage.DirectMessage;
@@ -125,21 +129,30 @@ export default function DirectMessageReducer(state = initialState, action) {
         "directMessage"
       );
       const directMessage = action.directMessage.DirectMessage;
-      createState.directMessagesList[directMessage.id] = directMessage;
-      createState.directMessage = directMessage;
+      createState.directMessagesList[directMessage.id] = Object.assign(
+        {},
+        directMessage
+      );
+      createState.directMessage = Object.assign({}, directMessage);
+      createState.directMessagesList[directMessage.id].users = {};
+
+      directMessage.users.forEach((user) => {
+        createState.directMessagesList[directMessage.id]["users"][user.id] =
+          user;
+      });
       return createState;
 
     case DELETE_DIRECT_MESSAGE:
       const deleteState = objectAssign(
         state,
-        "directMessageList",
+        "directMessagesList",
         "directMessage"
       );
       const deleteMessage = action.directMessage;
       if (deleteState.directMessage.id === deleteMessage.id) {
         deleteState.directMessage = {};
       }
-      delete deleteState.directMessageList[deleteMessage.id];
+      delete deleteState.directMessagesList[deleteMessage.id];
       return deleteState;
 
     case INCOMING_DM:
