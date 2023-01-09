@@ -6,6 +6,7 @@ import {
 } from "../../store/directMessages";
 import { useHistory } from "react-router-dom";
 import "./DirectMessageList.css";
+import CaretIcon from "../CaretIcon/CaretIcon";
 
 const DirectMessageList = () => {
   console.log("DM LIST RERENDER");
@@ -30,8 +31,11 @@ const DirectMessageList = () => {
   console.log(directMessages);
 
   useEffect(() => {
+    console.log("DM LIST USE EFFECT");
+    setIsLoaded(false);
     (async () => {
       await dispatch(loadDirectMessagesThunk());
+      console.log("DIRECT MESSAGESS ", directMessages);
     })();
   }, []);
 
@@ -69,6 +73,7 @@ const DirectMessageList = () => {
         className="direct-message-btn hover subscription-padding"
         onClick={() => setShowDropdown(!showDropdown)}
       >
+        <CaretIcon state={showDropdown} />
         Direct Messages
       </div>
       {showDropdown && (
@@ -91,7 +96,8 @@ const DirectMessageList = () => {
               >
                 {recipients[dm.id] &&
                   Object.values(recipients[dm.id]).map((user, idx) => (
-                    <div key={idx}>
+                    <div key={idx} className="dm-listing-info">
+                      <img id="dm-profile-picture" src={user.profilePicture} />
                       {user.firstName} {user.lastName}
                     </div>
                   ))}

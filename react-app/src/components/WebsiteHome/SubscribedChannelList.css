@@ -9,7 +9,7 @@
 }
 
 .hashtag-icon {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .hover:hover {
@@ -37,6 +37,10 @@
   justify-content: center;
 }
 
+.drop-down-container {
+  position: absolute;
+}
+
 .active-channel {
   background-color: #1164a3;
   color: white;
@@ -44,4 +48,14 @@
 
 .active-channel:hover {
   background-color: #1164a3;
+}
+
+.subbed-channels-btn {
+  display: flex;
+  align-items: center;
+}
+
+.caret-icon {
+  align-self: flex-start;
+  display: inline;
 }

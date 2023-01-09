@@ -7,21 +7,17 @@ const AddWorkspaceDropdown = () => {
 
   return (
     <div className="side-dropdown-container">
-      <div className="side-dropdown-item">
-        <div
-          className="item-content"
-          onClick={() => history.push("/get-started")}
-        >
-          Sign in to another workspace
-        </div>
+      <div
+        className="side-dropdown-item"
+        onClick={() => history.push("/get-started")}
+      >
+        <div className="item-content">Sign in to another workspace</div>
       </div>
-      <div className="side-dropdown-item">
-        <div
-          className="item-content"
-          onClick={() => history.push("/setup-team-name")}
-        >
-          Create a new workspace
-        </div>
+      <div
+        className="side-dropdown-item"
+        onClick={() => history.push("/setup-team-name")}
+      >
+        <div className="item-content">Create a new workspace</div>
       </div>
     </div>
   );

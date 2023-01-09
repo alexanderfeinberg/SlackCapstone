@@ -12,6 +12,7 @@
 }
 .workspace-item-text {
   position: relative;
+  color: black;
 }
 
 .workspace-item {
@@ -22,7 +23,17 @@
 }
 
 .workspace-item-text:hover {
-  background-color: rgb(238, 238, 238);
+  background-color: #1164a3;
+  color: white;
+}
+
+.workspace-dropdown-url {
+  font-size: 13px;
+  color: grey;
+}
+
+.workspace-dropdown-url:hover {
+  color: white;
 }
 
 .workspace-dropdown-header {
@@ -35,9 +46,6 @@
   font-weight: 600;
 }
 
-.workspace-dropdown-url {
-  font-size: 14px;
-}
 .item-text-content {
   box-sizing: border-box;
   padding: 3px 20px;

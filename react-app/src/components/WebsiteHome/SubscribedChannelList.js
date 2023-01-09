@@ -8,8 +8,10 @@ import {
 import "./SubscribedChannelList.css";
 import AddChannelsDropdown from "../AddChannels/AddChannelsDropdown";
 import DirectMessageList from "../DirectMessageList/DirectMessageList";
+import CaretIcon from "../CaretIcon/CaretIcon";
 
 const SubscribedChannelList = () => {
+  console.log("SUBSCRIBED CHANNEL LIST");
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -23,9 +25,22 @@ const SubscribedChannelList = () => {
   const workspace = useSelector((state) => state.workspace.workspace);
   let chat = useSelector((state) => state.socket.room);
 
+  const closeDropDown = (e) => {
+    console.log("EEEEE ", e.path[0].className);
+    if (
+      e.path[0].className !== "add-channel-text" &&
+      e.path[0].className !==
+        "add-channel-container hover subscription-padding pointer"
+    )
+      setShowCreateDropDown(false);
+  };
+
   useEffect(async () => {
     await dispatch(loadSubbedChannelsThunk(workspace.id));
     setIsLoaded(true);
+    document.body.addEventListener("click", closeDropDown);
+
+    return () => document.body.removeEventListener("click", closeDropDown);
   }, []);
 
   useEffect(() => {
@@ -39,6 +54,7 @@ const SubscribedChannelList = () => {
         className="subbed-channels-btn subscription-padding pointer hover"
         onClick={() => setShowDropDown(!showDropDown)}
       >
+        <CaretIcon state={showDropDown} />
         <span className="subbed-channels-title">Channels</span>
       </div>
       {showDropDown && (
@@ -60,8 +76,8 @@ const SubscribedChannelList = () => {
                 );
               }}
             >
-              <div className="hashtag-icon">
-                <i class="fa-solid fa-hashtag"></i>
+              <div className="hashtag-icon hashtag-thin">
+                <i class="fa-regular fa-hashtag fa-sm"></i>
               </div>
               <div className="subbed-channel-individual">{channel.name}</div>
             </div>
@@ -70,7 +86,7 @@ const SubscribedChannelList = () => {
       )}
       <div
         className="add-channel-container hover subscription-padding pointer"
-        onClick={() => setShowCreateDropDown(!showCreateDropDown)}
+        onClick={() => setShowCreateDropDown((prev) => !prev)}
       >
         <div className="hashtag-icon">
           <i class="fa-solid fa-plus"></i>

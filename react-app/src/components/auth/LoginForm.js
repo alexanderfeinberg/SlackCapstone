@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/session";
+import Errors from "../Errors/Errors";
 
 const LoginForm = () => {
   const [errors, setErrors] = useState([]);
@@ -31,11 +32,12 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={onLogin}>
-      <div className="errors">
+      {/* <div className="errors">
         {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
         ))}
-      </div>
+      </div> */}
+      {errors.length > 0 && <Errors errors={errors} />}
       <div className="login-email-input">
         <label for="email">Email</label>
         <input

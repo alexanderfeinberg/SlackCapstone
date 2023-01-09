@@ -79,15 +79,26 @@ const SplashPage = () => {
         </div>
         <div className="item-container">
           <div className="item-columns">
-            <div className="item-left-col">
+            <div className="item-row">
               <video
                 autoplay="autoplay"
                 muted
                 loop="true"
                 src="https://a.slack-edge.com/9436a9f/marketing/img/homepage/e2e-prospects/animations/webm/connectedness.webm"
               ></video>
+              <div className="item-content">
+                <div className="item-content-header">
+                  <h1>Choose how you want to work</h1>
+                </div>
+                <div className="item-content-subtext">
+                  In Transmit, you've got all the flexibility to work when,
+                  where and how it's best for you. You can easily chat, send
+                  audio and video clips, or hop on a huddle to talk things out
+                  live.
+                </div>
+              </div>
             </div>
-            <div className="item-right-col">
+            <div className="item-row">
               <div className="item-content">
                 <div className="item-content-header">
                   <h1>Bring your team together</h1>
@@ -99,6 +110,43 @@ const SplashPage = () => {
                   even other companies.
                 </div>
               </div>
+              <video
+                src="https://a.slack-edge.com/9436a9f/marketing/img/homepage/e2e-prospects/animations/webm/flexibility.webm"
+                autoplay="autoplay"
+                loop="true"
+                muted
+              ></video>
+            </div>
+            <div className="item-row">
+              <video
+                autoplay="autplay"
+                muted
+                loop="true"
+                src="https://a.slack-edge.com/221d25b/marketing/img/homepage/e2e-prospects/animations/webm/speed.webm"
+              />
+              <div className="item-content">
+                <div className="item-content-header">
+                  <h1>Move faster with your tools in one place</h1>
+                </div>
+                <div className="item-content-subtext">
+                  With your other work apps connected to Transmit, you can work
+                  faster by switching tabs less. And with powerful tools like
+                  Workflow Builder, you can automate away routine tasks.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="section-3">
+          <div className="section-3-content">
+            <h1>Welcome to your new digital HQ</h1>
+            <div className="section-3-btns signin-buttons">
+              <a className="login-auth section3-btn" href="/login">
+                Sign In
+              </a>
+              <a className="signup-auth section3-btn" href="/sign-up">
+                Sign Up
+              </a>
             </div>
           </div>
         </div>

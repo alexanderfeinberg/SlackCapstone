@@ -66,4 +66,5 @@
 .submit-btn button:disabled {
   background-color: #ddd;
   color: black;
+  cursor: default;
 }

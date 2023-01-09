@@ -48,7 +48,7 @@ const ChannelListItem = ({ channelId }) => {
       <div className="all-channel-list-content">
         <div className="all-channel-list-item-header">
           <div className="chat-header-icon">
-            <i class="fa-solid fa-hashtag"></i>
+            <i class="fa-regular fa-hashtag"></i>
           </div>
           {channel.name}
         </div>

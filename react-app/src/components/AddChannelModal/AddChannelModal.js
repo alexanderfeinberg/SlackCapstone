@@ -4,6 +4,7 @@ import { createChannelThunk } from "../../store/channels";
 import { useHistory } from "react-router-dom";
 import { ModalContext } from "../../context/Modal";
 import "./AddChannelModal.css";
+import Errors from "../Errors/Errors";
 
 const AddChannelModal = () => {
   const history = useHistory();
@@ -70,11 +71,12 @@ const AddChannelModal = () => {
           Channels are where your team communicates
         </div>
         <div className="modal-content-items">
-          <div className="errors">
+          {/* <div className="errors">
             {errors.map((err, idx) => (
               <div key={idx}>{err}</div>
             ))}
-          </div>
+          </div> */}
+          {errors.length > 0 && <Errors errors={errors} />}
           <form onSubmit={handleSubmit}>
             <div className="modal-content-item">
               <div className="modal-content-item-header">Name</div>

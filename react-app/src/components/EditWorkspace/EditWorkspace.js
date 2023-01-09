@@ -2,6 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useContext } from "react";
 import { editWorkspaceThunk } from "../../store/workspaces";
 import { ModalContext } from "../../context/Modal";
+import Errors from "../Errors/Errors";
+
+import "./EditWorkspace.css";
 
 const EditWorkspace = () => {
   const dispatch = useDispatch();
@@ -71,15 +74,16 @@ const EditWorkspace = () => {
         </div>
       </div>
       <div className="modal-content-items">
-        <div className="errors">
+        {/* <div className="errors">
           {errors.map((err, idx) => (
             <div key={err}>{err}</div>
           ))}
-        </div>
+        </div> */}
+        {errors.length > 0 && <Errors errors={errors} />}
         <form onSubmit={editWorkspaceHandler}>
           <div className="modal-content-item">
             <div className="modal-content-item-header">Workspace name</div>
-            <div id="workspace-edit-name" className="action-edit-input">
+            <div id="workspace-edit-name" className="workspace-modal-input">
               <input
                 type="text"
                 palceholder={workspaceName}
@@ -90,7 +94,7 @@ const EditWorkspace = () => {
           </div>
           <div className="modal-content-item">
             <div className="modal-content-item-header">URL</div>
-            <div className="action-edit-input">
+            <div className="workspace-modal-input">
               <input
                 type="text"
                 value={workspaceURL}
@@ -98,13 +102,17 @@ const EditWorkspace = () => {
               ></input>
             </div>
           </div>
-          <div className="cancel-btn">
-            <button onClick={closeModalHandler}>Cancel</button>
-          </div>
-          <div className="submit-btn">
-            <button type="submit" disabled={disableSubmit}>
-              Save
-            </button>
+          <div className="modal-btns">
+            <div className="cancel-btn">
+              <button type="button" onClick={closeModalHandler}>
+                Cancel
+              </button>
+            </div>
+            <div className="submit-btn">
+              <button type="submit" disabled={disableSubmit}>
+                Save
+              </button>
+            </div>
           </div>
         </form>
       </div>

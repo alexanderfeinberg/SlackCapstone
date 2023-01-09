@@ -1,0 +1,21 @@
+.workspace-modal-input > input {
+  width: 95%;
+  padding: 5px 10px;
+  height: 100%;
+  /* border: 1px solid lightgray; */
+}
+
+.modal-btns {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.cancel-btn > button {
+  margin-right: 10px;
+  border-radius: 5px;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  background-color: #ddd;
+}

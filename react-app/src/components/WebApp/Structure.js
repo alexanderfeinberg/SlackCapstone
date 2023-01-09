@@ -22,6 +22,7 @@ import ComposeDM from "../composeDM/ComposeDM";
 import {
   loadDirectMessagesThunk,
   incomingDM,
+  resetDM,
 } from "../../store/directMessages";
 let socket;
 
@@ -64,13 +65,27 @@ const Structure = () => {
     }
   };
 
+  const closeDropdown = (e) => {
+    console.log("EEEEE", e);
+    console.log(e.path[0].className);
+    if (e.path[0].className !== "workspace-title header")
+      setShowWorkspaceDopdown(false);
+  };
+
   useEffect(() => {
     initializeSocketHandler();
+    document.body.addEventListener("click", closeDropdown);
+
     (async () => {
       await dispatch(loadWorkspaceThunk(workspaceId));
       setIsLoaded(true);
     })();
-    return () => disconnectSocketHandler();
+
+    return () => {
+      disconnectSocketHandler();
+      document.body.removeEventListener("click", closeDropdown);
+      dispatch(resetDM());
+    };
   }, []);
 
   if (!isLoaded) return null;
@@ -86,9 +101,13 @@ const Structure = () => {
           <div
             id="workspace-options-btn"
             className="header-container subscription-padding hover"
-            onClick={() => setShowWorkspaceDopdown(!showWorkspaceDropdown)}
           >
-            <div className="workspace-title header">{workspace.name}</div>
+            <div
+              className="workspace-title header"
+              onClick={() => setShowWorkspaceDopdown(!showWorkspaceDropdown)}
+            >
+              {workspace.name}
+            </div>
             {showWorkspaceDropdown && <WorkspaceDropdown />}
             <div
               className="compose-btn"

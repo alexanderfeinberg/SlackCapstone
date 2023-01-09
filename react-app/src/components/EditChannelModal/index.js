@@ -3,6 +3,7 @@ import { editChannelThunk } from "../../store/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionModalContext } from "../../context/ActionModals";
 import "./EditChannelModal.css";
+import Errors from "../Errors/Errors";
 let data;
 
 const EditChannelModal = () => {
@@ -80,11 +81,12 @@ const EditChannelModal = () => {
       <div className="action-modal-title">
         <div className="action-modal-title-text">{data.title}</div>
       </div>
-      <div className="errors">
+      {/* <div className="errors">
         {errors.map((err, indx) => (
           <div key={indx}>{err}</div>
         ))}
-      </div>
+      </div> */}
+      {errors.length > 0 && <Errors errors={errors} />}
       {data.subTitle && (
         <div className="action-modal-subtitle">{data.subTitle}</div>
       )}

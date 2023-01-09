@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalContext } from "../../context/Modal";
 import { useParams } from "react-router-dom";
-
+import Errors from "../Errors/Errors";
 import { loadChannelThunk } from "../../store/channels";
 import {
   createMessageThunk,
@@ -136,14 +136,15 @@ const Channel = () => {
           <ChatInputText
             setUserMessage={setUserMessage}
             userMessage={userMessage}
-            channelName={channel.name}
+            channelName={`#${channel.name}`}
           />
 
-          <div className="errors">
+          {/* <div className="errors">
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
             ))}
-          </div>
+          </div> */}
+          {errors.length > 0 && <Errors errors={errors} />}
           <button
             onClick={handleChatsend}
             className={userMessage.length > 0 ? "green" : ""}

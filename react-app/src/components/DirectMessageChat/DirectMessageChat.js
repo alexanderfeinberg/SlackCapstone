@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { loadDirectMessageThunk } from "../../store/directMessages";
+import {
+  loadDirectMessageThunk,
+  deleteDirectMessageThunk,
+} from "../../store/directMessages";
 import {
   loadDMMessages,
   createDMMessageThunk,
@@ -14,6 +17,8 @@ import "./DirectMessageChat.css";
 const DirectMessageChat = ({ directMessageIdProp }) => {
   console.log("DM chat ", directMessageIdProp);
   const dispatch = useDispatch();
+
+  const messagesEndRef = useRef(null);
 
   const history = useHistory();
   const { workspaceId, directMessageId } = useParams();
@@ -73,6 +78,19 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
     };
   }, [directMessage]);
 
+  useEffect(() => {
+    (async () => {
+      if (messages && !Object.keys(messages).length > 0) {
+        await dispatch(deleteDirectMessageThunk(directMessage));
+      }
+    })();
+  }, [messages]);
+
+  useEffect(() => {
+    console.log("SCROLLING");
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  });
+
   const handleChatsend = async (e) => {
     e.preventDefault();
     let newMessage;
@@ -118,7 +136,7 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
             <div className="header-profile-pic">
               <img src={recipient.profilePicture} />
               <div
-                className={`is-online fa-xs ${
+                className={`is-online-dm fa-xs ${
                   onlineUsers[recipient.id] ? "green-circle" : "grey-circle"
                 }`}
               >
@@ -133,13 +151,14 @@ const DirectMessageChat = ({ directMessageIdProp }) => {
         {Object.values(messages).map((message, idx) => (
           <ChannelMessage key={idx} messageId={message.id} />
         ))}
+        <div ref={messagesEndRef}></div>
       </div>
       <div className="chat-input-container">
         <div className="chat-input">
           <ChatInputText
             setUserMessage={setUserMessage}
             userMessage={userMessage}
-            channelName={"test"}
+            channelName={recipient.firstName}
           />
           <button
             onClick={handleChatsend}

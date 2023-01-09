@@ -64,8 +64,13 @@ const WorkspaceDropdown = () => {
             <div className="item-text-content">Add workspaces</div>
           </div>
           <div className="workspace-item-text">
-            <div className="item-text-content">Switch workspaces</div>
-            <SwitchWorkspacesDropdown />
+            <div
+              className="item-text-content"
+              onClick={() => history.push("/get-started")}
+            >
+              Switch workspaces
+            </div>
+            {/* <SwitchWorkspacesDropdown /> */}
           </div>
         </div>
         {workspace.ownerId === user.id && (

@@ -13,8 +13,10 @@
 
 .side-dropdown-item {
   padding: 10px;
+  color: black;
 }
 
 .side-dropdown-item:hover {
-  background-color: rgb(238, 238, 238);
+  background-color: #1164a3;
+  color: white;
 }

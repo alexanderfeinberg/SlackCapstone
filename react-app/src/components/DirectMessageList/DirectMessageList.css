@@ -1,4 +1,20 @@
 .direct-message-btn {
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  display: flex;
+}
+.direct-message-container {
+  margin-top: 20px;
+}
+
+#dm-profile-picture {
+  height: 20px;
+  width: 20px;
+  margin-right: 7px;
+  border-radius: 3px;
+}
+
+.dm-listing-info {
+  display: flex;
+  align-items: center;
 }

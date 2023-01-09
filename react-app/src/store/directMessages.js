@@ -7,6 +7,8 @@ const LOAD_DIRECT_MESSAGE = "directMessages/Load_DIRECT_MESSAGE";
 const CREATE_DIRECT_MESSAGE = "directMessages/CREATE_DIRECT_MESSAGE";
 const DELETE_DIRECT_MESSAGE = "directMessages/DELETE_CREATE_MESSAGE";
 
+const RESET_DIRECT_MESSAGES = "directMessages/RESET";
+
 const INCOMING_DM = "directMessages/INCOMING_DM";
 const REMOVE_INCOMING = "directMessage/REMOVE_INCOMING";
 
@@ -33,6 +35,10 @@ export const incomingDM = (directMessageId) => {
 
 export const removeIncoming = (directMessageId) => {
   return { type: REMOVE_INCOMING, directMessageId };
+};
+
+export const resetDM = () => {
+  return { type: RESET_DIRECT_MESSAGES };
 };
 
 //Thunks
@@ -74,7 +80,9 @@ export const createDirectMessageThunk =
   };
 
 export const deleteDirectMessageThunk = (directMessage) => async (dispatch) => {
-  const response = await csrfFetch(`/api/dms/${directMessage.id}`);
+  const response = await csrfFetch(`/api/dms/${directMessage.id}`, {
+    method: "DELETE",
+  });
   if (response.ok) {
     dispatch(deleteDirectMessage(directMessage));
     return;
@@ -90,10 +98,7 @@ export default function DirectMessageReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_DIRECT_MESSAGES:
       const loadAllState = objectAssign(state, "directMessage");
-      loadAllState.directMessagesList = Object.assign(
-        {},
-        loadAllState.directMessagesList
-      );
+      loadAllState.directMessagesList = {};
       if (!action.directMessages.DirectMessages.length) return loadAllState;
       action.directMessages.DirectMessages.forEach((message) => {
         console.log("MESSAGE ", message);
@@ -175,6 +180,13 @@ export default function DirectMessageReducer(state = initialState, action) {
       ].incoming = false;
 
       return removeIncomingState;
+
+    case RESET_DIRECT_MESSAGES:
+      const resetState = objectAssign(state);
+      resetState.directMessagesList = {};
+      resetState.directMessage = {};
+
+      return resetState;
 
     default:
       return state;
