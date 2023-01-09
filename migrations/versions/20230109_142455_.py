@@ -1,16 +1,16 @@
 """empty message
 
-Revision ID: 6640946d1356
+Revision ID: be8c18336203
 Revises: 
-Create Date: 2022-12-20 10:04:46.777865
+Create Date: 2023-01-09 14:24:55.874298
 
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
+
 
 # revision identifiers, used by Alembic.
-revision = '6640946d1356'
+revision = 'be8c18336203'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,7 +32,7 @@ def upgrade():
     op.create_table('messages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('source_id', sa.Integer(), nullable=False),
-    sa.Column('source_type', postgresql.ENUM('channel', 'directMessage', 'groupMessage'), nullable=False),
+    sa.Column('source_type', sa.Enum('channel', 'directMessage', 'groupMessage', name='source_type'), nullable=False),
     sa.Column('sender_id', sa.Integer(), nullable=False),
     sa.Column('content', sa.String(length=500), nullable=False),
     sa.Column('edited', sa.Boolean(), nullable=False),
