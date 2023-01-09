@@ -12,7 +12,7 @@ class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     source_id = db.Column(db.Integer, nullable=False)
     source_type = db.Column(
-        ENUM('channel', 'directMessage', 'groupMessage', name="source_type"), nullable=False)
+        db.Enum('channel', 'directMessage', 'groupMessage', name="source_type"), nullable=False)
 
     sender_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod("users.id")), nullable=False)
