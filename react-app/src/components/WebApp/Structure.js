@@ -66,10 +66,13 @@ const Structure = () => {
   };
 
   const closeDropdown = (e) => {
-    console.log("EEEEE", e);
-    console.log(e.path[0].className);
-    if (e.path[0].className !== "workspace-title header")
+    console.log("EEEEE", e.composedPath());
+    if (![...e.composedPath()[0].classList].includes("workspace-title")) {
       setShowWorkspaceDopdown(false);
+    }
+    // console.log(e.path[0].className);
+    // if (e.path[0].className !== "workspace-title header")
+    //   setShowWorkspaceDopdown(false);
   };
 
   useEffect(() => {

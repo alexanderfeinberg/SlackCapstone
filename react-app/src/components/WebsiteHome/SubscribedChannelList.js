@@ -26,11 +26,10 @@ const SubscribedChannelList = () => {
   let chat = useSelector((state) => state.socket.room);
 
   const closeDropDown = (e) => {
-    console.log("EEEEE ", e.path[0].className);
+    // console.log("EEEEE ", e.path[0].className);
     if (
-      e.path[0].className !== "add-channel-text" &&
-      e.path[0].className !==
-        "add-channel-container hover subscription-padding pointer"
+      ![...e.composedPath()[0].classList].includes("add-channel-text") &&
+      ![...e.composedPath()[0].classList].includes("add-channel-container")
     )
       setShowCreateDropDown(false);
   };
